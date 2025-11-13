@@ -1,15 +1,50 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using Godot;
+using Godot.Collections;
 
-public partial class EventoInicial : Evento 
+public partial class EventoInicial : Evento
 {
 	public EventoInicial(Dia dia): base(dia){
 
 		Sprite2D fondo = new Sprite2D();
 		Sprite2D shinji = new Sprite2D();
 		
-		fondo.Texture = (Texture2D)GD.Load("res://Sprites/Fondos/FONDO_UBB.jpg");
+		// Cargar un fondo aleatorio
+		var backgrounds = new List<string>();
+		using (var dir = DirAccess.Open("res://Sprites/Inicio"))
+		{
+			if (dir != null)
+			{
+				dir.ListDirBegin();
+				string fileName = dir.GetNext();
+				while (fileName != "")
+				{
+					if (!dir.CurrentIsDir() && !fileName.EndsWith(".import"))
+					{
+						backgrounds.Add(fileName);
+					}
+					fileName = dir.GetNext();
+				}
+			}
+			else
+			{
+				GD.PrintErr("No se pudo abrir el directorio 'res://Sprites/Inicio'.");
+			}
+		}
+
+		if (backgrounds.Count > 0)
+		{
+			var random = new Random();
+			int index = random.Next(backgrounds.Count);
+			fondo.Texture = (Texture2D)GD.Load("res://Sprites/Inicio/" + backgrounds[index]);
+		}
+		else
+		{
+			// Fallback por si no se encuentran imagenes
+			fondo.Texture = (Texture2D)GD.Load("res://Sprites/Fondos/FONDO_UBB.jpg");
+		}
 		shinji.Texture = (Texture2D)GD.Load("res://Sprites/Personajes/Shinji.png");
 
 		this.AddChild(fondo);

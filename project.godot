@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="VnCutuluTech"
+config/name="Cthulhutech"
 run/main_scene="res://Escenas/sistema.tscn"
 config/features=PackedStringArray("4.2", "C#", "Forward Plus")
 config/icon="res://icon.svg"
@@ -25,4 +25,4 @@ window/stretch/mode="canvas_items"
 
 [dotnet]
 
-project/assembly_name="VnCutuluTech"
+project/assembly_name="Cthulhutech"
