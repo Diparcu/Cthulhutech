@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bm633bxpshqjv"]
+
+[ext_resource type="Script" path="res://Objetos/Sistema.cs" id="1_h2afb"]
+
+[node name="Sistema" type="Node2D"]
+script = ExtResource("1_h2afb")
