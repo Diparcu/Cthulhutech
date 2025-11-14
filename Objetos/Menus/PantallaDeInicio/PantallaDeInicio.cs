@@ -12,6 +12,7 @@ public partial class PantallaDeInicio : Node2D
     private Sistema sistema;
     private Font fuente;
 
+    private PanelContainer menuPrincipalPanel;
     private VBoxContainer menuPrincipalContainer;
     private VBoxContainer menuNuevaPartidaContainer;
     private VBoxContainer menuEventosContainer;
@@ -95,13 +96,13 @@ public partial class PantallaDeInicio : Node2D
 
     private void _on_Eventos_pressed()
     {
-        menuPrincipalContainer.Visible = false;
+        menuPrincipalPanel.Visible = false;
         menuEventosContainer.Visible = true;
     }
 
     private void _on_Volver_pressed()
     {
-        menuPrincipalContainer.Visible = true;
+        menuPrincipalPanel.Visible = true;
         menuNuevaPartidaContainer.Visible = false;
         menuEventosContainer.Visible = false;
         etiquetaEvento.Visible = false;
@@ -129,8 +130,18 @@ public partial class PantallaDeInicio : Node2D
 
     private void crearMenuPrincipal()
     {
+        menuPrincipalPanel = new PanelContainer();
+        var styleBox = new StyleBoxFlat();
+        styleBox.BgColor = new Color(0, 0, 0, 0.5f);
+        styleBox.CornerRadiusTopLeft = 10;
+        styleBox.CornerRadiusTopRight = 10;
+        styleBox.CornerRadiusBottomLeft = 10;
+        styleBox.CornerRadiusBottomRight = 10;
+        menuPrincipalPanel.AddThemeStyleboxOverride("panel", styleBox);
+
+        menuPrincipalPanel.Position = new Vector2(LONGITUD_PANTALLA / 5 * 2, ALTURA_PANTALLA / 2);
+
         menuPrincipalContainer = new VBoxContainer();
-        menuPrincipalContainer.Position = new Vector2(LONGITUD_PANTALLA / 5 * 2, ALTURA_PANTALLA / 2);
         menuPrincipalContainer.AddThemeConstantOverride("separation", -2);
 
         Button nuevaPartida = this.crearBoton("Nueva partida");
@@ -156,7 +167,8 @@ public partial class PantallaDeInicio : Node2D
         menuPrincipalContainer.AddChild(creditos);
         menuPrincipalContainer.AddChild(salir);
 
-        this.AddChild(menuPrincipalContainer);
+        menuPrincipalPanel.AddChild(menuPrincipalContainer);
+        this.AddChild(menuPrincipalPanel);
     }
 
     private void crearMenuEventos()
