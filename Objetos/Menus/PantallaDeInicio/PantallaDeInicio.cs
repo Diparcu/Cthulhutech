@@ -14,10 +14,12 @@ public partial class PantallaDeInicio : Node2D
 
     private PanelContainer menuPrincipalPanel;
     private VBoxContainer menuPrincipalContainer;
-    private VBoxContainer menuNuevaPartidaContainer;
+    private PanelContainer menuEventosPanel;
     private VBoxContainer menuEventosContainer;
+    private VBoxContainer menuNuevaPartidaContainer;
     private Label etiquetaEvento;
     private Sprite2D fondo;
+    private PanelContainer tituloPanel;
 
     public PantallaDeInicio(Font fuente, Sistema sistema)
     {
@@ -33,6 +35,7 @@ public partial class PantallaDeInicio : Node2D
 
         fondo.ZIndex = -1; // Asegurarse de que el fondo este detras de los menus
 
+        this.crearTitulo();
         this.crearMenuPrincipal();
         this.crearMenuEventos();
         this.crearEtiquetaEvento();
@@ -97,20 +100,15 @@ public partial class PantallaDeInicio : Node2D
     private void _on_Eventos_pressed()
     {
         menuPrincipalPanel.Visible = false;
-        menuEventosContainer.Visible = true;
+        menuEventosPanel.Visible = true;
     }
 
     private void _on_Volver_pressed()
     {
         menuPrincipalPanel.Visible = true;
         menuNuevaPartidaContainer.Visible = false;
-        menuEventosContainer.Visible = false;
+        menuEventosPanel.Visible = false;
         etiquetaEvento.Visible = false;
-    }
-
-    private void iniciarJuegoPersonalizado()
-    {
-        this.sistema.iniciarCreadorDePersonaje(this);
     }
 
     private void iniciarJuegoMegan()
@@ -126,6 +124,37 @@ public partial class PantallaDeInicio : Node2D
     private void cerrarLaWea()
     {
         this.GetTree().Quit();
+    }
+
+    private void crearTitulo()
+    {
+        tituloPanel = new PanelContainer();
+        var styleBox = new StyleBoxFlat
+        {
+            BgColor = new Color(0, 0, 0, 0.5f),
+            CornerRadiusTopLeft = 10,
+            CornerRadiusTopRight = 10,
+            CornerRadiusBottomLeft = 10,
+            CornerRadiusBottomRight = 10,
+            ContentMarginLeft = 10,
+            ContentMarginRight = 10,
+            ContentMarginTop = 5,
+            ContentMarginBottom = 5
+        };
+        tituloPanel.AddThemeStyleboxOverride("panel", styleBox);
+
+        Label tituloLabel = new Label
+        {
+            Text = "Arcologia BioBio\n(Nombre final pendiente)",
+            HorizontalAlignment = HorizontalAlignment.Center
+        };
+        tituloLabel.AddThemeFontSizeOverride("font_size", FONT_SIZE);
+
+        tituloPanel.AddChild(tituloLabel);
+
+        tituloPanel.Position = new Vector2(LONGITUD_PANTALLA / 5 * 2, ALTURA_PANTALLA / 4);
+
+        this.AddChild(tituloPanel);
     }
 
     private void crearMenuPrincipal()
@@ -173,13 +202,20 @@ public partial class PantallaDeInicio : Node2D
 
     private void crearMenuEventos()
     {
-        menuEventosContainer = new VBoxContainer();
-        menuEventosContainer.Position = new Vector2(LONGITUD_PANTALLA / 5 * 2, ALTURA_PANTALLA / 2);
-        menuEventosContainer.AddThemeConstantOverride("separation", -2);
-        menuEventosContainer.Visible = false;
+        menuEventosPanel = new PanelContainer();
+        var styleBox = new StyleBoxFlat();
+        styleBox.BgColor = new Color(0, 0, 0, 0.5f);
+        styleBox.CornerRadiusTopLeft = 10;
+        styleBox.CornerRadiusTopRight = 10;
+        styleBox.CornerRadiusBottomLeft = 10;
+        styleBox.CornerRadiusBottomRight = 10;
+        menuEventosPanel.AddThemeStyleboxOverride("panel", styleBox);
 
-        Button eventoInicial = this.crearBoton("Evento Inicial (Shinji)");
-        eventoInicial.Pressed += this.iniciarJuegoPersonalizado;
+        menuEventosPanel.Position = new Vector2(LONGITUD_PANTALLA / 5 * 2, ALTURA_PANTALLA / 2);
+        menuEventosPanel.Visible = false;
+
+        menuEventosContainer = new VBoxContainer();
+        menuEventosContainer.AddThemeConstantOverride("separation", -2);
 
         Button eventoMegan = this.crearBoton("Evento Disco (Megan)");
         eventoMegan.Pressed += this.iniciarJuegoMegan;
@@ -199,7 +235,6 @@ public partial class PantallaDeInicio : Node2D
         Button volver = this.crearBoton("Volver");
         volver.Pressed += this._on_Volver_pressed;
 
-        menuEventosContainer.AddChild(eventoInicial);
         menuEventosContainer.AddChild(eventoMegan);
         menuEventosContainer.AddChild(eventoKC);
         menuEventosContainer.AddChild(eventoIsla);
@@ -207,7 +242,8 @@ public partial class PantallaDeInicio : Node2D
         menuEventosContainer.AddChild(eventoPudiente);
         menuEventosContainer.AddChild(volver);
 
-        this.AddChild(menuEventosContainer);
+        menuEventosPanel.AddChild(menuEventosContainer);
+        this.AddChild(menuEventosPanel);
     }
 
     private void crearEtiquetaEvento()
@@ -228,21 +264,5 @@ public partial class PantallaDeInicio : Node2D
         boton.AddThemeFontSizeOverride("font_size", 32);
         boton.AddThemeStyleboxOverride("focus", new StyleBoxEmpty());
         return boton;
-    }
-
-    private void dibujarTitulo()
-    {
-        DrawMultilineString(fuente,
-                new Vector2(LONGITUD_PANTALLA / 4,
-                        ALTURA_PANTALLA / 4),
-                "       Arcologia BioBio \n(Nombre final pendiente)",
-                HorizontalAlignment.Center,
-                -1,
-                FONT_SIZE);
-    }
-
-    public override void _Draw()
-    {
-        this.dibujarTitulo();
     }
 }

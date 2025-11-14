@@ -3,6 +3,8 @@ using System;
 
 public partial class Personaje 
 {
+	public string origen;
+	public string arquetipo;
 	private string nombre = "Default";
 	private string alias = "Default";
 	private int orgon = 0;// 5 + media entre intelecto y tenacidad 

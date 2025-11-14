@@ -109,6 +109,20 @@ public partial class Sistema : Node2D
 		this.cargarEscena(new DiaPudiente(this));
 	}
 
+	public void iniciarJuegoBlanco(Node2D nodo){
+		nodo.QueueFree();
+		Personaje personaje = new Personaje();
+		this.inicializarJugador(personaje);
+		this.AddChild(new Dia0Blanco());
+	}
+
+	public void iniciarJuegoBajosFondos(Node2D nodo){
+		nodo.QueueFree();
+		Personaje personaje = new Personaje();
+		this.inicializarJugador(personaje);
+		this.AddChild(new Dia0BajosFondos());
+	}
+
 	public void iniciarJuegoMegan(Node2D nodo){
 		nodo.QueueFree();
 		this.inicializarJugador(new Personaje());
