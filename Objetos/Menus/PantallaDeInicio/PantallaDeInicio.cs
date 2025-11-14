@@ -25,6 +25,47 @@ public partial class PantallaDeInicio : Node2D
 
     public override void _Ready()
     {
+        // Cargar un fondo aleatorio
+        Sprite2D fondo = new Sprite2D();
+        var backgrounds = new System.Collections.Generic.List<string>();
+        var validExtensions = new System.Collections.Generic.List<string> { ".png", ".jpg", ".jpeg" };
+
+        using (var dir = DirAccess.Open("res://Sprites/Inicio"))
+        {
+            if (dir != null)
+            {
+                dir.ListDirBegin();
+                string fileName = dir.GetNext();
+                while (fileName != "")
+                {
+                    if (!dir.CurrentIsDir())
+                    {
+                        string extension = System.IO.Path.GetExtension(fileName).ToLower();
+                        if (validExtensions.Contains(extension) && !fileName.EndsWith(".import"))
+                        {
+                            backgrounds.Add(fileName);
+                        }
+                    }
+                    fileName = dir.GetNext();
+                }
+            }
+            else
+            {
+                GD.PrintErr("No se pudo abrir el directorio 'res://Sprites/Inicio'.");
+            }
+        }
+
+        if (backgrounds.Count > 0)
+        {
+            var random = new Random();
+            int index = random.Next(backgrounds.Count);
+            fondo.Texture = (Texture2D)GD.Load("res://Sprites/Inicio/" + backgrounds[index]);
+        }
+
+        fondo.Position = new Vector2(LONGITUD_PANTALLA / 2, ALTURA_PANTALLA / 2);
+        fondo.ZIndex = -1; // Asegurarse de que el fondo este detras de los menus
+        this.AddChild(fondo);
+
         this.crearMenuPrincipal();
         this.crearMenuNuevaPartida();
         this.crearMenuEventos();
