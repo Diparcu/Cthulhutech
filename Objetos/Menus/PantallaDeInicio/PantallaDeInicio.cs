@@ -16,6 +16,7 @@ public partial class PantallaDeInicio : Node2D
     private VBoxContainer menuNuevaPartidaContainer;
     private VBoxContainer menuEventosContainer;
     private Label etiquetaEvento;
+    private Sprite2D fondo;
 
     public PantallaDeInicio(Font fuente, Sistema sistema)
     {
@@ -25,8 +26,25 @@ public partial class PantallaDeInicio : Node2D
 
     public override void _Ready()
     {
-        // Cargar un fondo aleatorio
-        Sprite2D fondo = new Sprite2D();
+        fondo = new Sprite2D();
+        this.AddChild(fondo);
+        CambiarFondo();
+
+        fondo.ZIndex = -1; // Asegurarse de que el fondo este detras de los menus
+
+        this.crearMenuPrincipal();
+        this.crearMenuEventos();
+        this.crearEtiquetaEvento();
+
+        Button cambiarFondoBtn = new Button();
+        cambiarFondoBtn.Text = "Cambiar Fondo";
+        cambiarFondoBtn.Position = new Vector2(LONGITUD_PANTALLA - 150, ALTURA_PANTALLA - 50);
+        cambiarFondoBtn.Pressed += CambiarFondo;
+        this.AddChild(cambiarFondoBtn);
+    }
+
+    private void CambiarFondo()
+    {
         var backgrounds = new System.Collections.Generic.List<string>();
         var validExtensions = new System.Collections.Generic.List<string> { ".png", ".jpg", ".jpeg" };
 
@@ -68,12 +86,6 @@ public partial class PantallaDeInicio : Node2D
         }
 
         fondo.Position = new Vector2(LONGITUD_PANTALLA / 2, ALTURA_PANTALLA / 2);
-        fondo.ZIndex = -1; // Asegurarse de que el fondo este detras de los menus
-        this.AddChild(fondo);
-
-        this.crearMenuPrincipal();
-        this.crearMenuEventos();
-        this.crearEtiquetaEvento();
     }
 
     private void _on_NuevaPartida_pressed()
