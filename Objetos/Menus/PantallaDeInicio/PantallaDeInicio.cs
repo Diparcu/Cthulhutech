@@ -59,7 +59,12 @@ public partial class PantallaDeInicio : Node2D
         {
             var random = new Random();
             int index = random.Next(backgrounds.Count);
-            fondo.Texture = (Texture2D)GD.Load("res://Sprites/Inicio/" + backgrounds[index]);
+            var texture = (Texture2D)GD.Load("res://Sprites/Inicio/" + backgrounds[index]);
+            fondo.Texture = texture;
+
+            float scaleX = LONGITUD_PANTALLA / (float)texture.GetWidth();
+            float scaleY = ALTURA_PANTALLA / (float)texture.GetHeight();
+            fondo.Scale = new Vector2(scaleX, scaleY);
         }
 
         fondo.Position = new Vector2(LONGITUD_PANTALLA / 2, ALTURA_PANTALLA / 2);
