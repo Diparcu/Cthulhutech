@@ -1,8 +1,6 @@
 using Godot;
 using System;
 using System.Collections.Generic;
-using Godot;
-using Godot.Collections;
 
 public partial class EventoInicial : Evento
 {
@@ -13,6 +11,8 @@ public partial class EventoInicial : Evento
 		
 		// Cargar un fondo aleatorio
 		var backgrounds = new List<string>();
+		var validExtensions = new List<string> { ".png", ".jpg", ".jpeg" };
+
 		using (var dir = DirAccess.Open("res://Sprites/Inicio"))
 		{
 			if (dir != null)
@@ -21,9 +21,13 @@ public partial class EventoInicial : Evento
 				string fileName = dir.GetNext();
 				while (fileName != "")
 				{
-					if (!dir.CurrentIsDir() && !fileName.EndsWith(".import"))
+					if (!dir.CurrentIsDir())
 					{
-						backgrounds.Add(fileName);
+						string extension = System.IO.Path.GetExtension(fileName).ToLower();
+						if (validExtensions.Contains(extension) && !fileName.EndsWith(".import"))
+						{
+							backgrounds.Add(fileName);
+						}
 					}
 					fileName = dir.GetNext();
 				}
