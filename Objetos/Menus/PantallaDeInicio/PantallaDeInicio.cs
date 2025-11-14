@@ -67,15 +67,13 @@ public partial class PantallaDeInicio : Node2D
         this.AddChild(fondo);
 
         this.crearMenuPrincipal();
-        this.crearMenuNuevaPartida();
         this.crearMenuEventos();
         this.crearEtiquetaEvento();
     }
 
     private void _on_NuevaPartida_pressed()
     {
-        menuPrincipalContainer.Visible = false;
-        menuNuevaPartidaContainer.Visible = true;
+        this.sistema.iniciarCreadorDePersonaje(this);
     }
 
     private void _on_Eventos_pressed()
@@ -144,37 +142,6 @@ public partial class PantallaDeInicio : Node2D
         this.AddChild(menuPrincipalContainer);
     }
 
-    private void crearMenuNuevaPartida()
-    {
-        menuNuevaPartidaContainer = new VBoxContainer();
-        menuNuevaPartidaContainer.Position = new Vector2(LONGITUD_PANTALLA / 5 * 2, ALTURA_PANTALLA / 2);
-        menuNuevaPartidaContainer.AddThemeConstantOverride("separation", -2);
-        menuNuevaPartidaContainer.Visible = false;
-
-        Button isla = this.crearBoton("Isla");
-        isla.Pressed += () => this.sistema.iniciarJuegoIsla(this);
-
-        Button normal = this.crearBoton("Normal");
-        normal.Pressed += () => this.sistema.iniciarJuegoNormal(this);
-
-        Button pudiente = this.crearBoton("Pudiente");
-        pudiente.Pressed += () => this.sistema.iniciarJuegoPudiente(this);
-
-        Button personalizado = this.crearBoton("Personalizado");
-        personalizado.Pressed += this.iniciarJuegoPersonalizado;
-
-        Button volver = this.crearBoton("Volver");
-        volver.Pressed += this._on_Volver_pressed;
-
-        menuNuevaPartidaContainer.AddChild(isla);
-        menuNuevaPartidaContainer.AddChild(normal);
-        menuNuevaPartidaContainer.AddChild(pudiente);
-        menuNuevaPartidaContainer.AddChild(personalizado);
-        menuNuevaPartidaContainer.AddChild(volver);
-
-        this.AddChild(menuNuevaPartidaContainer);
-    }
-
     private void crearMenuEventos()
     {
         menuEventosContainer = new VBoxContainer();
@@ -191,12 +158,24 @@ public partial class PantallaDeInicio : Node2D
         Button eventoKC = this.crearBoton("Evento Armas (KC)");
         eventoKC.Pressed += this.iniciarJuegoKC;
 
+        Button eventoIsla = this.crearBoton("Evento Isla");
+        eventoIsla.Pressed += () => this.sistema.iniciarJuegoIsla(this);
+
+        Button eventoNormal = this.crearBoton("Evento Normal");
+        eventoNormal.Pressed += () => this.sistema.iniciarJuegoNormal(this);
+
+        Button eventoPudiente = this.crearBoton("Evento Pudiente");
+        eventoPudiente.Pressed += () => this.sistema.iniciarJuegoPudiente(this);
+
         Button volver = this.crearBoton("Volver");
         volver.Pressed += this._on_Volver_pressed;
 
         menuEventosContainer.AddChild(eventoInicial);
         menuEventosContainer.AddChild(eventoMegan);
         menuEventosContainer.AddChild(eventoKC);
+        menuEventosContainer.AddChild(eventoIsla);
+        menuEventosContainer.AddChild(eventoNormal);
+        menuEventosContainer.AddChild(eventoPudiente);
         menuEventosContainer.AddChild(volver);
 
         this.AddChild(menuEventosContainer);

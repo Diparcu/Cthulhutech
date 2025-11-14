@@ -18,22 +18,23 @@ public partial class CreadorDePersonaje : Node2D
 	public int total = 30;
 	public int totalHabiliad = 20;
 
-	private int claseSocialSeleccionada = -1; // 0: Isla, 1: Normal, 2: Pudiente
-    private int arquetipoSeleccionado = -1; // 0: Intelectual, 1: Emocional, 2: Bruto
+	private int origenSeleccionado = -1; // 0: Isleño, 1: Blanco, 2: Bajomundo
+    private int arquetipoSeleccionado = -1; // 0: Intelectual, 1: Emocional, 2: Bruto, 3: Manual
 
 
 	private Button botonDeContinuar = new Button();
     private Button botonDeVolver = new Button();
-    private VBoxContainer vboxClaseSocial;
+    private VBoxContainer vboxOrigen;
     private VBoxContainer vboxArquetipo;
 
-    private Button botonIsla;
-    private Button botonNormal;
-    private Button botonPudiente;
+    private Button botonIsleño;
+    private Button botonBlanco;
+    private Button botonBajomundo;
 
     private Button botonIntelectual;
     private Button botonEmocional;
     private Button botonBruto;
+    private Button botonManual;
 
     private Panel topBar;
     private Button statsButton;
@@ -256,23 +257,23 @@ public partial class CreadorDePersonaje : Node2D
         warningLabel.AddThemeFontSizeOverride("font_size", 24);
         AddChild(warningLabel);
 
-        // Clase Social
-        vboxClaseSocial = new VBoxContainer();
-        vboxClaseSocial.Position = new Vector2(50, 100);
-        AddChild(vboxClaseSocial);
+        // Origen
+        vboxOrigen = new VBoxContainer();
+        vboxOrigen.Position = new Vector2(50, 100);
+        AddChild(vboxOrigen);
 
-        botonIsla = new Button { Text = "Isla" };
-        botonNormal = new Button { Text = "Normal" };
-        botonPudiente = new Button { Text = "Pudiente" };
+        botonIsleño = new Button { Text = "Niño isleño" };
+        botonBlanco = new Button { Text = "Niño blanco" };
+        botonBajomundo = new Button { Text = "Niño bajomundo" };
 
-        vboxClaseSocial.AddChild(new Label { Text = "Clase Social" });
-        vboxClaseSocial.AddChild(botonIsla);
-        vboxClaseSocial.AddChild(botonNormal);
-        vboxClaseSocial.AddChild(botonPudiente);
+        vboxOrigen.AddChild(new Label { Text = "Origen" });
+        vboxOrigen.AddChild(botonIsleño);
+        vboxOrigen.AddChild(botonBlanco);
+        vboxOrigen.AddChild(botonBajomundo);
 
-        botonIsla.Pressed += () => SeleccionarClaseSocial(0);
-        botonNormal.Pressed += () => SeleccionarClaseSocial(1);
-        botonPudiente.Pressed += () => SeleccionarClaseSocial(2);
+        botonIsleño.Pressed += () => SeleccionarOrigen(0);
+        botonBlanco.Pressed += () => SeleccionarOrigen(1);
+        botonBajomundo.Pressed += () => SeleccionarOrigen(2);
 
         // Arquetipo
         vboxArquetipo = new VBoxContainer();
@@ -282,15 +283,18 @@ public partial class CreadorDePersonaje : Node2D
         botonIntelectual = new Button { Text = "Intelectual" };
         botonEmocional = new Button { Text = "Emocional" };
         botonBruto = new Button { Text = "Bruto" };
+        botonManual = new Button { Text = "Manual" };
 
         vboxArquetipo.AddChild(new Label { Text = "Arquetipo" });
         vboxArquetipo.AddChild(botonIntelectual);
         vboxArquetipo.AddChild(botonEmocional);
         vboxArquetipo.AddChild(botonBruto);
+        vboxArquetipo.AddChild(botonManual);
 
         botonIntelectual.Pressed += () => SeleccionarArquetipo(0);
         botonEmocional.Pressed += () => SeleccionarArquetipo(1);
         botonBruto.Pressed += () => SeleccionarArquetipo(2);
+        botonManual.Pressed += () => SeleccionarArquetipo(3);
 
 		OpcionCreadorDePersonaje agilidad = new OpcionCreadorDePersonaje("Agilidad", 0);
 		OpcionCreadorDePersonaje fuerza = new OpcionCreadorDePersonaje("Fuerza", 1);
@@ -492,48 +496,51 @@ public partial class CreadorDePersonaje : Node2D
     }
 
 	private void terminarPersonaje(){
-		if (claseSocialSeleccionada != -1 && arquetipoSeleccionado != -1)
+		if (origenSeleccionado != -1 && arquetipoSeleccionado != -1)
         {
-            if (claseSocialSeleccionada == 0 && arquetipoSeleccionado == 0)
+            this.sistema.inicializarJugador(this.jugador);
+            switch (origenSeleccionado)
             {
-                this.sistema.inicializarJugador(this.jugador);
-                this.sistema.cargarEscena(new DiaIslaIntelectual(this.sistema));
-            }
-            else
-            {
-                warningLabel.Text = "Este evento aún no se crea";
-                warningLabel.Visible = true;
+                case 0:
+                    this.sistema.cargarEscena(new Dia0Isla(this.sistema));
+                    break;
+                case 1:
+                    this.sistema.cargarEscena(new Dia0NinoBlanco(this.sistema));
+                    break;
+                case 2:
+                    this.sistema.cargarEscena(new Dia0NinoBajomundo(this.sistema));
+                    break;
             }
         }
         else
         {
-            warningLabel.Text = "Debes seleccionar una clase social y un arquetipo.";
+            warningLabel.Text = "Debes seleccionar un origen y un arquetipo.";
             warningLabel.Visible = true;
         }
 	}
 
-	private void SeleccionarClaseSocial(int clase)
+	private void SeleccionarOrigen(int origen)
     {
-        claseSocialSeleccionada = clase;
-        switch (clase)
+        origenSeleccionado = origen;
+        switch (origen)
         {
-            case 0: // Isla
+            case 0: // Isleño
                 jugador.Dinero = 10;
-                botonIsla.Disabled = true;
-                botonNormal.Disabled = false;
-                botonPudiente.Disabled = false;
+                botonIsleño.Disabled = true;
+                botonBlanco.Disabled = false;
+                botonBajomundo.Disabled = false;
                 break;
-            case 1: // Normal
+            case 1: // Blanco
                 jugador.Dinero = 50;
-                botonIsla.Disabled = false;
-                botonNormal.Disabled = true;
-                botonPudiente.Disabled = false;
+                botonIsleño.Disabled = false;
+                botonBlanco.Disabled = true;
+                botonBajomundo.Disabled = false;
                 break;
-            case 2: // Pudiente
+            case 2: // Bajomundo
                 jugador.Dinero = 100;
-                botonIsla.Disabled = false;
-                botonNormal.Disabled = false;
-                botonPudiente.Disabled = true;
+                botonIsleño.Disabled = false;
+                botonBlanco.Disabled = false;
+                botonBajomundo.Disabled = true;
                 break;
         }
     }
@@ -568,6 +575,13 @@ public partial class CreadorDePersonaje : Node2D
                 botonIntelectual.Disabled = false;
                 botonEmocional.Disabled = false;
                 botonBruto.Disabled = true;
+                botonManual.Disabled = false;
+                break;
+            case 3: // Manual
+                botonIntelectual.Disabled = false;
+                botonEmocional.Disabled = false;
+                botonBruto.Disabled = false;
+                botonManual.Disabled = true;
                 break;
         }
         QueueRedraw();
