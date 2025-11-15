@@ -3,9 +3,9 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public partial class EventoIslaIntelectual : Evento 
+public partial class Dia0Isla : Evento
 {
-    public EventoIslaIntelectual(Dia dia): base(dia)
+    public Dia0Isla(Dia dia): base(dia)
     {
         TextureRect fondo = new TextureRect();
         fondo.Texture = (Texture2D)GD.Load("res://Sprites/Fondos/FONDO_CASA_PLAYA.jpg");

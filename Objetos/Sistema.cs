@@ -90,7 +90,7 @@ public partial class Sistema : Node2D
 		Personaje personaje = new Personaje();
 		personaje.Dinero = 10;
 		this.inicializarJugador(personaje);
-		this.cargarEscena(new DiaIsla(this));
+		this.AddChild(new Dia0Isla(this));
 	}
 
 	public void iniciarJuegoNormal(Node2D nodo){
