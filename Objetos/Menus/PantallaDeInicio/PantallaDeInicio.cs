@@ -128,6 +128,10 @@ public partial class PantallaDeInicio : Node2D
 
     private void crearTitulo()
     {
+        CenterContainer centerContainer = new CenterContainer();
+        centerContainer.SetSize(new Vector2(LONGITUD_PANTALLA, ALTURA_PANTALLA / 2));
+        centerContainer.SetPosition(new Vector2(0, ALTURA_PANTALLA / 4 - centerContainer.Size.Y / 2));
+
         tituloPanel = new PanelContainer();
         var styleBox = new StyleBoxFlat
         {
@@ -151,10 +155,8 @@ public partial class PantallaDeInicio : Node2D
         tituloLabel.AddThemeFontSizeOverride("font_size", FONT_SIZE);
 
         tituloPanel.AddChild(tituloLabel);
-
-        tituloPanel.Position = new Vector2(LONGITUD_PANTALLA / 2 - tituloPanel.Size.X / 2, ALTURA_PANTALLA / 4);
-
-        this.AddChild(tituloPanel);
+        centerContainer.AddChild(tituloPanel);
+        this.AddChild(centerContainer);
     }
 
     private void crearMenuPrincipal()
