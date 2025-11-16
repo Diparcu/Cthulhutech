@@ -1,11 +1,19 @@
-
 using Godot;
 using System;
 using System.Collections.Generic;
 
-public partial class Dia0Isla : Evento
+public partial class Dia0Isla : Dia
 {
-    public Dia0Isla(Dia dia): base(dia)
+    public Dia0Isla(Sistema sistema) : base(sistema)
+    {
+        this.eventoCargado = new EventoDia0Isla(this);
+        this.AddChild(this.eventoCargado);
+    }
+}
+
+public partial class EventoDia0Isla : Evento
+{
+    public EventoDia0Isla(Dia dia) : base(dia)
     {
         TextureRect fondo = new TextureRect();
         fondo.Texture = (Texture2D)GD.Load("res://Sprites/Fondos/FONDO_CASA_PLAYA.jpg");
@@ -25,7 +33,7 @@ public partial class Dia0Isla : Evento
         this.dialogos.Add(new Dialogo("Narrador", "Tirada oculta"));
 
         Dialogo decisionInicial = new Dialogo("Jugador", "...");
-        
+
         List<OpcionDialogo> opciones = new List<OpcionDialogo>();
 
         OpcionDialogo opcionA = new OpcionDialogo("Claro mama, me levanto altiro");
@@ -42,7 +50,7 @@ public partial class Dia0Isla : Evento
 
             List<Dialogo> exitoC = new List<Dialogo>();
             exitoC.Add(new Dialogo("Mama", "oh hijo estoy algo preocupada no escuche a los pájaros cantar como siempre esta mañana, aunque sé que no es nada, me siento inquieta"));
-            
+
             if(realizarChequeoOculto("SaivorFeire", 11))
             {
                 exitoC.Add(new Dialogo("Narrador", "De verdad siente que es una preocupación tonta"));
@@ -81,7 +89,7 @@ public partial class Dia0Isla : Evento
         opcionB.setSiguienteDialogoFallo(falloB);
 
         this.dialogos.Add(decisionInicial);
-        
+
         this.cargarTexto();
     }
 
