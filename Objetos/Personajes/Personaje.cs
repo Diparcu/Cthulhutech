@@ -165,6 +165,7 @@ public partial class Personaje
 
 	public void subirAtletismo(){ this.subirHabilidad(ref this.atletismo); }
 	public void bajarAtletismo(){ this.bajarHabilidad(ref this.atletismo); }
+	public int GetBaseAtletismo() { return this.atletismo; }
 
 	public int CienciasOcultas
 	{
@@ -174,6 +175,7 @@ public partial class Personaje
 
 	public void subirCienciasOcultas(){ this.subirHabilidad(ref this.cienciasOcultas); }
 	public void bajarCienciasOcultas(){ this.bajarHabilidad(ref this.cienciasOcultas); }
+    public int GetBaseCienciasOcultas() { return this.cienciasOcultas; }
 
 	public int ConocimientoRegional
 	{
@@ -183,6 +185,7 @@ public partial class Personaje
 
 	public void subirConocimientoRegional(){ this.subirHabilidad(ref this.conocimientoRegional); }
 	public void bajarConocimientoRegional(){ this.bajarHabilidad(ref this.conocimientoRegional); }
+    public int GetBaseConocimientoRegional() { return this.conocimientoRegional; }
 
 	public int Educacion
 	{
@@ -192,6 +195,7 @@ public partial class Personaje
 
 	public void subirEducacion(){ this.subirHabilidad(ref this.educacion); }
 	public void bajarEducacion(){ this.bajarHabilidad(ref this.educacion); }
+    public int GetBaseEducacion() { return this.educacion; }
 
 	public int Investigacion
 	{
@@ -201,6 +205,7 @@ public partial class Personaje
 
 	public void subirInvestigacion(){ this.subirHabilidad(ref this.investigacion); }
 	public void bajarInvestigacion(){ this.bajarHabilidad(ref this.investigacion); }
+    public int GetBaseInvestigacion() { return this.investigacion; }
 
 	public int Labia
 	{
@@ -210,6 +215,7 @@ public partial class Personaje
 
 	public void subirLabia(){ this.subirHabilidad(ref this.labia); }
 	public void bajarLabia(){ this.bajarHabilidad(ref this.labia); }
+    public int GetBaseLabia() { return this.labia; }
 
 	public int Leptoescritura
 	{
@@ -219,6 +225,7 @@ public partial class Personaje
 
 	public void subirLeptoescritura(){ this.subirHabilidad(ref this.leptoescritura); }
 	public void bajarLeptoescritura(){ this.bajarHabilidad(ref this.leptoescritura); }
+    public int GetBaseLeptoescritura() { return this.leptoescritura; }
 
 	public int Medicina
 	{
@@ -228,6 +235,7 @@ public partial class Personaje
 
 	public void subirMedicina(){ this.subirHabilidad(ref this.medicina); }
 	public void bajarMedicina(){ this.bajarHabilidad(ref this.medicina); }
+    public int GetBaseMedicina() { return this.medicina; }
 
 	public int SaivorFeire
 	{
@@ -237,6 +245,7 @@ public partial class Personaje
 
 	public void subirSaivorFeire(){ this.subirHabilidad(ref this.saivorFeire); }
 	public void bajarSaivorFeire(){ this.bajarHabilidad(ref this.saivorFeire); }
+    public int GetBaseSaivorFeire() { return this.saivorFeire; }
 
 	public int Sigilo
 	{
@@ -246,6 +255,7 @@ public partial class Personaje
 
 	public void subirSigilo(){ this.subirHabilidad(ref this.sigilo); }
 	public void bajarSigilo(){ this.bajarHabilidad(ref this.sigilo); }
+    public int GetBaseSigilo() { return this.sigilo; }
 
 	public int Supervivencia
 	{
@@ -255,6 +265,7 @@ public partial class Personaje
 
 	public void subirSupervivencia(){ this.subirHabilidad(ref this.supervivencia); }
 	public void bajarSupervivencia(){ this.bajarHabilidad(ref this.supervivencia); }
+    public int GetBaseSupervivencia() { return this.supervivencia; }
 
 	public int Tasacion
 	{
@@ -264,11 +275,25 @@ public partial class Personaje
 
 	public void subirTasacion(){ this.subirHabilidad(ref this.tasacion); }
 	public void bajarTasacion(){ this.bajarHabilidad(ref this.tasacion); }
+    public int GetBaseTasacion() { return this.tasacion; }
+    public void AumentarTasacion() { this.tasacion++; }
 
 	private int pelea = 0;
 	private int armasArrojadizas = 0;
 	private int esquivar = 0;
 
 	public int ModificadorTiradasDiarias { get; set; } = 0;
-    public int XP { get; set; } = 0;
+    public int XP { get; set; } = 70;
+
+    public void AumentarAtletismo() { this.atletismo++; }
+    public void AumentarCienciasOcultas() { this.cienciasOcultas++; }
+    public void AumentarConocimientoRegional() { this.conocimientoRegional++; }
+    public void AumentarEducacion() { this.educacion++; }
+    public void AumentarInvestigacion() { this.investigacion++; }
+    public void AumentarLabia() { this.labia++; }
+    public void AumentarLeptoescritura() { this.leptoescritura++; }
+    public void AumentarMedicina() { this.medicina++; }
+    public void AumentarSaivorFeire() { this.saivorFeire++; }
+    public void AumentarSigilo() { this.sigilo++; }
+    public void AumentarSupervivencia() { this.supervivencia++; }
 }
