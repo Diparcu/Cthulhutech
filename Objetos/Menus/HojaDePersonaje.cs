@@ -33,7 +33,7 @@ public partial class HojaDePersonaje : CanvasLayer
         var background = new ColorRect
         {
             Color = new Color(0, 0, 0, 0.5f),
-            Size = GetViewportRect().Size
+            Size = GetViewport().GetVisibleRect().Size
         };
         AddChild(background);
 
