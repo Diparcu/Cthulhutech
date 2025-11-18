@@ -55,7 +55,7 @@ public partial class HojaDePersonaje : Node2D
         AddChild(panel);
 
         // Contenedor principal
-        var mainContainer = new VBoxContainer { SizeFlagsHorizontal = SizeFlags.ExpandFill };
+        var mainContainer = new VBoxContainer { SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
         panel.AddChild(mainContainer);
 
         // Título
