@@ -8,6 +8,8 @@ public partial class Sistema : Node2D
 	private SistemaEstado estado;
 	private Evento eventoCargado;
 	private Dia diaCargado;
+	private BarraSuperiorUI barraSuperior;
+	private int numeroDia = 1;
 
 	private Personaje jugador;
 	private AudioStreamPlayer audioStream;
@@ -28,7 +30,12 @@ public partial class Sistema : Node2D
 	public void cargarEscena(Dia dia){
 		if(this.diaCargado != null) this.diaCargado.QueueFree();
 		this.diaCargado = dia;
+		this.diaCargado.NumeroDia = this.numeroDia;
 		this.AddChild(this.diaCargado);
+		if (this.barraSuperior != null)
+		{
+			this.barraSuperior.ActualizarUI();
+		}
 	}
 
 	public void cambiarFondo(string rutaFondo){
@@ -52,6 +59,11 @@ public partial class Sistema : Node2D
 		return this.jugador;
 	}
 
+	public Dia getDiaCargado()
+	{
+		return this.diaCargado;
+	}
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -71,6 +83,11 @@ public partial class Sistema : Node2D
 
 	public void volverAlMenuPrincipal(){
 		if(this.diaCargado != null) this.diaCargado.QueueFree();
+		if(this.barraSuperior != null)
+		{
+			this.barraSuperior.QueueFree();
+			this.barraSuperior = null;
+		}
 		this.diaCargado = null;
 		this.AddChild(new PantallaDeInicio(fuente, this));
 	}
@@ -97,6 +114,12 @@ public partial class Sistema : Node2D
 
 	public void iniciarJuego(Node2D nodo, string origen, string arquetipo){
 		nodo.QueueFree();
+		if (this.barraSuperior == null)
+		{
+			this.barraSuperior = new BarraSuperiorUI(this);
+			this.AddChild(this.barraSuperior);
+		}
+		this.numeroDia = 1;
 		Personaje personaje = new Personaje();
 		personaje.origen = origen;
 		personaje.arquetipo = arquetipo;
@@ -147,6 +170,12 @@ public partial class Sistema : Node2D
 
 	public void iniciarJuegoIsla(Node2D nodo){
 		nodo.QueueFree();
+		if (this.barraSuperior == null)
+		{
+			this.barraSuperior = new BarraSuperiorUI(this);
+			this.AddChild(this.barraSuperior);
+		}
+		this.numeroDia = 1;
 		Personaje personaje = new Personaje();
 		personaje.Dinero = 10;
 		this.inicializarJugador(personaje);
@@ -155,6 +184,12 @@ public partial class Sistema : Node2D
 
 	public void iniciarJuegoNormal(Node2D nodo){
 		nodo.QueueFree();
+		if (this.barraSuperior == null)
+		{
+			this.barraSuperior = new BarraSuperiorUI(this);
+			this.AddChild(this.barraSuperior);
+		}
+		this.numeroDia = 1;
 		Personaje personaje = new Personaje();
 		personaje.Dinero = 50;
 		this.inicializarJugador(personaje);
@@ -163,6 +198,12 @@ public partial class Sistema : Node2D
 
 	public void iniciarJuegoPudiente(Node2D nodo){
 		nodo.QueueFree();
+		if (this.barraSuperior == null)
+		{
+			this.barraSuperior = new BarraSuperiorUI(this);
+			this.AddChild(this.barraSuperior);
+		}
+		this.numeroDia = 1;
 		Personaje personaje = new Personaje();
 		personaje.Dinero = 100;
 		this.inicializarJugador(personaje);
@@ -171,6 +212,12 @@ public partial class Sistema : Node2D
 
 	public void iniciarJuegoBlanco(Node2D nodo){
 		nodo.QueueFree();
+		if (this.barraSuperior == null)
+		{
+			this.barraSuperior = new BarraSuperiorUI(this);
+			this.AddChild(this.barraSuperior);
+		}
+		this.numeroDia = 1;
 		Personaje personaje = new Personaje();
 		this.inicializarJugador(personaje);
 		this.AddChild(new Dia0Blanco());
@@ -178,6 +225,12 @@ public partial class Sistema : Node2D
 
 	public void iniciarJuegoBajosFondos(Node2D nodo){
 		nodo.QueueFree();
+		if (this.barraSuperior == null)
+		{
+			this.barraSuperior = new BarraSuperiorUI(this);
+			this.AddChild(this.barraSuperior);
+		}
+		this.numeroDia = 1;
 		Personaje personaje = new Personaje();
 		this.inicializarJugador(personaje);
 		this.AddChild(new Dia0BajosFondos());
@@ -185,11 +238,23 @@ public partial class Sistema : Node2D
 
 	public void iniciarJuegoMegan(Node2D nodo){
 		nodo.QueueFree();
+		if (this.barraSuperior == null)
+		{
+			this.barraSuperior = new BarraSuperiorUI(this);
+			this.AddChild(this.barraSuperior);
+		}
+		this.numeroDia = 1;
 		this.inicializarJugador(new Personaje());
 		this.cargarEscena(new DiaMegan(this));
 	}
 		public void iniciarJuegoKC(Node2D nodo){
 		nodo.QueueFree();
+		if (this.barraSuperior == null)
+		{
+			this.barraSuperior = new BarraSuperiorUI(this);
+			this.AddChild(this.barraSuperior);
+		}
+		this.numeroDia = 1;
 		this.inicializarJugador(new Personaje());
 		this.cargarEscena(new DiaKC(this));
 	}
@@ -211,11 +276,19 @@ public partial class Sistema : Node2D
 
 	public void avanzarAlSiguienteDia(Node2D nodoActual){
 		nodoActual.QueueFree();
+		this.numeroDia++;
 		this.cargarEscena(new DiaIsla(this));
 	}
 
 	public void mostrarHojaDePersonaje(){
-		this.AddChild(new HojaDePersonaje(this));
+		var hoja = new HojaDePersonaje(this);
+		hoja.TreeExiting += () => {
+			if (this.barraSuperior != null)
+			{
+				this.barraSuperior.ActualizarUI();
+			}
+		};
+		this.AddChild(hoja);
 	}
 
 	public void GameOver(){
