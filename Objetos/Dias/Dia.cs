@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public abstract partial class Dia : Node2D
 {
+	public int NumeroDia { get; set; } = 0;
 	private EstadoDia estado;
 	private Sistema sistema;
 
@@ -21,12 +22,6 @@ public abstract partial class Dia : Node2D
 	    public Dia(Sistema sistema){
 			this.sistema = sistema;
 			this.estado = new EstadoDiaManana(this);
-
-			Button hojaPersonajeBtn = new Button();
-			hojaPersonajeBtn.Text = "Hoja";
-			hojaPersonajeBtn.Position = new Vector2(10, 10);
-			hojaPersonajeBtn.Pressed += () => this.sistema.mostrarHojaDePersonaje();
-			this.AddChild(hojaPersonajeBtn);
 		}
 		public void cargarMapa(){
 		this.eventoCargado.QueueFree();
@@ -43,6 +38,15 @@ public abstract partial class Dia : Node2D
 
 	public void setEstado(EstadoDia estado){
 		this.estado = estado;
+	}
+
+	public String getPeriodoDelDia()
+	{
+		if (this.estado != null)
+		{
+			return this.estado.GetPeriodoDelDia();
+		}
+		return EstadoDia.PERIODO_NA;
 	}
 
 	public void avanzarDia(){

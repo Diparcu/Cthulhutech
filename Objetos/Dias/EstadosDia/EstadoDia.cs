@@ -12,6 +12,11 @@ public abstract class EstadoDia
     protected String periodoDelDia;
     protected Dia dia;
 
+    public String GetPeriodoDelDia()
+    {
+        return periodoDelDia;
+    }
+
     public EstadoDia(Dia dia){
         this.dia = dia;
     }
