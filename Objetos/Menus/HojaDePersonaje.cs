@@ -112,9 +112,9 @@ public partial class HojaDePersonaje : CanvasLayer
         AddStatEntry(habilidadesContainer, "Educación", personaje.GetBaseEducacion(), false);
         AddStatEntry(habilidadesContainer, "Investigación", personaje.GetBaseInvestigacion(), false);
         AddStatEntry(habilidadesContainer, "Labia", personaje.GetBaseLabia(), false);
-        AddStatEntry(habilidadesContainer, "Lectoescritura", personaje.GetBaseLeptoescritura(), false);
+        AddStatEntry(habilidadesContainer, "Lectoescritura", personaje.GetBaseLectoescritura(), false);
         AddStatEntry(habilidadesContainer, "Medicina", personaje.GetBaseMedicina(), false);
-        AddStatEntry(habilidadesContainer, "Savoir Faire", personaje.GetBaseSaivorFeire(), false);
+        AddStatEntry(habilidadesContainer, "Savoir Faire", personaje.GetBaseSaviorFaire(), false);
         AddStatEntry(habilidadesContainer, "Sigilo", personaje.GetBaseSigilo(), false);
         AddStatEntry(habilidadesContainer, "Supervivencia", personaje.GetBaseSupervivencia(), false);
         AddStatEntry(habilidadesContainer, "Tasación", personaje.GetBaseTasacion(), false);
@@ -172,9 +172,9 @@ public partial class HojaDePersonaje : CanvasLayer
                 case "Educación": currentLevel = personaje.GetBaseEducacion(); break;
                 case "Investigación": currentLevel = personaje.GetBaseInvestigacion(); break;
                 case "Labia": currentLevel = personaje.GetBaseLabia(); break;
-                case "Lectoescritura": currentLevel = personaje.GetBaseLeptoescritura(); break;
+                case "Lectoescritura": currentLevel = personaje.GetBaseLectoescritura(); break;
                 case "Medicina": currentLevel = personaje.GetBaseMedicina(); break;
-                case "Savoir Faire": currentLevel = personaje.GetBaseSaivorFeire(); break;
+                case "Savoir Faire": currentLevel = personaje.GetBaseSaviorFaire(); break;
                 case "Sigilo": currentLevel = personaje.GetBaseSigilo(); break;
                 case "Supervivencia": currentLevel = personaje.GetBaseSupervivencia(); break;
                 case "Tasación": currentLevel = personaje.GetBaseTasacion(); break;
@@ -237,9 +237,9 @@ public partial class HojaDePersonaje : CanvasLayer
         statLabels["Educación"].Text = personaje.GetBaseEducacion().ToString();
         statLabels["Investigación"].Text = personaje.GetBaseInvestigacion().ToString();
         statLabels["Labia"].Text = personaje.GetBaseLabia().ToString();
-        statLabels["Lectoescritura"].Text = personaje.GetBaseLeptoescritura().ToString();
+        statLabels["Lectoescritura"].Text = personaje.GetBaseLectoescritura().ToString();
         statLabels["Medicina"].Text = personaje.GetBaseMedicina().ToString();
-        statLabels["Savoir Faire"].Text = personaje.GetBaseSaivorFeire().ToString();
+        statLabels["Savoir Faire"].Text = personaje.GetBaseSaviorFaire().ToString();
         statLabels["Sigilo"].Text = personaje.GetBaseSigilo().ToString();
         statLabels["Supervivencia"].Text = personaje.GetBaseSupervivencia().ToString();
         statLabels["Tasación"].Text = personaje.GetBaseTasacion().ToString();

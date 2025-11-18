@@ -450,4 +450,55 @@ public partial class Personaje
 
 	public int ModificadorTiradasDiarias { get; set; } = 0;
     public int XP { get; set; } = 70;
+
+    // --- Aumentar Methods ---
+    public void AumentarAficionesFutbol() { this.aficionesFutbol++; }
+    public void AumentarAficionesInfluencers() { this.aficionesInfluencers++; }
+    public void AumentarArcanotecnico() { this.arcanotecnico++; }
+    public void AumentarArmero() { this.armero++; }
+    public void AumentarArtillero() { this.artillero++; }
+    public void AumentarArtista() { this.artista++; }
+    public void AumentarAtletismo() { this.atletismo++; }
+    public void AumentarBajosFondos() { this.bajosFondos++; }
+    public void AumentarBanalidadesLavarRopa() { this.banalidadesLavarRopa++; }
+    public void AumentarBanalidadesJuegosDeCarta() { this.banalidadesJuegosDeCarta++; }
+    public void AumentarBurocracia() { this.burocracia++; }
+    public void AumentarCienciasOcultas() { this.cienciasOcultas++; }
+    public void AumentarCienciasDeLaTierra() { this.cienciasDeLaTierra++; }
+    public void AumentarCienciasDeLaVida() { this.cienciasDeLaVida++; }
+    public void AumentarCienciasFisicas() { this.cienciasFisicas++; }
+    public void AumentarComunicaciones() { this.comunicaciones++; }
+    public void AumentarConocimientoRegional() { this.conocimientoRegional++; }
+    public void AumentarCultura() { this.cultura++; }
+    public void AumentarCumplimientoDeLaLey() { this.cumplimientoDeLaLey++; }
+    public void AumentarDelincuencia() { this.delincuencia++; }
+    public void AumentarDemoliciones() { this.demoliciones++; }
+    public void AumentarEducacion() { this.educacion++; }
+    public void AumentarHistoria() { this.historia++; }
+    public void AumentarIdiomaIngles() { this.idiomaIngles++; }
+    public void AumentarInformatica() { this.informatica++; }
+    public void AumentarIngenieria() { this.ingenieria++; }
+    public void AumentarIngenieriaArcanotec() { this.ingenieriaArcanotec++; }
+    public void AumentarInterpretacion() { this.interpretacion++; }
+    public void AumentarIntimidar() { this.intimidar++; }
+    public void AumentarInvestigacion() { this.investigacion++; }
+    public void AumentarLabia() { this.labia++; }
+    public void AumentarLatrocinio() { this.latrocinio++; }
+    public void AumentarLectoescritura() { this.lectoescritura++; }
+    public void AumentarMedicina() { this.medicina++; }
+    public void AumentarMeditacion() { this.meditacion++; }
+    public void AumentarNegocios() { this.negocios++; }
+    public void AumentarObservar() { this.observar++; }
+    public void AumentarPersuasion() { this.persuacion++; }
+    public void AumentarPilotarAuto() { this.pilotarAuto++; }
+    public void AumentarPilotarMecha() { this.pilotarMecha++; }
+    public void AumentarPilotarSkate() { this.pilotarSkate++; }
+    public void AumentarSaviorFaire() { this.saviorFaire++; }
+    public void AumentarSeduccion() { this.seduccion++; }
+    public void AumentarSeguridad() { this.seguridad++; }
+    public void AumentarSigilo() { this.sigilo++; }
+    public void AumentarSupervivencia() { this.supervivencia++; }
+    public void AumentarTasacion() { this.tasacion++; }
+    public void AumentarTecnicoReparar() { this.tecnicoReparar++; }
+    public void AumentarVigilancia() { this.vigilancia++; }
 }
