@@ -59,6 +59,15 @@ public partial class EventoDia0Isla : Evento
             {
                 exitoC.Add(new Dialogo("Narrador", "No sabes si está bromeando o no"));
             }
+
+            exitoC.Add(new Dialogo("Mama", "Bueno, no desvíes el tema. Tienes que levantarte para ir a recoger camarones."));
+            Dialogo decisionVuelta = new Dialogo("Jugador", "...");
+            List<OpcionDialogo> opcionesVuelta = new List<OpcionDialogo>();
+            opcionesVuelta.Add(opcionA);
+            opcionesVuelta.Add(opcionB);
+            decisionVuelta.setDesicion(opcionesVuelta);
+            exitoC.Add(decisionVuelta);
+
             opcionC.setSiguienteDialogo(exitoC);
 
             List<Dialogo> falloC = new List<Dialogo>();
