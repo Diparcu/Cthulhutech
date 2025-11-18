@@ -94,7 +94,7 @@ public partial class PantallaDeInicio : Node2D
 
     private void _on_NuevaPartida_pressed()
     {
-        this.sistema.iniciarCreadorDePersonaje(this);
+        this.sistema.iniciarSeleccionOrigen(this);
     }
 
     private void _on_Eventos_pressed()
@@ -106,7 +106,6 @@ public partial class PantallaDeInicio : Node2D
     private void _on_Volver_pressed()
     {
         menuPrincipalPanel.Visible = true;
-        menuNuevaPartidaContainer.Visible = false;
         menuEventosPanel.Visible = false;
         etiquetaEvento.Visible = false;
     }

@@ -85,6 +85,66 @@ public partial class Sistema : Node2D
 		this.AddChild(new CreadorDePersonaje(this));
 	}
 
+	public void iniciarSeleccionOrigen(Node2D nodo){
+		nodo.QueueFree();
+		this.AddChild(new SeleccionOrigen(this));
+	}
+
+	public void iniciarSeleccionArquetipo(Node2D nodo, string origen){
+		nodo.QueueFree();
+		this.AddChild(new SeleccionArquetipo(this, origen));
+	}
+
+	public void iniciarJuego(Node2D nodo, string origen, string arquetipo){
+		nodo.QueueFree();
+		Personaje personaje = new Personaje();
+		personaje.origen = origen;
+		personaje.arquetipo = arquetipo;
+
+		// Aplicar bonificaciones de estadísticas
+		switch (origen)
+		{
+			case "Niño isleño":
+				personaje.Supervivencia += 5;
+				break;
+			case "Niño blanco":
+				personaje.CienciasOcultas += 5;
+				break;
+			case "Niño bajos fondos":
+				personaje.Sigilo += 5;
+				break;
+		}
+
+		switch (arquetipo)
+		{
+			case "Intelectual":
+				personaje.Inteligencia += 5;
+				break;
+			case "Manual":
+				personaje.Fuerza += 5;
+				break;
+			case "Emocional":
+				personaje.Presencia += 5;
+				break;
+		}
+
+		this.inicializarJugador(personaje);
+
+		// Iniciar el día 0 correspondiente
+		switch (origen)
+		{
+			case "Niño isleño":
+				this.cargarEscena(new Dia0Isla(this));
+				break;
+			case "Niño blanco":
+				this.AddChild(new Dia0Blanco());
+				break;
+			case "Niño bajos fondos":
+				this.AddChild(new Dia0BajosFondos());
+				break;
+		}
+	}
+
 	public void iniciarJuegoIsla(Node2D nodo){
 		nodo.QueueFree();
 		Personaje personaje = new Personaje();
@@ -152,6 +212,10 @@ public partial class Sistema : Node2D
 	public void avanzarAlSiguienteDia(Node2D nodoActual){
 		nodoActual.QueueFree();
 		this.cargarEscena(new DiaIsla(this));
+	}
+
+	public void mostrarHojaDePersonaje(){
+		this.AddChild(new HojaDePersonaje(this));
 	}
 
 	public void GameOver(){

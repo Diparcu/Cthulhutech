@@ -21,6 +21,12 @@ public abstract partial class Dia : Node2D
 	    public Dia(Sistema sistema){
 			this.sistema = sistema;
 			this.estado = new EstadoDiaManana(this);
+
+			Button hojaPersonajeBtn = new Button();
+			hojaPersonajeBtn.Text = "Hoja";
+			hojaPersonajeBtn.Position = new Vector2(10, 10);
+			hojaPersonajeBtn.Pressed += () => this.sistema.mostrarHojaDePersonaje();
+			this.AddChild(hojaPersonajeBtn);
 		}
 		public void cargarMapa(){
 		this.eventoCargado.QueueFree();
