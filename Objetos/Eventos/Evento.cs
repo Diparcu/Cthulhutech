@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public abstract partial class Evento : Node2D 
 {
@@ -248,4 +249,71 @@ public abstract partial class Evento : Node2D
 		this.dialogos[index].cambiarMusica(this.getAudioStreamer());
 	}
 
+    public ResultadoTirada realizarTiradaCombinacion(string habilidad, string atributo, int dificultad)
+    {
+        Personaje jugador = this.getJugador();
+        ResultadoTirada resultado = new ResultadoTirada();
+        var rand = new Random();
+
+        int valorHabilidad = (int)jugador.GetType().GetProperty(habilidad).GetValue(jugador);
+        int valorAtributo = (int)jugador.GetType().GetProperty(atributo).GetValue(jugador);
+
+        int numeroDados = (int)Math.Ceiling(valorAtributo / 2.0) + valorHabilidad;
+
+        for (int i = 0; i < numeroDados; i++)
+        {
+            resultado.DadosLanzados.Add(rand.Next(1, 11));
+        }
+        resultado.DadosLanzados.Sort();
+        resultado.DadosLanzados.Reverse();
+
+        // --- Lógica de Combinaciones ---
+        var grupos = resultado.DadosLanzados.GroupBy(d => d).OrderByDescending(g => g.Count()).ThenByDescending(g => g.Key).ToList();
+
+        // 1. Buscar Cuartetos, Tríos, Pares
+        foreach (var grupo in grupos)
+        {
+            if (grupo.Count() >= 4) { resultado.CombinacionNombre = "Cuarteto"; resultado.DadosEnCombinacion = grupo.Take(4).ToList(); break; }
+            if (grupo.Count() >= 3) { resultado.CombinacionNombre = "Trío"; resultado.DadosEnCombinacion = grupo.Take(3).ToList(); break; }
+            if (grupo.Count() >= 2) { resultado.CombinacionNombre = "Par"; resultado.DadosEnCombinacion = grupo.Take(2).ToList(); break; }
+        }
+
+        // 2. Buscar Escaleras (si no se encontró una combinación mejor)
+        if (resultado.DadosEnCombinacion.Count == 0)
+        {
+            List<int> unicos = resultado.DadosLanzados.Distinct().ToList();
+            unicos.Sort();
+            for (int i = unicos.Count - 1; i >= 0; i--)
+            {
+                List<int> escaleraPotencial = new List<int> { unicos[i] };
+                for (int j = i - 1; j >= 0; j--)
+                {
+                    if (unicos[j] == escaleraPotencial.Last() - 1)
+                    {
+                        escaleraPotencial.Add(unicos[j]);
+                    }
+                }
+                if (escaleraPotencial.Count >= 3 && escaleraPotencial.Count > resultado.DadosEnCombinacion.Count)
+                {
+                    resultado.CombinacionNombre = "Escalera";
+                    resultado.DadosEnCombinacion = escaleraPotencial;
+                }
+            }
+        }
+
+        // --- Calcular Resultado ---
+        if (resultado.DadosEnCombinacion.Count > 0)
+        {
+            resultado.SumaCombinacion = resultado.DadosEnCombinacion.Sum();
+        }
+        else
+        {
+            resultado.CombinacionNombre = "Dado más alto";
+            resultado.SumaCombinacion = resultado.DadosLanzados.Count > 0 ? resultado.DadosLanzados.Max() : 0;
+            resultado.DadosEnCombinacion.Add(resultado.SumaCombinacion);
+        }
+
+        resultado.Exito = resultado.SumaCombinacion >= dificultad;
+        return resultado;
+    }
 }
