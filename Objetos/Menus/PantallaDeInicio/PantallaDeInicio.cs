@@ -16,7 +16,6 @@ public partial class PantallaDeInicio : Node2D
     private VBoxContainer menuPrincipalContainer;
     private PanelContainer menuEventosPanel;
     private VBoxContainer menuEventosContainer;
-    private VBoxContainer menuNuevaPartidaContainer;
     private Label etiquetaEvento;
     private Sprite2D fondo;
     private PanelContainer tituloPanel;
