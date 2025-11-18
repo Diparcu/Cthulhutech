@@ -209,9 +209,9 @@ public partial class HojaDePersonaje : CanvasLayer
                     case "Educación": personaje.AumentarEducacion(); break;
                     case "Investigación": personaje.AumentarInvestigacion(); break;
                     case "Labia": personaje.AumentarLabia(); break;
-                    case "Lectoescritura": personaje.AumentarLeptoescritura(); break;
+                    case "Lectoescritura": personaje.AumentarLectoescritura(); break;
                     case "Medicina": personaje.AumentarMedicina(); break;
-                    case "Savoir Faire": personaje.AumentarSaivorFeire(); break;
+                    case "Savoir Faire": personaje.AumentarSaviorFaire(); break;
                     case "Sigilo": personaje.AumentarSigilo(); break;
                     case "Supervivencia": personaje.AumentarSupervivencia(); break;
                     case "Tasación": personaje.AumentarTasacion(); break;
