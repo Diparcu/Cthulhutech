@@ -99,30 +99,7 @@ public partial class EventoDia0Isla : Evento
                 this.getSistema().cambiarFondo("res://Sprites/Fondos/FONDO_CAMARONES.jpg");
             }));
         }
-
-        dialogoA.Add(new Dialogo("Narrador", "Caminan juntos por la orilla. El aire está cargado de una estática extraña y el mar murmura de una forma que no reconoces."));
-        dialogoA.Add(new Dialogo("Mama", "[color=cyan]Qué raro... los camarones usualmente están más escondidos a esta hora. Hoy están por todas partes.[/color]"));
-
-        ResultadoTirada tiradaObservar = realizarTiradaCombinacion("Observar", "Percepcion", 12);
-        string textoTiradaObservar = $"[color=darkgreen][Tirada Oculta - Observar diff 12: {string.Join("-", tiradaObservar.DadosLanzados)} | {(tiradaObservar.Exito ? "Éxito" : "Fallo")}][/color]";
-        dialogoA.Add(new Dialogo("Narrador", textoTiradaObservar));
-
-        if (tiradaObservar.Exito)
-        {
-            dialogoA.Add(new Dialogo("Narrador", "Te agachas para mirar más de cerca. Te permite ver una escena grotesca: un grupo de camarones está devorando con avidez el cadáver de un pájaro marino."));
-            dialogoA.Add(new Dialogo("Narrador", "Tu madre desvía la mirada, carraspea y te apura."));
-        }
-        else
-        {
-            dialogoA.Add(new Dialogo("Narrador", "Te agachas para mirar más de cerca, pero no notas nada fuera de lo común."));
-        }
-        dialogoA.Add(new Dialogo("Mama", "[color=cyan]Bueno, a lo nuestro. Atrapa todos los que puedas.[/color]"));
-        dialogoA.Add(new Dialogo("Narrador", "El agua está inusualmente oscura y fría al tacto. Los camarones, por su parte, se mueven de forma errática, casi frenética. Son más fáciles de atrapar de lo normal."));
-        dialogoA.Add(new Dialogo("Narrador", "Mientras recoges los camarones, te parece escuchar un murmullo grave y profundo que proviene del mar, pero el sonido de las olas lo ahoga antes de que puedas estar seguro."));
-        dialogoA.Add(new Dialogo("Narrador", "[MINIJUEGO: Recolectar camarones]"));
-        dialogoA.Add(new Dialogo("Narrador", "Luego de un rato, con los baldes llenos, regresan a casa. La extraña tensión en el aire no parece disiparse.").addAction(() => {
-            this.getSistema().cargarEscena(new TardeTrabajoIslaIntelectual(this.getSistema()));
-        }));
+        dialogoA.AddRange(getDialogoCamarones());
         opcionA.setSiguienteDialogo(dialogoA);
 
         // Camino B: Quedarse en casa (Éxito en la tirada de Labia)
@@ -198,30 +175,7 @@ public partial class EventoDia0Isla : Evento
                 this.getSistema().cambiarFondo("res://Sprites/Fondos/FONDO_CAMARONES.jpg");
             }));
         }
-
-        falloB.Add(new Dialogo("Narrador", "Caminan juntos por la orilla. El aire está cargado de una estática extraña y el mar murmura de una forma que no reconoces."));
-        falloB.Add(new Dialogo("Mama", "[color=cyan]Qué raro... los camarones usualmente están más escondidos a esta hora. Hoy están por todas partes.[/color]"));
-
-        ResultadoTirada tiradaObservarFallo = realizarTiradaCombinacion("Observar", "Percepcion", 12);
-        string textoTiradaObservarFallo = $"[color=darkgreen][Tirada Oculta - Observar diff 12: {string.Join("-", tiradaObservarFallo.DadosLanzados)} | {(tiradaObservarFallo.Exito ? "Éxito" : "Fallo")}][/color]";
-        falloB.Add(new Dialogo("Narrador", textoTiradaObservarFallo));
-
-        if (tiradaObservarFallo.Exito)
-        {
-            falloB.Add(new Dialogo("Narrador", "Te agachas para mirar más de cerca. Te permite ver una escena grotesca: un grupo de camarones está devorando con avidez el cadáver de un pájaro marino."));
-            falloB.Add(new Dialogo("Narrador", "Tu madre desvía la mirada, carraspea y te apura."));
-        }
-        else
-        {
-            falloB.Add(new Dialogo("Narrador", "Te agachas para mirar más de cerca, pero no notas nada fuera de lo común."));
-        }
-        falloB.Add(new Dialogo("Mama", "[color=cyan]Bueno, a lo nuestro. Atrapa todos los que puedas.[/color]"));
-        falloB.Add(new Dialogo("Narrador", "El agua está inusualmente oscura y fría al tacto. Los camarones, por su parte, se mueven de forma errática, casi frenética. Son más fáciles de atrapar de lo normal."));
-        falloB.Add(new Dialogo("Narrador", "Mientras recoges los camarones, te parece escuchar un murmullo grave y profundo que proviene del mar, pero el sonido de las olas lo ahoga antes de que puedas estar seguro."));
-        falloB.Add(new Dialogo("Narrador", "[MINIJUEGO: Recolectar camarones]"));
-        falloB.Add(new Dialogo("Narrador", "Luego de un rato, con los baldes llenos, regresan a casa. La extraña tensión en el aire no parece disiparse.").addAction(() => {
-            this.getSistema().cargarEscena(new TardeTrabajoIslaIntelectual(this.getSistema()));
-        }));
+        falloB.AddRange(getDialogoCamarones());
         opcionB.setSiguienteDialogoFallo(falloB);
 
         this.dialogos.Add(decisionInicial);
@@ -233,4 +187,34 @@ public partial class EventoDia0Isla : Evento
 
 public partial class EventoDia0Isla
 {
+    private List<Dialogo> getDialogoCamarones()
+    {
+        List<Dialogo> dialogo = new List<Dialogo>();
+
+        dialogo.Add(new Dialogo("Narrador", "Caminan juntos por la orilla. El aire está cargado de una estática extraña y el mar murmura de una forma que no reconoces."));
+        dialogo.Add(new Dialogo("Mama", "[color=cyan]Qué raro... los camarones usualmente están más escondidos a esta hora. Hoy están por todas partes.[/color]"));
+
+        ResultadoTirada tiradaObservar = realizarTiradaCombinacion("Observar", "Percepcion", 12);
+        string textoTiradaObservar = $"[color=darkgreen][Tirada Oculta - Observar diff 12: {string.Join("-", tiradaObservar.DadosLanzados)} | {(tiradaObservar.Exito ? "Éxito" : "Fallo")}][/color]";
+        dialogo.Add(new Dialogo("Narrador", textoTiradaObservar));
+
+        if (tiradaObservar.Exito)
+        {
+            dialogo.Add(new Dialogo("Narrador", "Te agachas para mirar más de cerca. Te permite ver una escena grotesca: un grupo de camarones está devorando con avidez el cadáver de un pájaro marino."));
+            dialogo.Add(new Dialogo("Narrador", "Tu madre desvía la mirada, carraspea y te apura."));
+        }
+        else
+        {
+            dialogo.Add(new Dialogo("Narrador", "Te agachas para mirar más de cerca, pero no notas nada fuera de lo común."));
+        }
+        dialogo.Add(new Dialogo("Mama", "[color=cyan]Bueno, a lo nuestro. Atrapa todos los que puedas.[/color]"));
+        dialogo.Add(new Dialogo("Narrador", "El agua está inusualmente oscura y fría al tacto. Los camarones, por su parte, se mueven de forma errática, casi frenética. Son más fáciles de atrapar de lo normal."));
+        dialogo.Add(new Dialogo("Narrador", "Mientras recoges los camarones, te parece escuchar un murmullo grave y profundo que proviene del mar, pero el sonido de las olas lo ahoga antes de que puedas estar seguro."));
+        dialogo.Add(new Dialogo("Narrador", "[MINIJUEGO: Recolectar camarones]"));
+        dialogo.Add(new Dialogo("Narrador", "Luego de un rato, con los baldes llenos, regresan a casa. La extraña tensión en el aire no parece disiparse.").addAction(() => {
+            this.getSistema().cargarEscena(new TardeTrabajoIslaIntelectual(this.getSistema()));
+        }));
+
+        return dialogo;
+    }
 }

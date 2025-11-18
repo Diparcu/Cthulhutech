@@ -392,6 +392,57 @@ public partial class Personaje
     public void subirVigilancia() { subirHabilidad(ref vigilancia); }
     public void bajarVigilancia() { bajarHabilidad(ref vigilancia); }
 
+    // --- GetBase Methods ---
+    public int GetBaseAficionesFutbol() { return this.aficionesFutbol; }
+    public int GetBaseAficionesInfluencers() { return this.aficionesInfluencers; }
+    public int GetBaseArcanotecnico() { return this.arcanotecnico; }
+    public int GetBaseArmero() { return this.armero; }
+    public int GetBaseArtillero() { return this.artillero; }
+    public int GetBaseArtista() { return this.artista; }
+    public int GetBaseAtletismo() { return this.atletismo; }
+    public int GetBaseBajosFondos() { return this.bajosFondos; }
+    public int GetBaseBanalidadesLavarRopa() { return this.banalidadesLavarRopa; }
+    public int GetBaseBanalidadesJuegosDeCarta() { return this.banalidadesJuegosDeCarta; }
+    public int GetBaseBurocracia() { return this.burocracia; }
+    public int GetBaseCienciasOcultas() { return this.cienciasOcultas; }
+    public int GetBaseCienciasDeLaTierra() { return this.cienciasDeLaTierra; }
+    public int GetBaseCienciasDeLaVida() { return this.cienciasDeLaVida; }
+    public int GetBaseCienciasFisicas() { return this.cienciasFisicas; }
+    public int GetBaseComunicaciones() { return this.comunicaciones; }
+    public int GetBaseConocimientoRegional() { return this.conocimientoRegional; }
+    public int GetBaseCultura() { return this.cultura; }
+    public int GetBaseCumplimientoDeLaLey() { return this.cumplimientoDeLaLey; }
+    public int GetBaseDelincuencia() { return this.delincuencia; }
+    public int GetBaseDemoliciones() { return this.demoliciones; }
+    public int GetBaseEducacion() { return this.educacion; }
+    public int GetBaseHistoria() { return this.historia; }
+    public int GetBaseIdiomaIngles() { return this.idiomaIngles; }
+    public int GetBaseInformatica() { return this.informatica; }
+    public int GetBaseIngenieria() { return this.ingenieria; }
+    public int GetBaseIngenieriaArcanotec() { return this.ingenieriaArcanotec; }
+    public int GetBaseInterpretacion() { return this.interpretacion; }
+    public int GetBaseIntimidar() { return this.intimidar; }
+    public int GetBaseInvestigacion() { return this.investigacion; }
+    public int GetBaseLabia() { return this.labia; }
+    public int GetBaseLatrocinio() { return this.latrocinio; }
+    public int GetBaseLectoescritura() { return this.lectoescritura; }
+    public int GetBaseMedicina() { return this.medicina; }
+    public int GetBaseMeditacion() { return this.meditacion; }
+    public int GetBaseNegocios() { return this.negocios; }
+    public int GetBaseObservar() { return this.observar; }
+    public int GetBasePersuasion() { return this.persuacion; }
+    public int GetBasePilotarAuto() { return this.pilotarAuto; }
+    public int GetBasePilotarMecha() { return this.pilotarMecha; }
+    public int GetBasePilotarSkate() { return this.pilotarSkate; }
+    public int GetBaseSaviorFaire() { return this.saviorFaire; }
+    public int GetBaseSeduccion() { return this.seduccion; }
+    public int GetBaseSeguridad() { return this.seguridad; }
+    public int GetBaseSigilo() { return this.sigilo; }
+    public int GetBaseSupervivencia() { return this.supervivencia; }
+    public int GetBaseTasacion() { return this.tasacion; }
+    public int GetBaseTecnicoReparar() { return this.tecnicoReparar; }
+    public int GetBaseVigilancia() { return this.vigilancia; }
+
 
 	private int pelea = 0;
 	private int armasArrojadizas = 0;
