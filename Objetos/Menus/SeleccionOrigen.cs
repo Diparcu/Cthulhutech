@@ -95,11 +95,46 @@ public partial class SeleccionOrigen : Node2D
 
     private void CambiarFondo()
     {
-        var texture = (Texture2D)GD.Load("res://Sprites/Fondos/callejon.png");
-        fondo.Texture = texture;
-        float scaleX = LONGITUD_PANTALLA / (float)texture.GetWidth();
-        float scaleY = ALTURA_PANTALLA / (float)texture.GetHeight();
-        fondo.Scale = new Vector2(scaleX, scaleY);
+        var backgrounds = new System.Collections.Generic.List<string>();
+        var validExtensions = new System.Collections.Generic.List<string> { ".png", ".jpg", ".jpeg" };
+
+        using (var dir = DirAccess.Open("res://Sprites/Inicio"))
+        {
+            if (dir != null)
+            {
+                dir.ListDirBegin();
+                string fileName = dir.GetNext();
+                while (fileName != "")
+                {
+                    if (!dir.CurrentIsDir())
+                    {
+                        string extension = System.IO.Path.GetExtension(fileName).ToLower();
+                        if (validExtensions.Contains(extension) && !fileName.EndsWith(".import"))
+                        {
+                            backgrounds.Add(fileName);
+                        }
+                    }
+                    fileName = dir.GetNext();
+                }
+            }
+            else
+            {
+                GD.PrintErr("No se pudo abrir el directorio 'res://Sprites/Inicio'.");
+            }
+        }
+
+        if (backgrounds.Count > 0)
+        {
+            var random = new Random();
+            int index = random.Next(backgrounds.Count);
+            var texture = (Texture2D)GD.Load("res://Sprites/Inicio/" + backgrounds[index]);
+            fondo.Texture = texture;
+
+            float scaleX = LONGITUD_PANTALLA / (float)texture.GetWidth();
+            float scaleY = ALTURA_PANTALLA / (float)texture.GetHeight();
+            fondo.Scale = new Vector2(scaleX, scaleY);
+        }
+
         fondo.Position = new Vector2(LONGITUD_PANTALLA / 2, ALTURA_PANTALLA / 2);
     }
 }
