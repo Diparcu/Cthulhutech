@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public partial class HojaDePersonaje : Node2D
+public partial class HojaDePersonaje : CanvasLayer
 {
     private Sistema sistema;
     private Personaje personaje;
