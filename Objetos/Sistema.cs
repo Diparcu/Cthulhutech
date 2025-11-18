@@ -157,7 +157,7 @@ public partial class Sistema : Node2D
 		switch (origen)
 		{
 			case "Niño isleño":
-				this.cargarEscena(new DiaCreditos(this));
+				this.cargarEscena(new Dia0Isla(this));
 				break;
 			case "Niño blanco":
 				this.AddChild(new Dia0Blanco());
