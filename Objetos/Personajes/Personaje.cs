@@ -136,6 +136,7 @@ public partial class Personaje
 	private int leptoescritura = 0;
 	private int medicina = 0;
 	private int saivorFeire = 0;
+	private int observar = 0;
 	private int sigilo = 0;
 	private int supervivencia = 0;
 	private int tasacion = 0;
@@ -247,6 +248,16 @@ public partial class Personaje
 	public void bajarSaivorFeire(){ this.bajarHabilidad(ref this.saivorFeire); }
     public int GetBaseSaivorFeire() { return this.saivorFeire; }
 
+	public int Observar
+	{
+		get { return this.observar + this.percepcion/2; }
+		set { this.observar = value; }
+	}
+
+	public void subirObservar(){ this.subirHabilidad(ref this.observar); }
+	public void bajarObservar(){ this.bajarHabilidad(ref this.observar); }
+    public int GetBaseObservar() { return this.observar; }
+
 	public int Sigilo
 	{
 		get { return this.sigilo + this.agilidad/2; }
@@ -294,6 +305,7 @@ public partial class Personaje
     public void AumentarLeptoescritura() { this.leptoescritura++; }
     public void AumentarMedicina() { this.medicina++; }
     public void AumentarSaivorFeire() { this.saivorFeire++; }
+    public void AumentarObservar() { this.observar++; }
     public void AumentarSigilo() { this.sigilo++; }
     public void AumentarSupervivencia() { this.supervivencia++; }
 }

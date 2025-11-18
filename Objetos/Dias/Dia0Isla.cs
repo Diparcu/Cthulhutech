@@ -24,7 +24,7 @@ public partial class EventoDia0Isla : Evento
         fondo.ZIndex = -1;
 
         this.dialogos.Add(new Dialogo("Narrador", "Lunes, Dia 0. Temprano"));
-        this.dialogos.Add(new Dialogo("Narrador", "Tu vieja casa roñosa (está en las afueras de la ciudad de castro en la isla de chiloe casa con aparatos tecnológicos pero antigua y roñosa)"));
+        this.dialogos.Add(new Dialogo("Narrador", "Tu vieja casa roñosa se encuentra en las afueras del pueblo en la Isla Mocha. A pesar de su aspecto antiguo y desgastado, en su interior se pueden encontrar radios y teles viejas, teléfonos baratos de hace un par de décadas y un microondas que ha sido reparado una y otra vez."));
         this.dialogos.Add(new Dialogo("Narrador", "los pájaros cantan en la mañana mientras escuchas a los bichos y aves cantando, perros ladrando y ovejas y cabras balando afuera"));
         this.dialogos.Add(new Dialogo("Narrador", "Escuchas a tu vieja puerta llena de posters y campanas sonar [sonido de puerta de tu casa abriéndose.mp3]"));
         this.dialogos.Add(new Dialogo("Mama", "(abre la puerta) Hijo despierta tienes que ayudarme a recoger camarones"));
@@ -70,14 +70,32 @@ public partial class EventoDia0Isla : Evento
 
         // Camino A: Ir con la madre
         List<Dialogo> dialogoA = new List<Dialogo>();
-        dialogoA.Add(new Dialogo("Narrador", "Decides levantarte. Tu madre te sonríe, aunque (Tirada Oculta de Perspicacia) podrías notar que su sonrisa no llega a sus ojos.").addAction(() => {
-            this.getSistema().cambiarFondo("res://Sprites/Fondos/FONDO_CAMARONES.jpg");
-        }));
+        if (realizarChequeoOculto("SaivorFeire", 10))
+        {
+            dialogoA.Add(new Dialogo("Narrador", "Decides levantarte. Tu madre te sonríe, aunque (Tirada Oculta de Savoir-Faire: Éxito) notas que su sonrisa no llega a sus ojos.").addAction(() => {
+                this.getSistema().cambiarFondo("res://Sprites/Fondos/FONDO_CAMARONES.jpg");
+            }));
+        }
+        else
+        {
+            dialogoA.Add(new Dialogo("Narrador", "Decides levantarte. Tu madre te sonríe. (Tirada Oculta de Savoir-Faire: Fallo)").addAction(() => {
+                this.getSistema().cambiarFondo("res://Sprites/Fondos/FONDO_CAMARONES.jpg");
+            }));
+        }
         dialogoA.Add(new Dialogo("Narrador", "Caminan juntos por la orilla. El aire está cargado de una estática extraña y el mar murmura de una forma que no reconoces."));
         dialogoA.Add(new Dialogo("Mama", "Qué raro... los camarones usualmente están más escondidos a esta hora. Hoy están por todas partes."));
-        dialogoA.Add(new Dialogo("Narrador", "Te agachas para mirar más de cerca. (Tirada Oculta de Percepción) te permite ver una escena grotesca: un grupo de camarones está devorando con avidez el cadáver de un pájaro marino."));
-        dialogoA.Add(new Dialogo("Narrador", "Tu madre desvía la mirada, carraspea y te apura."));
+        if (realizarChequeoOculto("Observar", 12))
+        {
+            dialogoA.Add(new Dialogo("Narrador", "Te agachas para mirar más de cerca. (Tirada Oculta de Observar: Éxito) te permite ver una escena grotesca: un grupo de camarones está devorando con avidez el cadáver de un pájaro marino."));
+            dialogoA.Add(new Dialogo("Narrador", "Tu madre desvía la mirada, carraspea y te apura."));
+        }
+        else
+        {
+            dialogoA.Add(new Dialogo("Narrador", "Te agachas para mirar más de cerca, pero no notas nada fuera de lo común. (Tirada Oculta de Observar: Fallo)"));
+        }
         dialogoA.Add(new Dialogo("Mama", "Bueno, a lo nuestro. Atrapa todos los que puedas."));
+        dialogoA.Add(new Dialogo("Narrador", "El agua está inusualmente oscura y fría al tacto. Los camarones, por su parte, se mueven de forma errática, casi frenética. Son más fáciles de atrapar de lo normal."));
+        dialogoA.Add(new Dialogo("Narrador", "Mientras recoges los camarones, te parece escuchar un murmullo grave y profundo que proviene del mar, pero el sonido de las olas lo ahoga antes de que puedas estar seguro."));
         dialogoA.Add(new Dialogo("Narrador", "[MINIJUEGO: Recolectar camarones]"));
         dialogoA.Add(new Dialogo("Narrador", "Luego de un rato, con los baldes llenos, regresan a casa. La extraña tensión en el aire no parece disiparse.").addAction(() => {
             this.getSistema().cargarEscena(new TardeTrabajoIslaIntelectual(this.getSistema()));
@@ -102,14 +120,28 @@ public partial class EventoDia0Isla : Evento
         // Sub-camino B1: Revisar fotos
         List<Dialogo> dialogoFotos = new List<Dialogo>();
         dialogoFotos.Add(new Dialogo("Narrador", "Te acercas a la vieja repisa de madera. Hay varias fotos tuyas y de tu madre. En una están en la playa, construyendo un castillo de arena. En otra, están junto a más gente del pueblo frente a un templo de piedra que se adentra en el mar. En otra más, están en la boca de una cueva oscura, sonriendo."));
-        dialogoFotos.Add(new Dialogo("Narrador", "(Tirada Oculta de Inteligencia) caes en cuenta de algo. En ninguna de las fotos, ni siquiera en las grupales, aparece tu padre. Nunca te habías fijado."));
+        if (realizarChequeoOculto("Investigacion", 10))
+        {
+            dialogoFotos.Add(new Dialogo("Narrador", "(Tirada Oculta de Investigación: Éxito) caes en cuenta de algo. En ninguna de las fotos, ni siquiera en las grupales, aparece tu padre. Nunca te habías fijado."));
+        }
+        else
+        {
+            dialogoFotos.Add(new Dialogo("Narrador", "Las fotos te traen buenos recuerdos, pero no notas nada inusual en ellas. (Tirada Oculta de Investigación: Fallo)"));
+        }
         dialogoFotos.Add(new Dialogo("Narrador", "El pensamiento te deja una sensación extraña. Vuelves a la cama, esperando que tu madre regrese.").addAction(() => this.getSistema().cargarEscena(new TardeIslaIntelectual(this.getSistema()))));
         opcionFotos.setSiguienteDialogo(dialogoFotos);
 
         // Sub-camino B2: Mirar afuera
         List<Dialogo> dialogoAfuera = new List<Dialogo>();
         dialogoAfuera.Add(new Dialogo("Narrador", "Miras por la ventana. Tu casa es la más alejada del resto del pueblo. Para visitar a tus amigos tendrías que caminar un buen trecho, y tu madre siempre se enoja si te alejas tanto solo."));
-        dialogoAfuera.Add(new Dialogo("Narrador", "Bajas la vista al suelo que rodea la casa. Está adornado con cientos de conchas marinas. Desde aquí no puedes apreciarlo, pero (Tirada Oculta de Arcanos) si pudieras volar, verías que forman un enorme e intrincado círculo de protección. Sientes una calma extraña al mirarlas."));
+        if (realizarChequeoOculto("CienciasOcultas", 14))
+        {
+            dialogoAfuera.Add(new Dialogo("Narrador", "Bajas la vista al suelo que rodea la casa. Está adornado con cientos de conchas marinas. Desde aquí no puedes apreciarlo, pero (Tirada Oculta de Ciencias Ocultas: Éxito) si pudieras volar, verías que forman un enorme e intrincado círculo de protección. Sientes una calma extraña al mirarlas."));
+        }
+        else
+        {
+            dialogoAfuera.Add(new Dialogo("Narrador", "Bajas la vista al suelo que rodea la casa. Está adornado con cientos de conchas marinas. Te parecen bonitas, sin más. (Tirada Oculta de Ciencias Ocultas: Fallo)"));
+        }
         dialogoAfuera.Add(new Dialogo("Narrador", "[MINIJUEGO: Recolectar conchas]"));
         dialogoAfuera.Add(new Dialogo("Narrador", "El tiempo pasa volando. Decides volver a la cama antes de que tu madre llegue.").addAction(() => this.getSistema().cargarEscena(new TardeIslaIntelectual(this.getSistema()))));
         opcionAfuera.setSiguienteDialogo(dialogoAfuera);
@@ -118,14 +150,32 @@ public partial class EventoDia0Isla : Evento
         List<Dialogo> falloB = new List<Dialogo>();
         falloB.Add(new Dialogo("Mama", "¡Nada de quedarse acostado! A mí no me engañas. ¡Levántate ahora mismo!"));
         // Si falla, se le fuerza a ir, así que se usa una versión del diálogo A.
-        falloB.Add(new Dialogo("Narrador", "Te levantas a regañadientes. Tu madre te apura, y (Tirada Oculta de Perspicacia) podrías notar que su apuro parece más nerviosismo que enojo.").addAction(() => {
-            this.getSistema().cambiarFondo("res://Sprites/Fondos/FONDO_CAMARONES.jpg");
-        }));
+        if (realizarChequeoOculto("SaivorFeire", 10))
+        {
+            falloB.Add(new Dialogo("Narrador", "Te levantas a regañadientes. Tu madre te apura, y (Tirada Oculta de Savoir-Faire: Éxito) notas que su apuro parece más nerviosismo que enojo.").addAction(() => {
+                this.getSistema().cambiarFondo("res://Sprites/Fondos/FONDO_CAMARONES.jpg");
+            }));
+        }
+        else
+        {
+            falloB.Add(new Dialogo("Narrador", "Te levantas a regañadientes. Tu madre te apura. (Tirada Oculta de Savoir-Faire: Fallo)").addAction(() => {
+                this.getSistema().cambiarFondo("res://Sprites/Fondos/FONDO_CAMARONES.jpg");
+            }));
+        }
         falloB.Add(new Dialogo("Narrador", "Caminan juntos por la orilla. El aire está cargado de una estática extraña y el mar murmura de una forma que no reconoces."));
         falloB.Add(new Dialogo("Mama", "Qué raro... los camarones usualmente están más escondidos a esta hora. Hoy están por todas partes."));
-        falloB.Add(new Dialogo("Narrador", "Te agachas para mirar más de cerca. (Tirada Oculta de Percepción) te permite ver una escena grotesca: un grupo de camarones está devorando con avidez el cadáver de un pájaro marino."));
-        falloB.Add(new Dialogo("Narrador", "Tu madre desvía la mirada, carraspea y te apura."));
+        if (realizarChequeoOculto("Observar", 12))
+        {
+            falloB.Add(new Dialogo("Narrador", "Te agachas para mirar más de cerca. (Tirada Oculta de Observar: Éxito) te permite ver una escena grotesca: un grupo de camarones está devorando con avidez el cadáver de un pájaro marino."));
+            falloB.Add(new Dialogo("Narrador", "Tu madre desvía la mirada, carraspea y te apura."));
+        }
+        else
+        {
+            falloB.Add(new Dialogo("Narrador", "Te agachas para mirar más de cerca, pero no notas nada fuera de lo común. (Tirada Oculta de Observar: Fallo)"));
+        }
         falloB.Add(new Dialogo("Mama", "Bueno, a lo nuestro. Atrapa todos los que puedas."));
+        falloB.Add(new Dialogo("Narrador", "El agua está inusualmente oscura y fría al tacto. Los camarones, por su parte, se mueven de forma errática, casi frenética. Son más fáciles de atrapar de lo normal."));
+        falloB.Add(new Dialogo("Narrador", "Mientras recoges los camarones, te parece escuchar un murmullo grave y profundo que proviene del mar, pero el sonido de las olas lo ahoga antes de que puedas estar seguro."));
         falloB.Add(new Dialogo("Narrador", "[MINIJUEGO: Recolectar camarones]"));
         falloB.Add(new Dialogo("Narrador", "Luego de un rato, con los baldes llenos, regresan a casa. La extraña tensión en el aire no parece disiparse.").addAction(() => {
             this.getSistema().cargarEscena(new TardeTrabajoIslaIntelectual(this.getSistema()));
