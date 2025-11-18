@@ -70,8 +70,7 @@ public partial class SeleccionOrigen : Node2D
 
         personajeImagen = new TextureRect();
         personajeImagen.Texture = (Texture2D)GD.Load("res://Sprites/Personajes/Shinji.png");
-        personajeImagen.Expand = true;
-        personajeImagen.StretchMode = TextureRect.StretchMode.KeepAspectCentered;
+        personajeImagen.StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered;
         personajeImagen.SetAnchorsPreset(Control.LayoutPreset.FullRect);
         imagenPanel.AddChild(personajeImagen);
 
