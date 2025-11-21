@@ -23,6 +23,7 @@ public partial class Sistema : Node2D
 		return this.audioStream;
 	}
 
+    //Comentario para hacer el push de la branch, wena los k
 	public void setEstado(SistemaEstado estado){
 		this.estado = estado;
 	}
