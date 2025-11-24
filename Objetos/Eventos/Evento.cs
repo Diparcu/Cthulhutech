@@ -7,7 +7,7 @@ public abstract partial class Evento : Node2D
 {
 	private const int MARGEN = 16;
 	private const int POSICION_ORIGEN_RECUADRO_X = (1280/3)*2;
-	private const int POSICION_ORIGEN_RECUADRO_Y = 0;
+	private const int POSICION_ORIGEN_RECUADRO_Y = 32;
 	private const int LONGITUD_HORIZONTAL_RECUADRO = (1280/3);
 	private const int LONGITUD_VERTICAL_RECUADRO = 640;
 	private const int FONT_SIZE = 24;
@@ -39,6 +39,7 @@ public abstract partial class Evento : Node2D
 			case "Enter": 
 			case "Space": 
 			case "Left Mouse Button":
+                if(GetGlobalMousePosition().Y < 32) return;
 				this.avanzarDialogo();
 			break;
 		}
@@ -51,6 +52,7 @@ public abstract partial class Evento : Node2D
 	}
 
 	public void clickearOpcion(string meta){
+        GD.Print("wea");
 		foreach(OpcionDialogo opcion in this.opciones){
 			opcion.avanzarDialogo(meta);
 			this.cajaDeTexto.Text = this.cajaDeTexto.Text.Replace(opcion.getReemplazable(), "");
@@ -70,7 +72,7 @@ public abstract partial class Evento : Node2D
 		this.cajaDeTexto.VisibleCharactersBehavior = TextServer.VisibleCharactersBehavior.CharsAfterShaping;
 		this.cajaDeTexto.VisibleCharacters = 0;
 		this.cajaDeTexto.SetSize(new Vector2( LONGITUD_HORIZONTAL_RECUADRO - MARGEN*2, LONGITUD_VERTICAL_RECUADRO/10 * 9 - MARGEN));
-		this.cajaDeTexto.Position = new Vector2(MARGEN + POSICION_ORIGEN_RECUADRO_X, POSICION_ORIGEN_RECUADRO_Y + MARGEN);
+		this.cajaDeTexto.Position = new Vector2(MARGEN + POSICION_ORIGEN_RECUADRO_X, POSICION_ORIGEN_RECUADRO_Y );
 		this.AddChild(this.cajaDeTexto);
 	}
 
