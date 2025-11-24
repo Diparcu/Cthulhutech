@@ -15,11 +15,14 @@ public partial class EventoDia0Isla : Evento
 {
     public EventoDia0Isla(Dia dia) : base(dia)
     {
-        TextureRect fondo = new TextureRect();
+        Sprite2D fondo = new Sprite2D();
         fondo.Texture = (Texture2D)GD.Load("res://Sprites/Fondos/FONDO_CASA_PLAYA.jpg");
-        fondo.SetSize(new Vector2(1280, 640));
-        fondo.Position = new Vector2(-300, 0);
-        fondo.ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize;
+        int tamano_objetivo_x = 1280;//TODO: poner esto en una funcion para aplicar a todos los fondos.
+        int tamano_objetivo_y = 640;
+        float escala_x = ((100f * tamano_objetivo_x) / fondo.Texture.GetSize().X)/100;
+        float escala_y = ((100f * tamano_objetivo_y) / fondo.Texture.GetSize().Y)/100;
+        fondo.Scale = new Vector2(escala_x, escala_y);
+        fondo.Position = new Vector2(tamano_objetivo_x/2, tamano_objetivo_y/2);
         this.AddChild(fondo);
         fondo.ZIndex = -1;
 

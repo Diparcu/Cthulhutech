@@ -52,7 +52,6 @@ public abstract partial class Evento : Node2D
 	}
 
 	public void clickearOpcion(string meta){
-        GD.Print("wea");
 		foreach(OpcionDialogo opcion in this.opciones){
 			opcion.avanzarDialogo(meta);
 			this.cajaDeTexto.Text = this.cajaDeTexto.Text.Replace(opcion.getReemplazable(), "");
