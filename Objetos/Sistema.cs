@@ -42,6 +42,10 @@ public partial class Sistema : Node2D
 		fondo.Texture = GD.Load<Texture2D>(rutaFondo);
 	}
 
+	public TextureRect getFondo(){
+		return this.fondo;
+	}
+
 	public void inicializarAudioStreamer(){
 		this.audioStream = new AudioStreamPlayer();
 		this.AddChild(this.audioStream);

@@ -8,6 +8,13 @@ public partial class Dia0Blanco : Dia
     {
         this.eventoCargado = new EventoDia0Blanco(this);
         this.AddChild(this.eventoCargado);
+        this.getSistema().getFondo().StretchMode = TextureRect.StretchModeEnum.KeepAspectCovered;
+    }
+
+    public override void _ExitTree()
+    {
+        this.getSistema().getFondo().StretchMode = TextureRect.StretchModeEnum.Scale;
+        base._ExitTree();
     }
 }
 
