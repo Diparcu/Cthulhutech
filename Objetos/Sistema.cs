@@ -220,7 +220,7 @@ public partial class Sistema : Node2D
 		this.numeroDia = 1;
 		Personaje personaje = new Personaje();
 		this.inicializarJugador(personaje);
-		this.AddChild(new Dia0Blanco());
+		this.cargarEscena(new Dia0Blanco(this));
 	}
 
 	public void iniciarJuegoBajosFondos(Node2D nodo){
@@ -233,7 +233,7 @@ public partial class Sistema : Node2D
 		this.numeroDia = 1;
 		Personaje personaje = new Personaje();
 		this.inicializarJugador(personaje);
-		this.AddChild(new Dia0BajosFondos());
+		this.cargarEscena(new Dia0NinoBajomundo(this));
 	}
 
 	public void iniciarJuegoMegan(Node2D nodo){
