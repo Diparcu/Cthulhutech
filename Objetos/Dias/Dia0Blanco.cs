@@ -16,12 +16,7 @@ public partial class EventoDia0Blanco : Evento
     public EventoDia0Blanco(Dia dia) : base(dia)
     {
         // Configuración inicial de la escena
-        TextureRect fondo = new TextureRect();
-        fondo.Texture = (Texture2D)GD.Load("res://Sprites/Fondos/Departamentos_Interior_Zona_Salina.jpg");
-        fondo.SetSize(new Vector2(1280, 640));
-        fondo.ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize;
-        this.AddChild(fondo);
-        fondo.ZIndex = -1;
+        this.getSistema().cambiarFondo("res://Sprites/Fondos/Departamentos_Interior_Zona_Salina.jpg");
 
         // Comienza la narrativa
         this.dialogos.Add(new Dialogo("Narrador", "Sábado, Día 0. Temprano."));

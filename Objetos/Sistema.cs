@@ -68,7 +68,9 @@ public partial class Sistema : Node2D
 	public override void _Ready()
 	{
 		this.fondo = new TextureRect();
-		this.fondo.ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize;
+		this.fondo.SetAnchorsPreset(Control.LayoutPreset.FullRect);
+		this.fondo.ExpandMode = TextureRect.ExpandModeEnum.Scale;
+		this.fondo.ZIndex = -1;
 		this.AddChild(this.fondo);
 
 		this.inicializarFuente();
