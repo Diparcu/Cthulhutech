@@ -160,10 +160,10 @@ public partial class Sistema : Node2D
 				this.cargarEscena(new Dia0Isla(this));
 				break;
 			case "Niño blanco":
-				this.AddChild(new Dia0Blanco());
+				this.cargarEscena(new Dia0Blanco(this));
 				break;
 			case "Niño bajos fondos":
-				this.AddChild(new Dia0BajosFondos());
+				this.cargarEscena(new Dia0NinoBajomundo(this));
 				break;
 		}
 	}
