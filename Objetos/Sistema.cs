@@ -69,7 +69,6 @@ public partial class Sistema : Node2D
 	{
 		this.fondo = new TextureRect();
 		this.fondo.SetAnchorsPreset(Control.LayoutPreset.FullRect);
-		this.fondo.Expand = true;
 		this.fondo.StretchMode = TextureRect.StretchModeEnum.Scale;
 		this.fondo.ZIndex = -1;
 		this.AddChild(this.fondo);
