@@ -122,8 +122,14 @@ public partial class HojaDePersonaje : CanvasLayer
         // Botón de cerrar
         var cerrarBtn = new Button { Text = "Cerrar", Position = new Vector2(980, 500) };
         cerrarBtn.Pressed += () => this.QueueFree();
+        cerrarBtn.Pressed += this.cambiarEstadoCerrarHoja;
         mainContainer.AddChild(cerrarBtn);
     }
+
+    private void cambiarEstadoCerrarHoja(){
+        this.sistema.setEstado(new SistemaEstadoJugando(this.sistema));
+    }
+
 
     private void AddStatEntry(VBoxContainer container, string name, int value, bool isAttribute)
     {

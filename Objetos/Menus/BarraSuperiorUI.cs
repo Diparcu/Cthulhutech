@@ -65,9 +65,14 @@ public partial class BarraSuperiorUI : CanvasLayer
         // Botón Hoja de Personaje
         hojaBtn = new Button { Text = "Hoja" };
         hojaBtn.Pressed += () => sistema.mostrarHojaDePersonaje();
+        hojaBtn.Pressed += this.cambiarEstadoMostrarHoja;
         hBox.AddChild(hojaBtn);
 
         ActualizarUI();
+    }
+
+    private void cambiarEstadoMostrarHoja(){
+        this.sistema.setEstado(new SistemaEstadoEnHojaDePersonaje(this.sistema));
     }
 
     public void ActualizarUI()

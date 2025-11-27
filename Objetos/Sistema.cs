@@ -19,6 +19,18 @@ public partial class Sistema : Node2D
 	public static readonly HorizontalAlignment FUENTE_ORIENTACION = 0;
 	public static readonly int FUENTE_ANCHURA = -1;
 	 
+	public void dibujarDiaCargado(){
+		this.diaCargado.dibujar(this);
+	}
+
+	public void inputDiaCargado(InputEvent @event){
+		this.diaCargado.control(@event);
+	}
+
+	public void comportamientoDiaCargado(double delta){
+		this.diaCargado.comportamiento(delta);
+	}
+
 	public AudioStreamPlayer getAudioStreamer(){
 		return this.audioStream;
 	}
@@ -78,6 +90,8 @@ public partial class Sistema : Node2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		this.estado = new SistemaEstadoMenuPrincipal(this);
+
 		this.fondo = new TextureRect();
 		this.fondo.SetAnchorsPreset(Control.LayoutPreset.FullRect);
 		this.fondo.StretchMode = TextureRect.StretchModeEnum.Scale;
@@ -127,6 +141,7 @@ public partial class Sistema : Node2D
 
 	public void iniciarJuego(Node2D nodo, string origen, string arquetipo){
 		nodo.QueueFree();
+		this.estado = new SistemaEstadoJugando(this);
 		if (this.barraSuperior == null)
 		{
 			this.barraSuperior = new BarraSuperiorUI(this);
@@ -310,21 +325,20 @@ public partial class Sistema : Node2D
 		this.AddChild(new PantallaDeInicio(fuente, this));
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
 		this.QueueRedraw();
-		if(this.diaCargado != null) this.diaCargado.comportamiento(delta);
+		this.estado.comportamiento(this, delta);
 	}
 
 	public override void _Input(InputEvent @event)
 	{
 		if (@event is InputEventKey keyEvent && keyEvent.IsReleased()) return;
 		if (@event is InputEventMouseButton mouseEvent && mouseEvent.IsReleased()) return;
-		if(this.diaCargado != null) this.diaCargado.control(@event);
+		this.estado.input(this, @event);
 	}
 
 	public override void _Draw(){
-		if(this.diaCargado != null) this.diaCargado.dibujar(this);
+		this.estado.dibujar(this);
 	}
 }
