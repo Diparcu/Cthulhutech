@@ -15,20 +15,7 @@ public partial class EventoDia0Isla : Evento
 {
     public EventoDia0Isla(Dia dia) : base(dia)
     {
-<<<<<<< HEAD
-        Sprite2D fondo = new Sprite2D();
-        fondo.Texture = (Texture2D)GD.Load("res://Sprites/Fondos/FONDO_CASA_PLAYA.jpg");
-        int tamano_objetivo_x = 1280;//TODO: poner esto en una funcion para aplicar a todos los fondos.
-        int tamano_objetivo_y = 640;
-        float escala_x = ((100f * tamano_objetivo_x) / fondo.Texture.GetSize().X)/100;
-        float escala_y = ((100f * tamano_objetivo_y) / fondo.Texture.GetSize().Y)/100;
-        fondo.Scale = new Vector2(escala_x, escala_y);
-        fondo.Position = new Vector2(tamano_objetivo_x/2, tamano_objetivo_y/2);
-        this.AddChild(fondo);
-        fondo.ZIndex = -1;
-=======
         this.getSistema().cambiarFondo("res://Sprites/Fondos/FONDO_CASA_PLAYA.jpg");
->>>>>>> dfa8cd09b3fecd5aa294975c0ddd14ebb99169c1
 
         this.dialogos.Add(new Dialogo("Narrador", "Lunes, Dia 0. Temprano"));
         this.dialogos.Add(new Dialogo("Narrador", "Tu vieja casa roñosa se encuentra en las afueras del pueblo en la Isla Mocha. De un aspecto antiguo y desgastado, en su interior se pueden encontrar radios y teles viejas, teléfonos baratos de hace un par de décadas y un microondas que ha sido reparado una y otra vez."));
