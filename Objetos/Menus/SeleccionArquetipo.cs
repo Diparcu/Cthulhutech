@@ -18,8 +18,8 @@ public partial class SeleccionArquetipo : Node2D
     private Dictionary<string, string> arquetiposDescripciones = new Dictionary<string, string>
     {
         { "Intelectual", "Te enfocas en el conocimiento y la astucia." },
-        { "Manual", "Confías en tu fuerza y resistencia para superar los desafíos." },
-        { "Emocional", "Tu poder reside en tu conexión con los demás y tu intuición." }
+        { "Bruto", "Confías en tu fuerza y resistencia para superar los desafíos." },
+        { "Social", "Tu poder reside en tu conexión con los demás y tu intuición." }
     };
 
     public SeleccionArquetipo(Sistema sistema, string origen)

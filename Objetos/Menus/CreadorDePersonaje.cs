@@ -21,7 +21,7 @@ public partial class CreadorDePersonaje : Node2D
     {
         { "Intelectual", "Te enfocas en el conocimiento y la astucia." },
         { "Bruto", "Confías en tu fuerza y resistencia para superar los desafíos." },
-        { "Emocional", "Tu poder reside en tu conexión con los demás y tu intuición." }
+        { "Social", "Tu poder reside en tu conexión con los demás y tu intuición." }
     };
 
     public CreadorDePersonaje(Sistema sistema)

@@ -56,6 +56,17 @@ public partial class Sistema : Node2D
 		fondo.Texture = GD.Load<Texture2D>(rutaFondo);
 	}
 
+	public void cambiarFondoEscalado(string rutaFondo, TextureRect.StretchModeEnum stretchMode)
+	{
+		fondo.Texture = GD.Load<Texture2D>(rutaFondo);
+		fondo.StretchMode = stretchMode;
+	}
+
+	public void restaurarModoFondo()
+	{
+		fondo.StretchMode = TextureRect.StretchModeEnum.Scale;
+	}
+
 	public void inicializarAudioStreamer(){
 		this.audioStream = new AudioStreamPlayer();
 		this.AddChild(this.audioStream);
@@ -137,7 +148,9 @@ public partial class Sistema : Node2D
 		this.estado = new SistemaEstadoMenuPrincipal(this);
 
 		this.fondo = new TextureRect();
-		this.fondo.ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize;
+		this.fondo.SetAnchorsPreset(Control.LayoutPreset.FullRect);
+		this.fondo.StretchMode = TextureRect.StretchModeEnum.Scale;
+		this.fondo.ZIndex = -1;
 		this.AddChild(this.fondo);
 
 		this.inicializarFuente();
@@ -213,10 +226,10 @@ public partial class Sistema : Node2D
 			case "Intelectual":
 				personaje.Inteligencia += 5;
 				break;
-			case "Manual":
+			case "Bruto":
 				personaje.Fuerza += 5;
 				break;
-			case "Emocional":
+			case "Social":
 				personaje.Presencia += 5;
 				break;
 		}
@@ -230,10 +243,10 @@ public partial class Sistema : Node2D
 				this.cargarEscena(new Dia0Isla(this));
 				break;
 			case "Niño blanco":
-				this.AddChild(new Dia0Blanco());
+				this.cargarEscena(new Dia0Blanco(this));
 				break;
 			case "Niño bajos fondos":
-				this.AddChild(new Dia0BajosFondos());
+				this.cargarEscena(new Dia0BajosFondosTemprano(this));
 				break;
 		}
 	}
@@ -290,7 +303,7 @@ public partial class Sistema : Node2D
 		this.numeroDia = 1;
 		Personaje personaje = new Personaje();
 		this.inicializarJugador(personaje);
-		this.AddChild(new Dia0Blanco());
+		this.cargarEscena(new Dia0Blanco(this));
 	}
 
 	public void iniciarJuegoBajosFondos(Node2D nodo){
@@ -303,7 +316,7 @@ public partial class Sistema : Node2D
 		this.numeroDia = 1;
 		Personaje personaje = new Personaje();
 		this.inicializarJugador(personaje);
-		this.AddChild(new Dia0BajosFondos());
+		this.cargarEscena(new Dia0BajosFondosTemprano(this));
 	}
 
 	public void iniciarJuegoMegan(Node2D nodo){
