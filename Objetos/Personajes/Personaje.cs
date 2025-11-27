@@ -316,7 +316,7 @@ public partial class Personaje
     public void subirInvestigacion() { subirHabilidad(ref investigacion); }
     public void bajarInvestigacion() { bajarHabilidad(ref investigacion); }
 
-    public int Labia { get => labia; set => labia = value; }
+    public int Labia { get => labia + this.presencia; set => labia = value; }
     public void subirLabia() { subirHabilidad(ref labia); }
     public void bajarLabia() { bajarHabilidad(ref labia); }
 
@@ -449,7 +449,7 @@ public partial class Personaje
 	private int esquivar = 0;
 
 	public int ModificadorTiradasDiarias { get; set; } = 0;
-    public int XP { get; set; } = 70;
+    public int XP { get; set; } = 7000;
 
     // --- Aumentar Methods ---
     public void AumentarAficionesFutbol() { this.aficionesFutbol++; }
