@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class Sistema : Node2D
 {
@@ -9,6 +10,7 @@ public partial class Sistema : Node2D
 	private Evento eventoCargado;
 	private Dia diaCargado;
 	private BarraSuperiorUI barraSuperior;
+	public List<Button> botonesPausa = new List<Button>();
 	private int numeroDia = 1;
 
 	private Personaje jugador;
@@ -76,9 +78,62 @@ public partial class Sistema : Node2D
 		return this.diaCargado;
 	}
 
+	private void crearBotonesDeMenuDePausa(){
+		Button botonGuardadoRapido = new Button();
+		Button botonCargadoRapido = new Button();
+		Button botonGuardado = new Button();
+		Button botonCargar = new Button();
+		Button botonOpciones = new Button();
+		Button botonMenuPrincipal = new Button();
+		Button botonSalida = new Button();
+
+		botonGuardadoRapido.Text = "Guardado rapido";
+		botonCargadoRapido.Text = "Cargado rapido";
+		botonGuardado.Text = "Guardar partida";
+		botonCargar.Text = "Cargar partida";
+		botonOpciones.Text = "Opciones";
+		botonMenuPrincipal.Text = "Menu principal";
+		botonSalida.Text = "Cerrar juego";
+
+		botonMenuPrincipal.Pressed += () => this.GetTree().ReloadCurrentScene();
+		botonSalida.Pressed += () => this.cerrarLaWea();
+
+		this.botonesPausa.Add(botonGuardadoRapido);
+		this.botonesPausa.Add(botonCargadoRapido);
+		this.botonesPausa.Add(botonGuardado);
+		this.botonesPausa.Add(botonCargar);
+		this.botonesPausa.Add(botonOpciones);
+		this.botonesPausa.Add(botonMenuPrincipal);
+		this.botonesPausa.Add(botonSalida);
+
+		this.ordenarBotonesDeMenuDePausa();
+	}
+
+	private void cerrarLaWea()
+	{
+		this.GetTree().Quit();
+	}
+
+	private void ordenarBotonesDeMenuDePausa(){
+		int index = 0;
+		foreach(Button buton in this.botonesPausa){
+			this.AddChild(buton);
+			buton.Visible = false;
+			buton.Position = new Vector2(16, 48*(index + 1));
+			index++;
+		}
+	}
+
+	public void setVisibilidadBotonesDePausa(bool siONo){
+		foreach(Button buton in this.botonesPausa){
+			buton.Visible = siONo;
+		}
+	}
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		this.crearBotonesDeMenuDePausa();
 		this.estado = new SistemaEstadoMenuPrincipal(this);
 
 		this.fondo = new TextureRect();
@@ -296,6 +351,8 @@ public partial class Sistema : Node2D
 	}
 
 	public void mostrarHojaDePersonaje(){
+		if(!this.estado.hojaDePersonajeAbrible) return;
+		this.setEstado(new SistemaEstadoEnHojaDePersonaje(this));
 		var hoja = new HojaDePersonaje(this);
 		hoja.TreeExiting += () => {
 			if (this.barraSuperior != null)

@@ -4,6 +4,7 @@ using System;
 public class SistemaEstado 
 {
     protected Sistema sistema;
+    public bool hojaDePersonajeAbrible = false;
 
     public SistemaEstado(Sistema sistema){
         this.sistema = sistema;

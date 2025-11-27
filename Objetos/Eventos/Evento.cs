@@ -39,7 +39,7 @@ public abstract partial class Evento : Node2D
 			case "Enter": 
 			case "Space": 
 			case "Left Mouse Button":
-                if(GetGlobalMousePosition().Y < 32) return;
+				if(GetGlobalMousePosition().Y < 32) return;
 				this.avanzarDialogo();
 			break;
 		}
@@ -48,7 +48,7 @@ public abstract partial class Evento : Node2D
 
 	public void dibujar(Node2D sistema){
 		//this.dibujarNombreDePersonaje(sistema);
-		this.dibujarCajaDeTexto(sistema);
+		//this.dibujarCajaDeTexto(sistema);
 	}
 
 	public void clickearOpcion(string meta){
@@ -111,13 +111,13 @@ public abstract partial class Evento : Node2D
 		this.cajaDeTexto.VisibleCharacters = (int)this.caracteres;
 	}
 
-	    public Personaje getJugador(){
+		public Personaje getJugador(){
 			return this.dia.getJugador();
 		}
 	
-	    public Sistema getSistema(){
-	        return this.dia.getSistema();
-	    }
+		public Sistema getSistema(){
+			return this.dia.getSistema();
+		}
 		public AudioStreamPlayer getAudioStreamer(){
 		return this.dia.getAudioStreamer();
 	}
@@ -250,81 +250,85 @@ public abstract partial class Evento : Node2D
 		this.dialogos[index].cambiarMusica(this.getAudioStreamer());
 	}
 
-    public ResultadoTirada realizarTiradaCombinacion(string habilidad, string atributo, int dificultad)
-    {
-        Personaje jugador = this.getJugador();
-        ResultadoTirada resultado = new ResultadoTirada();
-        var rand = new Random();
+	public ResultadoTirada realizarTiradaCombinacion(string habilidad, string atributo, int dificultad)
+	{
+		Personaje jugador = this.getJugador();
+		ResultadoTirada resultado = new ResultadoTirada();
+		var rand = new Random();
 
-        int valorHabilidad = (int)jugador.GetType().GetProperty(habilidad).GetValue(jugador);
-        int valorAtributo = (int)jugador.GetType().GetProperty(atributo).GetValue(jugador);
+		int valorHabilidad = (int)jugador.GetType().GetProperty(habilidad).GetValue(jugador);
+		int valorAtributo = (int)jugador.GetType().GetProperty(atributo).GetValue(jugador);
 
-        int numeroDados = (int)Math.Ceiling(valorAtributo / 2.0) + valorHabilidad;
+		int numeroDados = (int)Math.Ceiling(valorAtributo / 2.0) + valorHabilidad;
 
-        for (int i = 0; i < numeroDados; i++)
-        {
-            resultado.DadosLanzados.Add(rand.Next(1, 11));
-        }
-        resultado.DadosLanzados.Sort();
+		for (int i = 0; i < numeroDados; i++)
+		{
+			resultado.DadosLanzados.Add(rand.Next(1, 11));
+		}
+		resultado.DadosLanzados.Sort();
 
-        // --- Lógica de Combinaciones ---
-        List<ResultadoTirada> combinacionesEncontradas = new List<ResultadoTirada>();
+		// --- Lógica de Combinaciones ---
+		List<ResultadoTirada> combinacionesEncontradas = new List<ResultadoTirada>();
 
-        // 1. Buscar Pares, Tríos, Cuartetos
-        var grupos = resultado.DadosLanzados.GroupBy(d => d).Where(g => g.Count() >= 2).ToList();
-        foreach (var grupo in grupos)
-        {
-            ResultadoTirada comb = new ResultadoTirada();
-            if (grupo.Count() >= 4) { comb.CombinacionNombre = "Cuarteto"; comb.DadosEnCombinacion = grupo.Take(4).ToList(); }
-            else if (grupo.Count() >= 3) { comb.CombinacionNombre = "Trío"; comb.DadosEnCombinacion = grupo.Take(3).ToList(); }
-            else if (grupo.Count() >= 2) { comb.CombinacionNombre = "Par"; comb.DadosEnCombinacion = grupo.Take(2).ToList(); }
-            comb.SumaCombinacion = comb.DadosEnCombinacion.Sum();
-            combinacionesEncontradas.Add(comb);
-        }
+		// 1. Buscar Pares, Tríos, Cuartetos
+		var grupos = resultado.DadosLanzados.GroupBy(d => d).Where(g => g.Count() >= 2).ToList();
+		foreach (var grupo in grupos)
+		{
+			ResultadoTirada comb = new ResultadoTirada();
+			if (grupo.Count() >= 4) { comb.CombinacionNombre = "Cuarteto"; comb.DadosEnCombinacion = grupo.Take(4).ToList(); }
+			else if (grupo.Count() >= 3) { comb.CombinacionNombre = "Trío"; comb.DadosEnCombinacion = grupo.Take(3).ToList(); }
+			else if (grupo.Count() >= 2) { comb.CombinacionNombre = "Par"; comb.DadosEnCombinacion = grupo.Take(2).ToList(); }
+			comb.SumaCombinacion = comb.DadosEnCombinacion.Sum();
+			combinacionesEncontradas.Add(comb);
+		}
 
-        // 2. Buscar Escaleras
-        List<int> unicos = resultado.DadosLanzados.Distinct().ToList();
-        for (int i = 0; i < unicos.Count; i++)
-        {
-            List<int> escaleraActual = new List<int> { unicos[i] };
-            for (int j = i + 1; j < unicos.Count; j++)
-            {
-                if (unicos[j] == escaleraActual.Last() + 1)
-                {
-                    escaleraActual.Add(unicos[j]);
-                }
-                else
-                {
-                    break;
-                }
-            }
-            if (escaleraActual.Count >= 3)
-            {
-                ResultadoTirada comb = new ResultadoTirada();
-                comb.CombinacionNombre = "Escalera";
-                comb.DadosEnCombinacion = escaleraActual;
-                comb.SumaCombinacion = comb.DadosEnCombinacion.Sum();
-                combinacionesEncontradas.Add(comb);
-            }
-        }
+		// 2. Buscar Escaleras
+		List<int> unicos = resultado.DadosLanzados.Distinct().ToList();
+		for (int i = 0; i < unicos.Count; i++)
+		{
+			List<int> escaleraActual = new List<int> { unicos[i] };
+			for (int j = i + 1; j < unicos.Count; j++)
+			{
+				if (unicos[j] == escaleraActual.Last() + 1)
+				{
+					escaleraActual.Add(unicos[j]);
+				}
+				else
+				{
+					break;
+				}
+			}
+			if (escaleraActual.Count >= 3)
+			{
+				ResultadoTirada comb = new ResultadoTirada();
+				comb.CombinacionNombre = "Escalera";
+				comb.DadosEnCombinacion = escaleraActual;
+				comb.SumaCombinacion = comb.DadosEnCombinacion.Sum();
+				combinacionesEncontradas.Add(comb);
+			}
+		}
 
-        // --- Calcular Resultado ---
-        if (combinacionesEncontradas.Count > 0)
-        {
-            ResultadoTirada mejorCombinacion = combinacionesEncontradas.OrderByDescending(c => c.SumaCombinacion).First();
-            resultado.CombinacionNombre = mejorCombinacion.CombinacionNombre;
-            resultado.SumaCombinacion = mejorCombinacion.SumaCombinacion;
-            resultado.DadosEnCombinacion = mejorCombinacion.DadosEnCombinacion;
-        }
-        else
-        {
-            resultado.CombinacionNombre = "Dado más alto";
-            resultado.SumaCombinacion = resultado.DadosLanzados.Count > 0 ? resultado.DadosLanzados.Max() : 0;
-            if (resultado.SumaCombinacion > 0)
-                resultado.DadosEnCombinacion.Add(resultado.SumaCombinacion);
-        }
+		// --- Calcular Resultado ---
+		if (combinacionesEncontradas.Count > 0)
+		{
+			ResultadoTirada mejorCombinacion = combinacionesEncontradas.OrderByDescending(c => c.SumaCombinacion).First();
+			resultado.CombinacionNombre = mejorCombinacion.CombinacionNombre;
+			resultado.SumaCombinacion = mejorCombinacion.SumaCombinacion;
+			resultado.DadosEnCombinacion = mejorCombinacion.DadosEnCombinacion;
+		}
+		else
+		{
+			resultado.CombinacionNombre = "Dado más alto";
+			resultado.SumaCombinacion = resultado.DadosLanzados.Count > 0 ? resultado.DadosLanzados.Max() : 0;
+			if (resultado.SumaCombinacion > 0)
+				resultado.DadosEnCombinacion.Add(resultado.SumaCombinacion);
+		}
 
-        resultado.Exito = resultado.SumaCombinacion >= dificultad;
-        return resultado;
-    }
+		resultado.Exito = resultado.SumaCombinacion >= dificultad;
+		return resultado;
+	}
+	public override void _Draw()
+	{
+		this.dibujarCajaDeTexto(this);
+	}
 }
