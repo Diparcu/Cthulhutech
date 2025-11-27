@@ -171,10 +171,10 @@ public partial class Sistema : Node2D
 			case "Intelectual":
 				personaje.Inteligencia += 5;
 				break;
-			case "Manual":
+			case "Bruto":
 				personaje.Fuerza += 5;
 				break;
-			case "Emocional":
+			case "Social":
 				personaje.Presencia += 5;
 				break;
 		}
