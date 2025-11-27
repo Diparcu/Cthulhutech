@@ -9,6 +9,12 @@ public partial class Dia0Blanco : Dia
         this.eventoCargado = new EventoDia0Blanco(this);
         this.AddChild(this.eventoCargado);
     }
+
+    public override void _ExitTree()
+    {
+        base._ExitTree();
+        getSistema().restaurarModoFondo();
+    }
 }
 
 public partial class EventoDia0Blanco : Evento
@@ -16,7 +22,7 @@ public partial class EventoDia0Blanco : Evento
     public EventoDia0Blanco(Dia dia) : base(dia)
     {
         // Configuración inicial de la escena
-        this.getSistema().cambiarFondo("res://Sprites/Fondos/Departamentos_Interior_Zona_Salina.jpg");
+        this.getSistema().cambiarFondoEscalado("res://Sprites/Fondos/Departamentos_Interior_Zona_Salina.jpg", TextureRect.StretchModeEnum.KeepAspectCovered);
 
         // Comienza la narrativa
         this.dialogos.Add(new Dialogo("Narrador", "Sábado, Día 0. Temprano."));

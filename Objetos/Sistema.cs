@@ -42,6 +42,17 @@ public partial class Sistema : Node2D
 		fondo.Texture = GD.Load<Texture2D>(rutaFondo);
 	}
 
+	public void cambiarFondoEscalado(string rutaFondo, TextureRect.StretchModeEnum stretchMode)
+	{
+		fondo.Texture = GD.Load<Texture2D>(rutaFondo);
+		fondo.StretchMode = stretchMode;
+	}
+
+	public void restaurarModoFondo()
+	{
+		fondo.StretchMode = TextureRect.StretchModeEnum.Scale;
+	}
+
 	public void inicializarAudioStreamer(){
 		this.audioStream = new AudioStreamPlayer();
 		this.AddChild(this.audioStream);
