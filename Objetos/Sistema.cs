@@ -191,7 +191,7 @@ public partial class Sistema : Node2D
 				this.cargarEscena(new Dia0Blanco(this));
 				break;
 			case "Niño bajos fondos":
-				this.cargarEscena(new Dia0NinoBajomundo(this));
+				this.cargarEscena(new Dia0BajosFondosTemprano(this));
 				break;
 		}
 	}
@@ -261,7 +261,7 @@ public partial class Sistema : Node2D
 		this.numeroDia = 1;
 		Personaje personaje = new Personaje();
 		this.inicializarJugador(personaje);
-		this.cargarEscena(new Dia0NinoBajomundo(this));
+		this.cargarEscena(new Dia0BajosFondosTemprano(this));
 	}
 
 	public void iniciarJuegoMegan(Node2D nodo){
