@@ -27,7 +27,7 @@ public partial class OpcionDialogo: Node2D
 
 	public OpcionDialogo(String descripcion){
 		this.descripcion = descripcion;
-		this.crearBoton();
+		//this.crearBoton();
 	}
 
 	public OpcionDialogo(String descripcion,
@@ -38,7 +38,7 @@ public partial class OpcionDialogo: Node2D
 		this.habilidad = habilidad;
 		this.tipo = ACTIVO;
 		this.descripcion = "[" + habilidad + " " + dificultad +"] " +descripcion;
-		this.crearBoton();
+		//this.crearBoton();
 	}
 
 	public void addOpcion(RichTextLabel label, int index){

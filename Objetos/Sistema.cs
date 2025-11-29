@@ -7,6 +7,7 @@ public partial class Sistema : Node2D
 	public static Font fuente;
 
 	private SistemaEstado estado;
+	private Camera2D camara;
 	private Evento eventoCargado;
 	private Dia diaCargado;
 	private BarraSuperiorUI barraSuperior;
@@ -33,6 +34,14 @@ public partial class Sistema : Node2D
 		this.diaCargado.comportamiento(delta);
 	}
 
+	public Vector2 getCameraPosition(){
+		return this.camara.GlobalPosition;
+	}
+
+	public void moverCamara(Vector2 vector, double delta){
+		this.camara.Position = this.camara.Position.MoveToward(vector + new Vector2((1280/6), 0), 2000 * (float)delta);
+	}
+
 	public AudioStreamPlayer getAudioStreamer(){
 		return this.audioStream;
 	}
@@ -54,6 +63,14 @@ public partial class Sistema : Node2D
 
 	public void cambiarFondo(string rutaFondo){
 		fondo.Texture = GD.Load<Texture2D>(rutaFondo);
+	}
+
+	public void escalarFondo(Vector2 tamanoObjetivo)
+	{
+		Vector2 escala = new Vector2();
+		escala.X = ((100f * tamanoObjetivo.X) / fondo.Texture.GetSize().X)/100;
+		escala.Y = ((100f * tamanoObjetivo.Y) / fondo.Texture.GetSize().Y)/100;
+		this.fondo.Scale = escala;
 	}
 
 	public void cambiarFondoEscalado(string rutaFondo, TextureRect.StretchModeEnum stretchMode)
@@ -145,6 +162,7 @@ public partial class Sistema : Node2D
 	public override void _Ready()
 	{
 		this.crearBotonesDeMenuDePausa();
+		this.camara = this.GetNode<Camera2D>("Camara") as Camera2D;
 		this.estado = new SistemaEstadoMenuPrincipal(this);
 
 		this.fondo = new TextureRect();

@@ -26,3 +26,7 @@ window/stretch/mode="canvas_items"
 [dotnet]
 
 project/assembly_name="ArcologiaBioBioCthulhuverso"
+
+[rendering]
+
+environment/defaults/default_clear_color=Color(0.803922, 0.937255, 0.858824, 1)

@@ -21,6 +21,10 @@ public abstract partial class Evento : Node2D
 	private List<OpcionDialogo> opciones = new List<OpcionDialogo>();
 	protected Dia dia;
 
+	protected CanvasLayer canvas = new CanvasLayer();
+	protected NodoMapa hubicacionHovereada;
+	protected List<NodoMapa> hubicaciones = new List<NodoMapa>();
+
 	private int index = 0;
 	private float caracteres = 0;
 
@@ -32,6 +36,7 @@ public abstract partial class Evento : Node2D
 	public void comportamiento(double delta){
 		this.avanzarCaracteres();
 		this.moverSprites();
+		this.moverCamaraAHubicacionHovereada(delta);
 	}
 
 	public void control(InputEvent @event){
@@ -51,6 +56,37 @@ public abstract partial class Evento : Node2D
 		//this.dibujarCajaDeTexto(sistema);
 	}
 
+	public void moverCamaraAHubicacionHovereada(double delta){
+		if(this.hubicacionHovereada == null) return;
+		this.getSistema().moverCamara(this.hubicacionHovereada.Position, delta);
+		this.QueueRedraw();
+	}
+
+	public void inicializarHubicaciones(){
+		this.hubicaciones.Add(new NodoMapa("Mapa 1")
+				.setPosition(new Vector2(64, 600)));
+		this.hubicaciones.Add(new NodoMapa("Mapa 2")
+				.setPosition(new Vector2(640, 200)));
+		this.hubicaciones.Add(new NodoMapa("Mapa 3")
+				.setPosition(new Vector2(200, 500)));
+		this.hubicaciones.Add(new NodoMapa("Mapa 4")
+				.setPosition(new Vector2(300, 300)));
+		this.hubicaciones.Add(new NodoMapa("Mapa 5")
+				.setPosition(new Vector2(1000, 500)));
+
+		foreach(NodoMapa nodo in this.hubicaciones){
+			this.AddChild(nodo);
+		}
+	}
+
+	public void hoverOpcion(string meta){
+		NodoMapa tempNodo = this.hubicaciones.FirstOrDefault(p => p.nombre == meta);
+		if(tempNodo == null) return;
+		if(this.hubicacionHovereada != null) this.hubicacionHovereada.setSeleecionado(false);
+		this.hubicacionHovereada = tempNodo;
+		tempNodo.setSeleecionado(true);
+	}
+
 	public void clickearOpcion(string meta){
 		foreach(OpcionDialogo opcion in this.opciones){
 			opcion.avanzarDialogo(meta);
@@ -68,11 +104,15 @@ public abstract partial class Evento : Node2D
 		this.cajaDeTexto.AutowrapMode = TextServer.AutowrapMode.Word;
 		this.cajaDeTexto.Visible = true;
 		this.cajaDeTexto.Connect("meta_clicked", new Callable(this, nameof(this.clickearOpcion)));
+		this.cajaDeTexto.Connect("meta_hover_started", new Callable(this, nameof(this.hoverOpcion)));
 		this.cajaDeTexto.VisibleCharactersBehavior = TextServer.VisibleCharactersBehavior.CharsAfterShaping;
 		this.cajaDeTexto.VisibleCharacters = 0;
 		this.cajaDeTexto.SetSize(new Vector2( LONGITUD_HORIZONTAL_RECUADRO - MARGEN*2, LONGITUD_VERTICAL_RECUADRO/10 * 9 - MARGEN));
 		this.cajaDeTexto.Position = new Vector2(MARGEN + POSICION_ORIGEN_RECUADRO_X, POSICION_ORIGEN_RECUADRO_Y );
-		this.AddChild(this.cajaDeTexto);
+		this.canvas = new CanvasLayer();
+		this.canvas.Visible = true;
+		this.AddChild(this.canvas);
+		this.canvas.AddChild(this.cajaDeTexto);
 	}
 
 	private Color getColorForPersonaje(string personaje){
@@ -186,6 +226,14 @@ public abstract partial class Evento : Node2D
 		this.cargarTexto();
 	}
 
+	public void cambiarFondo(String ruta){
+		this.getSistema().cambiarFondo(ruta);
+	}
+
+	public void escalarFondo(Vector2 vector){
+		this.getSistema().escalarFondo(vector);
+	}
+
 	public void reemplazarDialogoPostCheckeo(List<Dialogo> dialogos){
 		this.cajaDeTexto.VisibleCharacters += dialogos[0].getDialogo().Length;
 		this.reemplazarDialogo(dialogos);
@@ -200,10 +248,14 @@ public abstract partial class Evento : Node2D
 		this.cargarTexto();
 	}
 
+	private Vector2 getCamaraGlobalPosition(){
+		return this.getSistema().getCameraPosition();
+	}
+
 	private void dibujarCajaDeTexto(Node2D sistema){
-		sistema.DrawRect(
-				new Rect2(POSICION_ORIGEN_RECUADRO_X,
-					POSICION_ORIGEN_RECUADRO_Y,
+		this.DrawRect(
+				new Rect2(this.getCamaraGlobalPosition().X + POSICION_ORIGEN_RECUADRO_X - 640,
+					this.getCamaraGlobalPosition().Y + POSICION_ORIGEN_RECUADRO_Y - 320,
 					LONGITUD_HORIZONTAL_RECUADRO,
 					LONGITUD_VERTICAL_RECUADRO),
 				Colors.Black
@@ -327,8 +379,10 @@ public abstract partial class Evento : Node2D
 		resultado.Exito = resultado.SumaCombinacion >= dificultad;
 		return resultado;
 	}
+
 	public override void _Draw()
 	{
 		this.dibujarCajaDeTexto(this);
 	}
 }
+
