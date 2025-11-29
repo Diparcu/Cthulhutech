@@ -397,6 +397,7 @@ public partial class Sistema : Node2D
 	public void GameOver(){
 		if(this.diaCargado != null) this.diaCargado.QueueFree();
 		this.diaCargado = null;
+		this.setEstado(new SistemaEstadoMenuPrincipal(this));
 		this.AddChild(new PantallaDeInicio(fuente, this));
 	}
 
