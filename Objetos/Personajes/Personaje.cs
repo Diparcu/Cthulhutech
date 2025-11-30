@@ -12,6 +12,27 @@ public partial class Personaje
 	private int vitalidad = 0;// 5 + media entre fuerza y tenacidad
 
     public int Dinero { get; set; } = 0;
+    public System.Collections.Generic.List<string> Inventario { get; set; } = new System.Collections.Generic.List<string>();
+
+    public void AgregarItem(string item)
+    {
+        Inventario.Add(item);
+    }
+
+    public void RemoverItem(string item)
+    {
+        Inventario.Remove(item);
+    }
+
+    public bool TieneItem(string item)
+    {
+        return Inventario.Contains(item);
+    }
+
+    public void VaciarInventario()
+    {
+        Inventario.Clear();
+    }
 
     public void resetearStats()
     {
