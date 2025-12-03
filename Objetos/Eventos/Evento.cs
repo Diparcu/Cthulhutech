@@ -26,6 +26,8 @@ public abstract partial class Evento : Node2D
 	protected List<NodoMapa> hubicaciones = new List<NodoMapa>();
 
 	private int index = 0;
+	private int caracteresDeOpciones = 0;
+	private int caracteresAntesDeLaOpcion = 0;
 	private float caracteres = 0;
 
 	public Evento(Dia dia){
@@ -79,7 +81,32 @@ public abstract partial class Evento : Node2D
 		}
 	}
 
+	private void subrayarOpcionHovereada(string meta){
+		this.removerTextoOpciones();
+		this.reescribirOpcionesSubrayadas(meta);
+	}
+
+	private void reescribirOpcionesSubrayadas(string meta){
+		int index = 0;
+		string opcionString = "\n\n";
+		foreach(OpcionDialogo opcion in this.opciones){
+			if(meta == opcion.getDescripcion().Replace("[","").Replace("]","")){
+				opcionString += "[u][url="+opcion.getDescripcion().Replace("[","").Replace("]","")+"][color='red']" + (index + 1) + ".- " + opcion.getDescripcion() + "[/color][/url][/u]\n";
+			}else{
+				opcionString += "[url="+opcion.getDescripcion().Replace("[","").Replace("]","")+"][color='red']" + (index + 1) + ".- " + opcion.getDescripcion() + "[/color][/url]\n";
+			}
+			index += 1;
+		}
+		this.cajaDeTexto.Text += opcionString;
+	}
+
+	private void removerTextoOpciones(){
+		this.cajaDeTexto.Text = cajaDeTexto.Text.Substring(0,
+				this.caracteresAntesDeLaOpcion);
+	}
+
 	public void hoverOpcion(string meta){
+		this.subrayarOpcionHovereada(meta);
 		NodoMapa tempNodo = this.hubicaciones.FirstOrDefault(p => p.nombre == meta);
 		if(tempNodo == null) return;
 		if(this.hubicacionHovereada != null) this.hubicacionHovereada.setSeleecionado(false);
@@ -107,6 +134,7 @@ public abstract partial class Evento : Node2D
 		this.cajaDeTexto.Connect("meta_hover_started", new Callable(this, nameof(this.hoverOpcion)));
 		this.cajaDeTexto.VisibleCharactersBehavior = TextServer.VisibleCharactersBehavior.CharsAfterShaping;
 		this.cajaDeTexto.VisibleCharacters = 0;
+		this.cajaDeTexto.MetaUnderlined = false;
 		this.cajaDeTexto.SetSize(new Vector2( LONGITUD_HORIZONTAL_RECUADRO - MARGEN*2, LONGITUD_VERTICAL_RECUADRO/10 * 9 - MARGEN));
 		this.cajaDeTexto.Position = new Vector2(MARGEN + POSICION_ORIGEN_RECUADRO_X, POSICION_ORIGEN_RECUADRO_Y );
 		this.canvas = new CanvasLayer();
@@ -180,11 +208,16 @@ public abstract partial class Evento : Node2D
 			opcion.setReemplazable("[url="+opcion.getDescripcion().Replace("[","").Replace("]","")+"]");
 			botonIndex++;
 		}
-		opcionesString = opcionesString.Substring(0, opcionesString.Length - 1);
+		//opcionesString = opcionesString.Substring(0, opcionesString.Length - 1);
 		this.dialogos.Add(new Dialogo(opcionesString));
 		this.index++;
+		this.calcularCantidadDeCaracteresDeOpciones();
 		this.cargarTexto();
 		this.caracteres = this.cajaDeTexto.GetParsedText().Length;
+	}
+
+	private void calcularCantidadDeCaracteresDeOpciones(){
+		this.caracteresAntesDeLaOpcion = this.cajaDeTexto.Text.Length;
 	}
 
 	private void addOpcion(OpcionDialogo opcion, int index){

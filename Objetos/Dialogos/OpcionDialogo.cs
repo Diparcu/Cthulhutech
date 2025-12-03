@@ -171,7 +171,7 @@ public partial class OpcionDialogo: Node2D
 	private int getValorHabilidad(Personaje jugador){
 		Type tipo = typeof(Personaje);
 		PropertyInfo propiedad = tipo.GetProperty(this.habilidad);
-		return (int)Math.Ceiling((double)propiedad.GetValue(jugador).ToString().ToInt()/2);
+		return (int)Math.Ceiling((double)propiedad.GetValue(jugador).ToString().ToInt());
 	}
 
 	private void crearBoton(){

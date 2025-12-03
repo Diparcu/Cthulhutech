@@ -15,7 +15,7 @@ public partial class EventoDia0Isla : Evento
 {
     public EventoDia0Isla(Dia dia) : base(dia)
     {
-        this.cambiarFondo("res://Sprites/Fondos/FONDO_CASA_PLAYA.jpg");
+        this.getSistema().cambiarFondo("res://Sprites/Fondos/FONDO_CASA_PLAYA.jpg");
 
         this.dialogos.Add(new Dialogo("Narrador", "Lunes, Dia 0. Temprano"));
         this.dialogos.Add(new Dialogo("Narrador", "Tu vieja casa roñosa se encuentra en las afueras del pueblo en la Isla Mocha. De un aspecto antiguo y desgastado, en su interior se pueden encontrar radios y teles viejas, teléfonos baratos de hace un par de décadas y un microondas que ha sido reparado una y otra vez."));
