@@ -75,10 +75,11 @@ public partial class OpcionDialogo: Node2D
 	private void checkeoHabilidad(){
 
 		Personaje jugador = this.evento.getJugador();
-		List<int> dados = tirarDados(jugador);
-		int resultado = getResultado(dados);
+        ResultadoTirada tirada = new ResultadoTirada();
 
-		List<Dialogo> dialogo = generarMensajeDeTirada(resultado, dados);
+        tirada.checkeoHabilidad(jugador, this.habilidad, this.dificultad);
+
+		List<Dialogo> dialogo = generarMensajeDeTirada(tirada.SumaCombinacion, tirada.DadosLanzados);
 		this.evento.reemplazarDialogo(dialogo);
 	}
 
@@ -103,75 +104,6 @@ public partial class OpcionDialogo: Node2D
 
 		dialogo.Insert(0, new Dialogo(mensaje));
 		return dialogo;
-	}
-
-	private List<int> tirarDados(Personaje jugador){
-
-		int cantidadDeDados = this.getValorHabilidad(jugador);
-		List<int> resultados = new List<int>();
-
-		var rand = new Random();
-
-		for(int i = 0; i < cantidadDeDados; i++){
-			resultados.Add(rand.Next(10) + 1);
-		}
-
-		resultados.Sort();
-		return resultados;
-	}
-
-	private int getResultado(List<int> resultados){
-		int resultadoMasAlto = 0;
-
-		resultadoMasAlto = Math.Max(
-				this.getResultadoNumeroRepetido(resultados),
-				this.getResultadoEscala(resultados));
-
-		return resultadoMasAlto;
-	}
-
-	private int getResultadoEscala(List<int> resultados){
-		List<int> lista = resultados.Distinct().ToList();
-		int total = 0, totalTemporal = 0, iteraciones = 0;
-
-		for(int i = 0; i < lista.Count - 1; i++){
-			totalTemporal = lista[i];
-			iteraciones = 1;
-			for(int j = i; j < lista.Count - 1; j++){
-				if(lista[j] + 1 == lista[j + 1]){
-					totalTemporal += lista[j + 1];
-					iteraciones++;
-				}else{
-					break;
-				}
-			}
-			if(total < totalTemporal && iteraciones >= 3) total = totalTemporal;
-		}
-
-		return total;
-	}
-
-	private int getResultadoNumeroRepetido(List<int> resultados){
-		int totalTemporal, total = 0;
-		for(int i = 1; i <= 10; i++){
-			totalTemporal = this.getResultadoNumeroRepetidoSumatoria(resultados, i);
-			if(total < totalTemporal) total = totalTemporal;
-		}
-		return total;
-	}
-
-	private int getResultadoNumeroRepetidoSumatoria(List<int> resultados, int numero){
-		int total = 0;
-		foreach(int i in resultados){
-			if(numero == i) total += i;
-		}
-		return total;
-	}
-
-	private int getValorHabilidad(Personaje jugador){
-		Type tipo = typeof(Personaje);
-		PropertyInfo propiedad = tipo.GetProperty(this.habilidad);
-		return (int)Math.Ceiling((double)propiedad.GetValue(jugador).ToString().ToInt());
 	}
 
 	private void crearBoton(){

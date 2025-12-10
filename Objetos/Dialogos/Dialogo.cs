@@ -18,6 +18,7 @@ public class Dialogo
 
 	List<MovimientoSprite> movimientos = new List<MovimientoSprite>() ;
 	List<OpcionDialogo> opciones = new List<OpcionDialogo>() ;
+	DialogoOpcional dialogoOpcional;
 	CambioDeMusica cambiosDeMusica;
 
 	int dificultad = 0;
@@ -141,5 +142,16 @@ public class Dialogo
 		foreach(MovimientoSprite movimiento in this.movimientos){
 			movimiento.pasarMovimientoFondo(dialogo);
 		}
+	}
+	public Dialogo setDialogoOpcional(DialogoOpcional dialogo)
+	{
+		this.dialogoOpcional = dialogo;
+		return this;
+	}
+
+	public List<Dialogo> cargarDialogoOpcional(Evento evento){
+		if(this.dialogoOpcional == null) return null;
+		List<Dialogo> dialogo = this.dialogoOpcional.checkeoDeHabilidad(evento.getJugador());
+		return dialogo;
 	}
 }

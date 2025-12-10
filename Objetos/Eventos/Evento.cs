@@ -179,14 +179,14 @@ public abstract partial class Evento : Node2D
 		this.cajaDeTexto.VisibleCharacters = (int)this.caracteres;
 	}
 
-		public Personaje getJugador(){
-			return this.dia.getJugador();
-		}
-	
-		public Sistema getSistema(){
-			return this.dia.getSistema();
-		}
-		public AudioStreamPlayer getAudioStreamer(){
+	public Personaje getJugador(){
+		return this.dia.getJugador();
+	}
+
+	public Sistema getSistema(){
+		return this.dia.getSistema();
+	}
+	public AudioStreamPlayer getAudioStreamer(){
 		return this.dia.getAudioStreamer();
 	}
 
@@ -254,9 +254,20 @@ public abstract partial class Evento : Node2D
 			this.mostrarOpciones();
 			return;
 		}
+		this.checkDialogoOpcional(index);
 		this.index++;
 		this.dialogos[this.index].executeAction();
 		this.cargarTexto();
+	}
+
+	private void checkDialogoOpcional(int index){
+		List<Dialogo> dialogos = this.dialogos[this.index].cargarDialogoOpcional(this);
+		if(dialogos == null) return;
+		this.dialogos.InsertRange(index + 1, dialogos);
+	}
+
+	public void cargarDialogo(List<Dialogo> dialogos){
+		this.dialogos.AddRange(dialogos);
 	}
 
 	public void cambiarFondo(String ruta){

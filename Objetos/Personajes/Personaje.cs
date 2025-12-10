@@ -11,6 +11,12 @@ public partial class Personaje
 	private int reflejos = 0;// media entre agilidad intelecto y percepcion
 	private int vitalidad = 0;// 5 + media entre fuerza y tenacidad
 
+	public static readonly string AGILIDAD = "Agilidad";
+	public static readonly string FUERZA = "Fuerza";
+	public static readonly string INTELIGENCIA = "Inteligencia";
+	public static readonly string PERCEPCION = "Percepcion";
+	public static readonly string TENACIDAD = "Tenacidad";
+
     public int Dinero { get; set; } = 0;
 
     public void resetearStats()

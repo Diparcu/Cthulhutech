@@ -11,7 +11,7 @@ public partial class Sistema : Node2D
 	private Evento eventoCargado;
 	private Dia diaCargado;
 	private BarraSuperiorUI barraSuperior;
-	public List<Button> botonesPausa = new List<Button>();
+	private List<Button> botonesPausa = new List<Button>();
 	private int numeroDia = 1;
 
 	private Personaje jugador;
@@ -145,7 +145,7 @@ public partial class Sistema : Node2D
 	private void ordenarBotonesDeMenuDePausa(){
 		int index = 0;
 		foreach(Button buton in this.botonesPausa){
-			this.AddChild(buton);
+			this.fondo.AddChild(buton);
 			buton.Visible = false;
 			buton.Position = new Vector2(16, 48*(index + 1));
 			index++;
@@ -161,19 +161,33 @@ public partial class Sistema : Node2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		this.inicializarCamara();
+		this.inicializarEstado();
+		this.inicializarFondo();
 		this.crearBotonesDeMenuDePausa();
-		this.camara = this.GetNode<Camera2D>("Camara") as Camera2D;
-		this.estado = new SistemaEstadoMenuPrincipal(this);
+		this.inicializarFuente();
+		this.inicializarAudioStreamer();
+		this.crearPantallaDeInicio();
+	}
 
+	private void crearPantallaDeInicio(){
+		this.AddChild(new PantallaDeInicio(fuente, this));
+	}
+
+	private void inicializarEstado(){
+		this.estado = new SistemaEstadoMenuPrincipal(this);
+	}
+
+	private void inicializarFondo(){
 		this.fondo = new TextureRect();
 		this.fondo.SetAnchorsPreset(Control.LayoutPreset.FullRect);
 		this.fondo.StretchMode = TextureRect.StretchModeEnum.Scale;
 		this.fondo.ZIndex = -1;
 		this.AddChild(this.fondo);
+	}
 
-		this.inicializarFuente();
-		this.inicializarAudioStreamer();
-		this.AddChild(new PantallaDeInicio(fuente, this));
+	private void inicializarCamara(){
+		this.camara = this.GetNode<Camera2D>("Camara") as Camera2D;
 	}
 
 	public void irAPantallaDeInicio(Node2D nodo){
