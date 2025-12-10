@@ -20,6 +20,7 @@ public class Dialogo
 	List<OpcionDialogo> opciones = new List<OpcionDialogo>() ;
 	DialogoOpcional dialogoOpcional;
 	CambioDeMusica cambiosDeMusica;
+	CambioDeFondo cambioDeFondo;
 
 	int dificultad = 0;
 
@@ -143,6 +144,12 @@ public class Dialogo
 			movimiento.pasarMovimientoFondo(dialogo);
 		}
 	}
+
+	public Dialogo addCambioDeFondo(String fondo)
+	{
+		this.cambioDeFondo = new CambioDeFondo(fondo);
+		return this;
+	}
 	public Dialogo setDialogoOpcional(DialogoOpcional dialogo)
 	{
 		this.dialogoOpcional = dialogo;
@@ -153,5 +160,10 @@ public class Dialogo
 		if(this.dialogoOpcional == null) return null;
 		List<Dialogo> dialogo = this.dialogoOpcional.checkeoDeHabilidad(evento.getJugador());
 		return dialogo;
+	}
+
+	public void iniciarCambioDeFondo(Evento evento){
+		if(this.cambioDeFondo == null) return;
+		this.cambioDeFondo.iniciarCambioDeFondo(evento);
 	}
 }

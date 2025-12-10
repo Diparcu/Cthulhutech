@@ -38,6 +38,7 @@ public abstract partial class Evento : Node2D
 	public void comportamiento(double delta){
 		this.avanzarCaracteres();
 		this.moverSprites();
+		this.cambiarFondoLentamente();
 		this.moverCamaraAHubicacionHovereada(delta);
 	}
 
@@ -238,7 +239,12 @@ public abstract partial class Evento : Node2D
 			this.terminarDeMoverSprites();
 			this.comprobarFinalDeDialogo();
 			this.cambiarMusica();
+			this.checkearCambioDeFondo();
 		}
+	}
+
+	private void checkearCambioDeFondo(){
+		this.dialogos[this.index].iniciarCambioDeFondo(this);
 	}
 
 	private void comprobarFinalDeDialogo(){
@@ -268,6 +274,18 @@ public abstract partial class Evento : Node2D
 
 	public void cargarDialogo(List<Dialogo> dialogos){
 		this.dialogos.AddRange(dialogos);
+	}
+
+	public void iniciarCambioDeFondo(Texture2D textura){
+		this.getSistema().iniciarCambioDeFondo(textura);
+	}
+
+	public void cambiarFondoLentamente(){
+		this.getSistema().cambiarFondoLentamente();
+	}
+
+	public void cambiarFondo(Texture2D textura){
+		this.getSistema().cambiarFondo(textura);
 	}
 
 	public void cambiarFondo(String ruta){

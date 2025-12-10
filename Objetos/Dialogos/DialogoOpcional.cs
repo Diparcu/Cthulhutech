@@ -30,6 +30,26 @@ public class DialogoOpcional
         return this;
     }
 
+    public DialogoOpcional agregarDialogoFallo(String dialogo){
+        this.proximoDialogoFallo.Add(new Dialogo(dialogo));
+        return this;
+    }
+
+    public DialogoOpcional agregarDialogoFallo(String nombre, String dialogo){
+        this.proximoDialogoFallo.Add(new Dialogo(nombre, dialogo));
+        return this;
+    }
+
+    public DialogoOpcional agregarDialogoExito(String dialogo){
+        this.proximoDialogoExito.Add(new Dialogo(dialogo));
+        return this;
+    }
+
+    public DialogoOpcional agregarDialogoExito(String nombre, String dialogo){
+        this.proximoDialogoExito.Add(new Dialogo(nombre, dialogo));
+        return this;
+    }
+
     public List<Dialogo> checkeoDeHabilidad(Personaje personaje){
         ResultadoTirada tirada = new ResultadoTirada();
         tirada.checkeoHabilidad(personaje, this.habilidad, this.dificultad);

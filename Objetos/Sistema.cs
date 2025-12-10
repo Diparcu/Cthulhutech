@@ -16,7 +16,8 @@ public partial class Sistema : Node2D
 
 	private Personaje jugador;
 	private AudioStreamPlayer audioStream;
-	private TextureRect fondo;
+	private Sprite2D fondo;
+	private Sprite2D fondoTemporal;
 	 
 	public const int TAMANO_FUENTE = 32;
 	public static readonly HorizontalAlignment FUENTE_ORIENTACION = 0;
@@ -65,6 +66,29 @@ public partial class Sistema : Node2D
 		fondo.Texture = GD.Load<Texture2D>(rutaFondo);
 	}
 
+	public void iniciarCambioDeFondo(Texture2D textura){
+		GD.Print("Wena los k");
+		this.fondoTemporal.Texture = textura;
+		this.fondoTemporal.Modulate = new Color(1, 1, 1, 0);
+	}
+
+	public void terminarCambioDeFondo(){
+		this.fondo.Texture = (Texture2D)this.fondoTemporal.Texture.Duplicate();
+		this.fondo.Modulate = new Color(1, 1, 1, 1);
+		this.fondoTemporal.Texture = null;
+	}
+
+	public void cambiarFondoLentamente(){
+		if(this.fondoTemporal.Texture == null) return;
+		this.fondoTemporal.Modulate = new Color(1, 1, 1, this.fondoTemporal.Modulate.A + 0.01f);
+		this.fondo.Modulate = new Color(1, 1, 1, this.fondo.Modulate.A - 0.01f);
+		if(this.fondo.Modulate.A <= 0) this.terminarCambioDeFondo();
+	}
+
+	public void cambiarFondo(Texture2D textura){
+		fondo.Texture = textura;
+	}
+
 	public void escalarFondo(Vector2 tamanoObjetivo)
 	{
 		Vector2 escala = new Vector2();
@@ -76,12 +100,11 @@ public partial class Sistema : Node2D
 	public void cambiarFondoEscalado(string rutaFondo, TextureRect.StretchModeEnum stretchMode)
 	{
 		fondo.Texture = GD.Load<Texture2D>(rutaFondo);
-		fondo.StretchMode = stretchMode;
 	}
 
 	public void restaurarModoFondo()
 	{
-		fondo.StretchMode = TextureRect.StretchModeEnum.Scale;
+		//fondo.StretchMode = TextureRect.StretchModeEnum.Scale;
 	}
 
 	public void inicializarAudioStreamer(){
@@ -145,7 +168,7 @@ public partial class Sistema : Node2D
 	private void ordenarBotonesDeMenuDePausa(){
 		int index = 0;
 		foreach(Button buton in this.botonesPausa){
-			this.fondo.AddChild(buton);
+			this.AddChild(buton);
 			buton.Visible = false;
 			buton.Position = new Vector2(16, 48*(index + 1));
 			index++;
@@ -179,11 +202,15 @@ public partial class Sistema : Node2D
 	}
 
 	private void inicializarFondo(){
-		this.fondo = new TextureRect();
-		this.fondo.SetAnchorsPreset(Control.LayoutPreset.FullRect);
-		this.fondo.StretchMode = TextureRect.StretchModeEnum.Scale;
+		this.fondo = new Sprite2D();
+		this.fondo.Centered = false;
 		this.fondo.ZIndex = -1;
 		this.AddChild(this.fondo);
+
+		this.fondoTemporal = new Sprite2D();
+		this.fondoTemporal.Centered = false;
+		this.fondoTemporal.ZIndex = -1;
+		this.AddChild(this.fondoTemporal);
 	}
 
 	private void inicializarCamara(){
@@ -251,6 +278,9 @@ public partial class Sistema : Node2D
 			case "Niño bajos fondos":
 				personaje.Sigilo += 5;
 				break;
+			case "Chud":
+				personaje.Lectoescritura += 5;
+				break;
 		}
 
 		switch (arquetipo)
@@ -279,6 +309,9 @@ public partial class Sistema : Node2D
 				break;
 			case "Niño bajos fondos":
 				this.cargarEscena(new Dia0BajosFondosTemprano(this));
+				break;
+			case "Chud":
+				this.cargarEscena(new Dia0Isla(this));
 				break;
 		}
 	}

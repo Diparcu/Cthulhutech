@@ -17,8 +17,9 @@ public partial class SeleccionOrigen : Node2D
 	private Dictionary<string, string> origenesDescripciones = new Dictionary<string, string>
 	{
 		{ "Niño isleño", "Naciste en una isla del sur, con los años la guerra provocó que tuvieras que migrar a la arcología." },
-		{ "Niño blanco", "Nacido en la arcología, de padre humano y madre nazzadi, su raro albinismo es señal de poderes sobrehumnos aún por descubrir, sabido por el estado, un agente de la NGT (nuevo gobierno terrestre) está atento a ti y tus talentos" },
-		{ "Niño bajos fondos", "tu padre arquitecto y madre ausente, has tenido un padre ausente que se esfuerza por mantener una calidad de vida decente viviendo en la chatarrería de la zona salina" }
+		{ "Niño blanco", "Nacido en la arcología, de padre humano y madre nazzadi, su raro albinismo es señal de poderes sobrehumnos aún por descubrir, sabido por el estado, un agente de la NGT (nuevo gobierno terrestre) está atento a ti y tus talentos." },
+		{ "Niño bajos fondos", "Tu padre arquitecto y madre ausente, has tenido un padre ausente que se esfuerza por mantener una calidad de vida decente viviendo en la chatarrería de la zona salina." },
+		{ "Chud", "Con acceso irrestricto desde una temprana edad a la así llamada red mundial de computadoras has descubierlo la verdad de este mundo que la mayoria de la población ignora, por desgracia, en el proceso, llamaste la atención de la gente equivocada..." }
 	};
 
 	public SeleccionOrigen(Sistema sistema)
