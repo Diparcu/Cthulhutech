@@ -18,7 +18,7 @@ public class Dialogo
 
 	List<MovimientoSprite> movimientos = new List<MovimientoSprite>() ;
 	List<OpcionDialogo> opciones = new List<OpcionDialogo>() ;
-	DialogoOpcional dialogoOpcional;
+	List<DialogoOpcional> dialogosOpcionales = new List<DialogoOpcional>();
 	CambioDeMusica cambiosDeMusica;
 	CambioDeFondo cambioDeFondo;
 
@@ -45,7 +45,7 @@ public class Dialogo
 		this.onShow?.Invoke();
 	}
 
-	public void setCheckeoPasivo(int dificultad){
+	private void setCheckeoPasivo(int dificultad){
 		this.tipo = CHECKEO_PASIVO;
 		this.dificultad = dificultad;
 	}
@@ -150,15 +150,18 @@ public class Dialogo
 		this.cambioDeFondo = new CambioDeFondo(fondo);
 		return this;
 	}
-	public Dialogo setDialogoOpcional(DialogoOpcional dialogo)
+
+	public Dialogo addDialogoOpcional(DialogoOpcional dialogo)
 	{
-		this.dialogoOpcional = dialogo;
+		this.dialogosOpcionales.Add(dialogo);
 		return this;
 	}
 
 	public List<Dialogo> cargarDialogoOpcional(Evento evento){
-		if(this.dialogoOpcional == null) return null;
-		List<Dialogo> dialogo = this.dialogoOpcional.checkeoDeHabilidad(evento.getJugador());
+		List<Dialogo> dialogo = new List<Dialogo>();
+		foreach(DialogoOpcional dialogoOpcional in this.dialogosOpcionales){
+			dialogo.AddRange(dialogoOpcional.checkeoDeHabilidad(evento.getJugador()));
+		}
 		return dialogo;
 	}
 

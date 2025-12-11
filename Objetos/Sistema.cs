@@ -67,7 +67,6 @@ public partial class Sistema : Node2D
 	}
 
 	public void iniciarCambioDeFondo(Texture2D textura){
-		GD.Print("Wena los k");
 		this.fondoTemporal.Texture = textura;
 		this.fondoTemporal.Modulate = new Color(1, 1, 1, 0);
 	}
@@ -263,6 +262,7 @@ public partial class Sistema : Node2D
 		}
 		this.numeroDia = 1;
 		Personaje personaje = new Personaje();
+		personaje.flags = new Flags();
 		personaje.origen = origen;
 		personaje.arquetipo = arquetipo;
 
@@ -280,6 +280,7 @@ public partial class Sistema : Node2D
 				break;
 			case "Chud":
 				personaje.Lectoescritura += 5;
+				personaje.setFlag(Flags.CHUD);
 				break;
 		}
 

@@ -7,8 +7,15 @@ public class DialogoOpcional
 	private List<Dialogo> proximoDialogoExito = new List<Dialogo>(); 
 	private List<Dialogo> proximoDialogoFallo = new List<Dialogo>(); 
 
-	String habilidad;
+	String habilidad = "";
+	String flag = "";
 	int dificultad = 0;
+
+
+    public DialogoOpcional setFlag(String flag){
+        this.flag = flag;
+        return this;
+    }
 
     public DialogoOpcional setHabilidad(String habilidad){
         this.habilidad = habilidad;
@@ -53,8 +60,7 @@ public class DialogoOpcional
     public List<Dialogo> checkeoDeHabilidad(Personaje personaje){
         ResultadoTirada tirada = new ResultadoTirada();
         tirada.checkeoHabilidad(personaje, this.habilidad, this.dificultad);
-        GD.Print(tirada.Exito);
-        if(tirada.Exito){
+        if(tirada.Exito || personaje.getFlag(this.flag)){
             return this.proximoDialogoExito;
         }else{
             return this.proximoDialogoFallo;

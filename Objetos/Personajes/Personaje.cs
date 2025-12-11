@@ -11,6 +11,8 @@ public partial class Personaje
 	private int reflejos = 0;// media entre agilidad intelecto y percepcion
 	private int vitalidad = 0;// 5 + media entre fuerza y tenacidad
 
+    public Flags flags;
+
 	public static readonly string AGILIDAD = "Agilidad";
 	public static readonly string FUERZA = "Fuerza";
 	public static readonly string INTELIGENCIA = "Inteligencia";
@@ -507,4 +509,12 @@ public partial class Personaje
     public void AumentarTasacion() { this.tasacion++; }
     public void AumentarTecnicoReparar() { this.tecnicoReparar++; }
     public void AumentarVigilancia() { this.vigilancia++; }
+
+    public void setFlag(string nombre){
+        this.flags.setFlag(nombre);
+    }
+
+    public bool getFlag(string nombre){
+        return this.flags.getFlag(nombre);
+    }
 }
