@@ -9,7 +9,7 @@ public class Flags
 	public static readonly string BAJOS_FONDOS = "Bajos fondos";
 	public static readonly string CHUD = "chud";
 
-	Dictionary<string, bool> variables = new Dictionary<string, bool>
+	private Dictionary<string, bool> variables = new Dictionary<string, bool>
 	{
 		{ ISLENO, false },
 		{ BLANCO, false },
@@ -17,9 +17,14 @@ public class Flags
 		{ CHUD, false },
 	};
 
-	public void setFlag(String nombre){
+	public void updateFlag(String nombre){
 		if (variables.ContainsKey(nombre)) 
 			variables[nombre] = true;
+	}
+
+	public void updateFlag(String nombre, bool siono){
+		if (variables.ContainsKey(nombre)) 
+			variables[nombre] = siono;
 	}
 
 	public bool getFlag(String nombre){

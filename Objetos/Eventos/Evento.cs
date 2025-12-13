@@ -249,20 +249,20 @@ public abstract partial class Evento : Node2D
 
 	private void comprobarFinalDeDialogo(){
 		if(this.dialogos[index].getFinal()){
-			this.dia.avanzarDia();
+			this.dia.iniciarAvanzeFaseDelDia();
 			return;
 		}
 		this.continuarDialogo();
 	}
 
 	private void continuarDialogo(){
+		this.dialogos[this.index].executeAction();
 		if(this.dialogos.Count - 1 == this.index){
 			this.mostrarOpciones();
 			return;
 		}
 		this.checkDialogoOpcional(index);
 		this.index++;
-		this.dialogos[this.index].executeAction();
 		this.cargarTexto();
 	}
 
@@ -360,6 +360,10 @@ public abstract partial class Evento : Node2D
 		this.getAudioStreamer().Play();
 	}
 
+	public Type getProximoEvento(){
+		return this.dialogos[index].getProximoEvento();
+	}
+
 	private void cambiarMusica(){
 		this.dialogos[index].cambiarMusica(this.getAudioStreamer());
 	}
@@ -445,6 +449,11 @@ public abstract partial class Evento : Node2D
 	public override void _Draw()
 	{
 		this.dibujarCajaDeTexto(this);
+	}
+
+	public override void _Ready()
+	{
+		this.cargarTexto();
 	}
 }
 

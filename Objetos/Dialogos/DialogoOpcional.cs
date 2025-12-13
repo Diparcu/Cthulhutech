@@ -10,6 +10,7 @@ public class DialogoOpcional
 	String habilidad = "";
 	String flag = "";
 	int dificultad = 0;
+	bool mostrarTirada = true;
 
 
     public DialogoOpcional setFlag(String flag){
@@ -61,9 +62,38 @@ public class DialogoOpcional
         ResultadoTirada tirada = new ResultadoTirada();
         tirada.checkeoHabilidad(personaje, this.habilidad, this.dificultad);
         if(tirada.Exito || personaje.getFlag(this.flag)){
-            return this.proximoDialogoExito;
+            return this.generarMensajeDeCheckeo("\nExito",
+                    this.proximoDialogoExito,
+                    tirada);
         }else{
-            return this.proximoDialogoFallo;
+            return this.generarMensajeDeCheckeo("\nFallo",
+                    this.proximoDialogoFallo,
+                    tirada);
         }
+    }
+
+    private List<Dialogo> generarMensajeDeCheckeo(
+            string mensajeAdicional,
+            List<Dialogo> dialogos,
+            ResultadoTirada tirada){
+
+        if(!this.mostrarTirada || this.flag != "") return dialogos;
+
+		List<Dialogo> dialogo; 
+		String mensaje = "[ " + this.habilidad + " pasiva: " + this.dificultad + " ]";
+        mensaje += "\nDados: -";
+
+		foreach(int i in tirada.DadosLanzados){
+			mensaje = mensaje + i + " - ";
+		}
+
+		mensaje += "\n";
+		mensaje += "Total: " + tirada.SumaCombinacion;
+
+        dialogo = new List<Dialogo>(dialogos); 
+        mensaje += mensajeAdicional;
+
+		dialogo.Insert(0, new Dialogo(mensaje));
+		return dialogo;
     }
 }

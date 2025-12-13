@@ -78,7 +78,7 @@ public partial class BarraSuperiorUI : CanvasLayer
 
 		if (personaje != null && dia != null)
 		{
-			diaLabel.Text = dia.NumeroDia.ToString();
+			diaLabel.Text = dia?.NumeroDia.ToString() ?? "0";
 			momentoLabel.Text = dia.getPeriodoDelDia();
 			saludLabel.Text = personaje.Vitalidad.ToString();
 			ruachLabel.Text = personaje.Orgon.ToString();

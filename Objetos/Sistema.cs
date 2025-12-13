@@ -12,7 +12,7 @@ public partial class Sistema : Node2D
 	private Dia diaCargado;
 	private BarraSuperiorUI barraSuperior;
 	private List<Button> botonesPausa = new List<Button>();
-	private int numeroDia = 1;
+	public CanvasLayer efectLayer = new CanvasLayer();
 
 	private Personaje jugador;
 	private AudioStreamPlayer audioStream;
@@ -54,7 +54,6 @@ public partial class Sistema : Node2D
 	public void cargarEscena(Dia dia){
 		if(this.diaCargado != null) this.diaCargado.QueueFree();
 		this.diaCargado = dia;
-		this.diaCargado.NumeroDia = this.numeroDia;
 		this.AddChild(this.diaCargado);
 		if (this.barraSuperior != null)
 		{
@@ -260,9 +259,8 @@ public partial class Sistema : Node2D
 			this.barraSuperior = new BarraSuperiorUI(this);
 			this.AddChild(this.barraSuperior);
 		}
-		this.numeroDia = 1;
 		Personaje personaje = new Personaje();
-		personaje.flags = new Flags();
+		personaje.inicializarFlags();
 		personaje.origen = origen;
 		personaje.arquetipo = arquetipo;
 
@@ -271,6 +269,7 @@ public partial class Sistema : Node2D
 		{
 			case "Niño isleño":
 				personaje.Supervivencia += 5;
+				personaje.addPerk(new PerkAfortunado());
 				break;
 			case "Niño blanco":
 				personaje.CienciasOcultas += 5;
@@ -279,8 +278,8 @@ public partial class Sistema : Node2D
 				personaje.Sigilo += 5;
 				break;
 			case "Chud":
-				personaje.Lectoescritura += 5;
-				personaje.setFlag(Flags.CHUD);
+				personaje.addPerk(new PerkVozCrispante());
+				personaje.updateFlag(Flags.CHUD);
 				break;
 		}
 
@@ -312,7 +311,7 @@ public partial class Sistema : Node2D
 				this.cargarEscena(new Dia0BajosFondosTemprano(this));
 				break;
 			case "Chud":
-				this.cargarEscena(new Dia0Isla(this));
+				this.cargarEscena(new DiaChud(this));
 				break;
 		}
 	}
@@ -324,7 +323,6 @@ public partial class Sistema : Node2D
 			this.barraSuperior = new BarraSuperiorUI(this);
 			this.AddChild(this.barraSuperior);
 		}
-		this.numeroDia = 1;
 		Personaje personaje = new Personaje();
 		personaje.Dinero = 10;
 		this.inicializarJugador(personaje);
@@ -338,7 +336,6 @@ public partial class Sistema : Node2D
 			this.barraSuperior = new BarraSuperiorUI(this);
 			this.AddChild(this.barraSuperior);
 		}
-		this.numeroDia = 1;
 		Personaje personaje = new Personaje();
 		personaje.Dinero = 50;
 		this.inicializarJugador(personaje);
@@ -352,7 +349,6 @@ public partial class Sistema : Node2D
 			this.barraSuperior = new BarraSuperiorUI(this);
 			this.AddChild(this.barraSuperior);
 		}
-		this.numeroDia = 1;
 		Personaje personaje = new Personaje();
 		personaje.Dinero = 100;
 		this.inicializarJugador(personaje);
@@ -366,7 +362,6 @@ public partial class Sistema : Node2D
 			this.barraSuperior = new BarraSuperiorUI(this);
 			this.AddChild(this.barraSuperior);
 		}
-		this.numeroDia = 1;
 		Personaje personaje = new Personaje();
 		this.inicializarJugador(personaje);
 		this.cargarEscena(new Dia0Blanco(this));
@@ -379,7 +374,6 @@ public partial class Sistema : Node2D
 			this.barraSuperior = new BarraSuperiorUI(this);
 			this.AddChild(this.barraSuperior);
 		}
-		this.numeroDia = 1;
 		Personaje personaje = new Personaje();
 		this.inicializarJugador(personaje);
 		this.cargarEscena(new Dia0BajosFondosTemprano(this));
@@ -392,7 +386,6 @@ public partial class Sistema : Node2D
 			this.barraSuperior = new BarraSuperiorUI(this);
 			this.AddChild(this.barraSuperior);
 		}
-		this.numeroDia = 1;
 		this.inicializarJugador(new Personaje());
 		this.cargarEscena(new DiaMegan(this));
 	}
@@ -403,9 +396,13 @@ public partial class Sistema : Node2D
 			this.barraSuperior = new BarraSuperiorUI(this);
 			this.AddChild(this.barraSuperior);
 		}
-		this.numeroDia = 1;
 		this.inicializarJugador(new Personaje());
 		this.cargarEscena(new DiaKC(this));
+	}
+
+	public void avanzarDia(){
+		this.diaCargado.avanzarDia();
+		this.barraSuperior.ActualizarUI();
 	}
 
 	public void iniciarCreditos(Node2D nodo){
@@ -425,7 +422,6 @@ public partial class Sistema : Node2D
 
 	public void avanzarAlSiguienteDia(Node2D nodoActual){
 		nodoActual.QueueFree();
-		this.numeroDia++;
 		this.cargarEscena(new DiaIsla(this));
 	}
 
