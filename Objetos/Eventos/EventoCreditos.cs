@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 public partial class EventoCreditos : Evento
 {
+
     public EventoCreditos(Dia dia) : base(dia)
     {
         this.dialogos.Add(new Dialogo("Programacion - Mercelo Murillo - Diego Paredes"));

@@ -26,6 +26,7 @@ public partial class Personaje
 	public static readonly string LABIA = "Labia";
 
 	public int Dinero { get; set; } = 0;
+	public Flags Flags{ get{ return this.flags; } }
 
 	public void resetearStats()
 	{
