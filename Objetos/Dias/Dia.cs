@@ -8,7 +8,10 @@ public abstract partial class Dia : Node2D
 		"Clase",
 		"Almuerzo",
 		"Entrenamiento",
-		"Noche" };
+		"Despues de clase",
+		"Tarde",
+		"Noche"
+    };
 
 	public int NumeroDia { get; set; } = 0;
 	private int faseDelDiaActual = 0;
