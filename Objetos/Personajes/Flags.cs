@@ -12,6 +12,7 @@ public class Flags
 	public static readonly string BLANCO = "Blanco";
 	public static readonly string BAJOS_FONDOS = "Bajos fondos";
 	public static readonly string CHUD = "chud";
+	public static readonly string CONOCE_A_SHINJI = "Conoce a shinji";
 
 	private Dictionary<string, bool> variables = new Dictionary<string, bool>
 	{
@@ -23,6 +24,7 @@ public class Flags
 		{ BLANCO, false },
 		{ BAJOS_FONDOS, false },
 		{ CHUD, false },
+		{ CONOCE_A_SHINJI, false },
 	};
 
 	public Dictionary<string, bool> Variables {get{ return this.variables;}}

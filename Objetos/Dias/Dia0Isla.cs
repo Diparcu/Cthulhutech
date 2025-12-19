@@ -18,13 +18,7 @@ public partial class EventoDia0Isla : Evento
         this.cambiarFondo("res://Sprites/Fondos/FONDO_CASA_PLAYA.jpg");
 
         this.dialogos.Add(new Dialogo("Narrador", "Lunes, Dia 0. Temprano"));
-        this.dialogos.Add(new Dialogo("Narrador", "Tu vieja casa roñosa se encuentra en las afueras del pueblo en la Isla Mocha. De un aspecto antiguo y desgastado, en su interior se pueden encontrar radios y teles viejas, teléfonos baratos de hace un par de décadas y un microondas que ha sido reparado una y otra vez.")
-                .addDialogoOpcional(new DialogoOpcional()
-                    .setFlag(Flags.CHUD)
-                    .agregarDialogoExito("Hola, soy el Chud.")
-                    .agregarDialogoFallo("No soy el Chud, soy el isleño.")
-                )
-            );
+        this.dialogos.Add(new Dialogo("Narrador", "Tu vieja casa roñosa se encuentra en las afueras del pueblo en la Isla Mocha. De un aspecto antiguo y desgastado, en su interior se pueden encontrar radios y teles viejas, teléfonos baratos de hace un par de décadas y un microondas que ha sido reparado una y otra vez."));
         this.dialogos.Add(new Dialogo("Narrador", "los pájaros cantan en la mañana mientras escuchas a los bichos y aves cantando, perros ladrando y ovejas y cabras balando afuera"));
         this.dialogos.Add(new Dialogo("Narrador", "Escuchas a tu vieja puerta llena de posters y campanas sonar [color=darkgreen][sonido de puerta de tu casa abriéndose.mp3][/color]"));
         this.dialogos.Add(new Dialogo("Mama", "[color=cyan](abre la puerta) Hijo despierta tienes que ayudarme a recoger camarones[/color]"));
@@ -179,6 +173,8 @@ public partial class EventoDia0Isla : Evento
         opcionB.setSiguienteDialogoFallo(falloB);
 
         this.dialogos.Add(decisionInicial);
+
+        this.cargarTexto();
     }
 
 }

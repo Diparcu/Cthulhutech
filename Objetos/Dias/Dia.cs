@@ -5,8 +5,9 @@ using System.Collections.Generic;
 public abstract partial class Dia : Node2D
 {
 	public static List<string> FASES_DEL_DIA = new List<string> { 
-		"Mañana",
-		"Tarde",
+		"Clase",
+		"Almuerzo",
+		"Entrenamiento",
 		"Noche" };
 
 	public int NumeroDia { get; set; } = 0;
@@ -57,7 +58,7 @@ public abstract partial class Dia : Node2D
 	}
 
 	public void avanzarDia(){
-		this.eventos.getEventoTemprano(this.getFlags());
+		this.eventos.getProximoEvento(this.getFlags());
 		this.faseDelDiaActual++;
 		if(this.faseDelDiaActual >= FASES_DEL_DIA.Count){
 			this.faseDelDiaActual = 0;
