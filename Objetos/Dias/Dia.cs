@@ -8,7 +8,6 @@ public abstract partial class Dia : Node2D
 		"Clase",
 		"Almuerzo",
 		"Entrenamiento",
-		"Despues de clase",
 		"Tarde",
 		"Noche"
     };
@@ -28,6 +27,12 @@ public abstract partial class Dia : Node2D
 	protected List<Evento> pullEventosBarGabriel = new List<Evento>();
 
 	//Pull de eventos de la noche:
+
+	public virtual Evento GetEventoClase() { return null; }
+	public virtual Evento GetEventoAlmuerzo() { return null; }
+	public virtual Evento GetEventoEntrenamiento() { return null; }
+	public virtual Evento GetEventoTarde() { return null; }
+	public virtual Evento GetEventoNoche() { return null; }
 	
 	public Dia(Sistema sistema){
 		this.sistema = sistema;
@@ -61,25 +66,49 @@ public abstract partial class Dia : Node2D
 	}
 
 	public void avanzarDia(){
-		this.eventos.getProximoEvento(this.getFlags());
 		this.faseDelDiaActual++;
 		if(this.faseDelDiaActual >= FASES_DEL_DIA.Count){
 			this.faseDelDiaActual = 0;
 			this.NumeroDia++;
+			this.getJugador().RestaurarMana();
 		}
 	}
 
+	public void TerminarEvento() {
+		this.avanzarDia();
+		this.iniciarAvanzeFaseDelDia();
+	}
+
 	public void iniciarAvanzeFaseDelDia(){
-		this.eventoCargado.QueueFree();
-		this.eventoCargado = (Evento)Activator.CreateInstance(
-				this.eventoCargado.getProximoEvento(),
-				this);
-		this.sistema.setEstado(new EstadoSistemaTransicionDia(
-					this.sistema,
-					this.generarMensajeDia(this.faseDelDiaActual),
-					this.generarMensajeDia(this.faseDelDiaActual + 1)
-					));
-		this.AddChild(this.eventoCargado);
+		if(this.eventoCargado != null) this.eventoCargado.QueueFree();
+
+		Evento proximoEvento = null;
+		int intentos = 0;
+		while(proximoEvento == null && intentos < FASES_DEL_DIA.Count * 2) {
+			switch(FASES_DEL_DIA[this.faseDelDiaActual]) {
+				case "Clase": proximoEvento = GetEventoClase(); break;
+				case "Almuerzo": proximoEvento = GetEventoAlmuerzo(); break;
+				case "Entrenamiento": proximoEvento = GetEventoEntrenamiento(); break;
+				case "Tarde": proximoEvento = GetEventoTarde(); break;
+				case "Noche": proximoEvento = GetEventoNoche(); break;
+			}
+
+			if (proximoEvento == null) {
+				this.avanzarDia();
+			}
+			intentos++;
+		}
+
+		this.eventoCargado = proximoEvento;
+
+		if(this.eventoCargado != null){
+			this.sistema.setEstado(new EstadoSistemaTransicionDia(
+						this.sistema,
+						this.generarMensajeDia(this.faseDelDiaActual),
+						this.generarMensajeDia(this.faseDelDiaActual)
+						));
+			this.AddChild(this.eventoCargado);
+		}
 	}
 
 	private string generarMensajeDia(int faseDelDiaActual){

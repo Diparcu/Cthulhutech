@@ -12,6 +12,17 @@ public partial class Personaje
 	private int orgon = 0;// 5 + media entre intelecto y tenacidad 
 	private int reflejos = 0;// media entre agilidad intelecto y percepcion
 	private int vitalidad = 0;// 5 + media entre fuerza y tenacidad
+	private int manaActual = 0;
+
+	public int ManaActual {
+		get { return manaActual; }
+		set { manaActual = value; }
+	}
+
+	public void RestaurarMana()
+	{
+		this.manaActual = this.Orgon;
+	}
 
 	private Flags flags;
 	private List<Perk> perks = new List<Perk>();

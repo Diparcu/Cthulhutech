@@ -6,8 +6,24 @@ public partial class Dia0Isla : Dia
 {
     public Dia0Isla(Sistema sistema) : base(sistema)
     {
-        this.eventoCargado = new EventoDia0Isla(this);
-        this.AddChild(this.eventoCargado);
+        this.iniciarAvanzeFaseDelDia();
+    }
+
+    public override Evento GetEventoClase()
+    {
+        return new EventoDia0Isla(this);
+    }
+
+    public override Evento GetEventoTarde()
+    {
+        if (this.getJugador().getFlag("SeQuedoEnCasa"))
+        {
+            return new EventoTardeIslaIntelectual(this);
+        }
+        else
+        {
+            return new EventoTardeTrabajoIslaIntelectual(this);
+        }
     }
 }
 
@@ -127,7 +143,7 @@ public partial class EventoDia0Isla : Evento
         {
             dialogoFotos.Add(new Dialogo("Narrador", "Las fotos te traen buenos recuerdos, pero no notas nada inusual en ellas."));
         }
-        dialogoFotos.Add(new Dialogo("Narrador", "El pensamiento te deja una sensación extraña. Vuelves a la cama, esperando que tu madre regrese.").addAction(() => this.getSistema().cargarEscena(new TardeIslaIntelectual(this.getSistema()))));
+        dialogoFotos.Add(new Dialogo("Narrador", "El pensamiento te deja una sensación extraña. Vuelves a la cama, esperando que tu madre regrese.").addAction(() => this.getJugador().updateFlag("SeQuedoEnCasa", true)));
         opcionFotos.setSiguienteDialogo(dialogoFotos);
 
         // Sub-camino B2: Mirar afuera
@@ -147,7 +163,7 @@ public partial class EventoDia0Isla : Evento
             dialogoAfuera.Add(new Dialogo("Narrador", "Bajas la vista al suelo que rodea la casa. Está adornado con cientos de conchas marinas. Te parecen bonitas, sin más."));
         }
         dialogoAfuera.Add(new Dialogo("Narrador", "[MINIJUEGO: Recolectar conchas]"));
-        dialogoAfuera.Add(new Dialogo("Narrador", "El tiempo pasa volando. Decides volver a la cama antes de que tu madre llegue.").addAction(() => this.getSistema().cargarEscena(new TardeIslaIntelectual(this.getSistema()))));
+        dialogoAfuera.Add(new Dialogo("Narrador", "El tiempo pasa volando. Decides volver a la cama antes de que tu madre llegue.").addAction(() => this.getJugador().updateFlag("SeQuedoEnCasa", true)));
         opcionAfuera.setSiguienteDialogo(dialogoAfuera);
 
         // Camino B: Quedarse en casa (Fallo en la tirada de Labia)
@@ -206,7 +222,7 @@ public partial class EventoDia0Isla
         dialogo.Add(new Dialogo("Narrador", "Mientras recoges los camarones, te parece escuchar un murmullo grave y profundo que proviene del mar, pero el sonido de las olas lo ahoga antes de que puedas estar seguro."));
         dialogo.Add(new Dialogo("Narrador", "[MINIJUEGO: Recolectar camarones]"));
         dialogo.Add(new Dialogo("Narrador", "Luego de un rato, con los baldes llenos, regresan a casa. La extraña tensión en el aire no parece disiparse.").addAction(() => {
-            this.getSistema().cargarEscena(new TardeTrabajoIslaIntelectual(this.getSistema()));
+            this.getJugador().updateFlag("SeQuedoEnCasa", false);
         }));
 
         return dialogo;

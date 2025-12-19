@@ -249,7 +249,7 @@ public abstract partial class Evento : Node2D
 
 	private void comprobarFinalDeDialogo(){
 		if(this.dialogos[index].getFinal()){
-			this.dia.iniciarAvanzeFaseDelDia();
+			this.dia.TerminarEvento();
 			return;
 		}
 		this.continuarDialogo();
