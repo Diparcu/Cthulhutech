@@ -23,9 +23,10 @@ public abstract partial class Dia : Node2D
 			this.sistema = sistema;
 			this.estado = new EstadoDiaManana(this);
 		}
+
 		public void cargarMapa(){
-		this.eventoCargado.QueueFree();
-	}
+			this.eventoCargado.QueueFree();
+		}
 
 	public Evento getEventoCargado(){
 		return this.eventoCargado;
