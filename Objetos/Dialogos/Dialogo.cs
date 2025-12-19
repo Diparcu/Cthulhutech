@@ -12,13 +12,16 @@ public class Dialogo
 	private String tipo = DIALOGO;
 	private String personaje = "Default";
 	private String dialogo = "Default";
+	private Type proximoEvento;
 	private bool final = false;
 
 	private Action onShow;
 
 	List<MovimientoSprite> movimientos = new List<MovimientoSprite>() ;
 	List<OpcionDialogo> opciones = new List<OpcionDialogo>() ;
+	List<DialogoOpcional> dialogosOpcionales = new List<DialogoOpcional>();
 	CambioDeMusica cambiosDeMusica;
+	CambioDeFondo cambioDeFondo;
 
 	int dificultad = 0;
 
@@ -43,7 +46,7 @@ public class Dialogo
 		this.onShow?.Invoke();
 	}
 
-	public void setCheckeoPasivo(int dificultad){
+	private void setCheckeoPasivo(int dificultad){
 		this.tipo = CHECKEO_PASIVO;
 		this.dificultad = dificultad;
 	}
@@ -52,6 +55,16 @@ public class Dialogo
 		this.tipo = DESICION;
 		this.opciones = opciones;
 		return this;
+	}
+
+	public Dialogo setFinal(Type proximoEvento){
+		this.final = true;
+		this.proximoEvento = proximoEvento;
+		return this;
+	}
+
+	public Type getProximoEvento(){
+		return this.proximoEvento;
 	}
 
 	public Dialogo setFinal(){
@@ -141,5 +154,30 @@ public class Dialogo
 		foreach(MovimientoSprite movimiento in this.movimientos){
 			movimiento.pasarMovimientoFondo(dialogo);
 		}
+	}
+
+	public Dialogo addCambioDeFondo(String fondo)
+	{
+		this.cambioDeFondo = new CambioDeFondo(fondo);
+		return this;
+	}
+
+	public Dialogo addDialogoOpcional(DialogoOpcional dialogo)
+	{
+		this.dialogosOpcionales.Add(dialogo);
+		return this;
+	}
+
+	public List<Dialogo> cargarDialogoOpcional(Evento evento){
+		List<Dialogo> dialogo = new List<Dialogo>();
+		foreach(DialogoOpcional dialogoOpcional in this.dialogosOpcionales){
+			dialogo.AddRange(dialogoOpcional.checkeoDeHabilidad(evento.getJugador()));
+		}
+		return dialogo;
+	}
+
+	public void iniciarCambioDeFondo(Evento evento){
+		if(this.cambioDeFondo == null) return;
+		this.cambioDeFondo.iniciarCambioDeFondo(evento);
 	}
 }

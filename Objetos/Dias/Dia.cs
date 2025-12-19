@@ -4,9 +4,18 @@ using System.Collections.Generic;
 
 public abstract partial class Dia : Node2D
 {
+	public static List<string> FASES_DEL_DIA = new List<string> { 
+		"Clase",
+		"Almuerzo",
+		"Entrenamiento",
+		"Noche" };
+
 	public int NumeroDia { get; set; } = 0;
+	private int faseDelDiaActual = 0;
 	private EstadoDia estado;
 	private Sistema sistema;
+
+	protected TablaDeEventos eventos = new TablaDeEventos();
 
 	protected Evento eventoCargado;
 	protected Evento eventoManana;//El evento de la mañana, me da miedo poner ñ's en el codigo.
@@ -17,13 +26,16 @@ public abstract partial class Dia : Node2D
 
 	//Pull de eventos de la noche:
 	
-	protected Dia proximoDia;
+	public Dia(Sistema sistema){
+		this.sistema = sistema;
+		this.estado = new EstadoDiaManana(this);
+	}
 
-	    public Dia(Sistema sistema){
-			this.sistema = sistema;
-			this.estado = new EstadoDiaManana(this);
-		}
-		public void cargarMapa(){
+	public string getFaseDiaActual(){
+		return FASES_DEL_DIA[this.faseDelDiaActual];
+	}
+
+	public void cargarMapa(){
 		this.eventoCargado.QueueFree();
 	}
 
@@ -42,19 +54,46 @@ public abstract partial class Dia : Node2D
 
 	public String getPeriodoDelDia()
 	{
-		if (this.estado != null)
-		{
-			return this.estado.GetPeriodoDelDia();
-		}
-		return EstadoDia.PERIODO_NA;
+		return FASES_DEL_DIA[this.faseDelDiaActual];
 	}
 
 	public void avanzarDia(){
-		this.estado.avanzarDia();
+		this.eventos.getProximoEvento(this.getFlags());
+		this.faseDelDiaActual++;
+		if(this.faseDelDiaActual >= FASES_DEL_DIA.Count){
+			this.faseDelDiaActual = 0;
+			this.NumeroDia++;
+		}
+	}
+
+	public void iniciarAvanzeFaseDelDia(){
+		this.eventoCargado.QueueFree();
+		this.eventoCargado = (Evento)Activator.CreateInstance(
+				this.eventoCargado.getProximoEvento(),
+				this);
+		this.sistema.setEstado(new EstadoSistemaTransicionDia(
+					this.sistema,
+					this.generarMensajeDia(this.faseDelDiaActual),
+					this.generarMensajeDia(this.faseDelDiaActual + 1)
+					));
+		this.AddChild(this.eventoCargado);
+	}
+
+	private string generarMensajeDia(int faseDelDiaActual){
+		if(faseDelDiaActual >= FASES_DEL_DIA.Count){
+			faseDelDiaActual = 0;
+			return "Día " + (this.NumeroDia + 1)+ ", " + FASES_DEL_DIA[faseDelDiaActual] + ".";
+		}else{
+			return "Día " + this.NumeroDia + ", " + FASES_DEL_DIA[faseDelDiaActual] + ".";
+		}
 	}
 
 	public Personaje getJugador(){
 		return this.sistema.getJugador();
+	}
+
+	public Flags getFlags(){
+		return this.sistema.getJugador().Flags;
 	}
 
 	public AudioStreamPlayer getAudioStreamer(){
