@@ -13,8 +13,71 @@ public partial class Personaje
 	private int reflejos = 0;// media entre agilidad intelecto y percepcion
 	private int vitalidad = 0;// 5 + media entre fuerza y tenacidad
 
+	private int locura = 0;
+	public event Action OnLocuraMaxima;
+
+	public int Locura
+	{
+		get { return locura; }
+		set
+		{
+			locura = Math.Clamp(value, 0, 20);
+
+			if(locura >= 5)
+				EnsurePerk(new PerkLocuraLeve());
+			if(locura >= 10)
+				EnsurePerk(new PerkLocuraModerada());
+			if(locura >= 15)
+				EnsurePerk(new PerkLocuraSevera());
+
+			if(locura >= 20)
+				OnLocuraMaxima?.Invoke();
+		}
+	}
+
+	private void EnsurePerk(Perk perk)
+	{
+		if(!this.perks.Any(p => p.Nombre == perk.Nombre))
+		{
+			this.addPerk(perk);
+		}
+	}
+
 	private Flags flags;
 	private List<Perk> perks = new List<Perk>();
+
+	public List<string> GetPerkNames()
+	{
+		return perks.Select(p => p.Nombre).ToList();
+	}
+
+	public void LoadPerks(List<string> perkNames)
+	{
+		this.perks.Clear();
+		foreach(var name in perkNames)
+		{
+			// Factory logic or reflection would be better, but for now specific check or reflection
+			// Since we only have Locura perks implemented as specific classes so far...
+			// To make this robust, we should probably instantiate based on name.
+			// Ideally we have a PerkFactory, but for now let's use Reflection to find types inheriting from Perk
+
+			// Simple approach for known perks:
+			if (name == "Locura Leve") this.addPerk(new PerkLocuraLeve());
+			else if (name == "Locura Moderada") this.addPerk(new PerkLocuraModerada());
+			else if (name == "Locura Severa") this.addPerk(new PerkLocuraSevera());
+			// For others, if we have generic perks, we'd need that logic.
+			// Assuming future perks will follow.
+		}
+	}
+
+	public void SetFlags(Dictionary<string, bool> loadedFlags)
+	{
+		if(this.flags == null) this.flags = new Flags();
+		foreach(var kvp in loadedFlags)
+		{
+			this.flags.updateFlag(kvp.Key, kvp.Value);
+		}
+	}
 
 	public static readonly string AGILIDAD = "Agilidad";
 	public static readonly string FUERZA = "Fuerza";
