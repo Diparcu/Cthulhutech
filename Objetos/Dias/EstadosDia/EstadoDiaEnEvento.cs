@@ -15,14 +15,17 @@ public partial class EstadoDiaManana : EstadoDia
 	}
 
 	public override void comportamiento(double delta){
-		this.dia.getEventoCargado().comportamiento(delta);
+		if (this.dia.getEventoCargado() != null)
+			this.dia.getEventoCargado().comportamiento(delta);
 	}
 
 	public override void control(InputEvent @event){
-		this.dia.getEventoCargado().control(@event);
+		if (this.dia.getEventoCargado() != null)
+			this.dia.getEventoCargado().control(@event);
 	}
 
 	public override void dibujar(Node2D sistema){
-		this.dia.getEventoCargado().dibujar(sistema);
+		if (this.dia.getEventoCargado() != null)
+			this.dia.getEventoCargado().dibujar(sistema);
 	}
 }
