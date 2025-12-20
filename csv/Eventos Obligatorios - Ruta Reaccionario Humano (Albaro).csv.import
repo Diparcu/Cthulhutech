@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://xryoole2wl1o"
+
+[deps]
+
+files=["res://csv/Eventos Obligatorios - Ruta Reaccionario Humano (Albaro).Temprano.translation", "res://csv/Eventos Obligatorios - Ruta Reaccionario Humano (Albaro).Tarde.translation", "res://csv/Eventos Obligatorios - Ruta Reaccionario Humano (Albaro).Noche.translation"]
+
+source_file="res://csv/Eventos Obligatorios - Ruta Reaccionario Humano (Albaro).csv"
+dest_files=["res://csv/Eventos Obligatorios - Ruta Reaccionario Humano (Albaro).Temprano.translation", "res://csv/Eventos Obligatorios - Ruta Reaccionario Humano (Albaro).Tarde.translation", "res://csv/Eventos Obligatorios - Ruta Reaccionario Humano (Albaro).Noche.translation"]
+
+[params]
+
+compress=true
+delimiter=0

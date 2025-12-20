@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://dcjd1fdx4o4ay"
+
+[deps]
+
+files=["res://csv/Eventos Obligatorios - Ruta Heroe (claus).Temprano.translation", "res://csv/Eventos Obligatorios - Ruta Heroe (claus).Tarde.translation", "res://csv/Eventos Obligatorios - Ruta Heroe (claus).Noche.translation"]
+
+source_file="res://csv/Eventos Obligatorios - Ruta Heroe (claus).csv"
+dest_files=["res://csv/Eventos Obligatorios - Ruta Heroe (claus).Temprano.translation", "res://csv/Eventos Obligatorios - Ruta Heroe (claus).Tarde.translation", "res://csv/Eventos Obligatorios - Ruta Heroe (claus).Noche.translation"]
+
+[params]
+
+compress=true
+delimiter=0

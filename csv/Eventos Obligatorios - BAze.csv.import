@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://bclyhuar4sp4n"
+
+[deps]
+
+files=["res://csv/Eventos Obligatorios - BAze.Codigo.translation", "res://csv/Eventos Obligatorios - BAze.Ndia,1,1.translation", "res://csv/Eventos Obligatorios - BAze.Ndia,1,2.translation", "res://csv/Eventos Obligatorios - BAze.Ndia,1,3.translation", "res://csv/Eventos Obligatorios - BAze.Ndia,2,1.translation", "res://csv/Eventos Obligatorios - BAze.Ndia,2,2.translation", "res://csv/Eventos Obligatorios - BAze.Ndia,3,1.translation", "res://csv/Eventos Obligatorios - BAze.Ndia,3,2.translation"]
+
+source_file="res://csv/Eventos Obligatorios - BAze.csv"
+dest_files=["res://csv/Eventos Obligatorios - BAze.Codigo.translation", "res://csv/Eventos Obligatorios - BAze.Ndia,1,1.translation", "res://csv/Eventos Obligatorios - BAze.Ndia,1,2.translation", "res://csv/Eventos Obligatorios - BAze.Ndia,1,3.translation", "res://csv/Eventos Obligatorios - BAze.Ndia,2,1.translation", "res://csv/Eventos Obligatorios - BAze.Ndia,2,2.translation", "res://csv/Eventos Obligatorios - BAze.Ndia,3,1.translation", "res://csv/Eventos Obligatorios - BAze.Ndia,3,2.translation"]
+
+[params]
+
+compress=true
+delimiter=0

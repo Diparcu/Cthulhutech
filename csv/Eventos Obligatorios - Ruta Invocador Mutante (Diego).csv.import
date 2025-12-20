@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://co82wroa5v4xd"
+
+[deps]
+
+files=["res://csv/Eventos Obligatorios - Ruta Invocador Mutante (Diego).Temprano.translation", "res://csv/Eventos Obligatorios - Ruta Invocador Mutante (Diego).Tarde.translation", "res://csv/Eventos Obligatorios - Ruta Invocador Mutante (Diego).Noche.translation"]
+
+source_file="res://csv/Eventos Obligatorios - Ruta Invocador Mutante (Diego).csv"
+dest_files=["res://csv/Eventos Obligatorios - Ruta Invocador Mutante (Diego).Temprano.translation", "res://csv/Eventos Obligatorios - Ruta Invocador Mutante (Diego).Tarde.translation", "res://csv/Eventos Obligatorios - Ruta Invocador Mutante (Diego).Noche.translation"]
+
+[params]
+
+compress=true
+delimiter=0
