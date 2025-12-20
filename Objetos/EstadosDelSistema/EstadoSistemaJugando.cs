@@ -5,6 +5,7 @@ public class SistemaEstadoJugando : SistemaEstado
 {
 
     public SistemaEstadoJugando(Sistema sistema): base(sistema){
+        this.hojaDePersonajeAbrible = true;
     }
 
     override public void comportamiento(Sistema sistema, double delta){
@@ -16,6 +17,14 @@ public class SistemaEstadoJugando : SistemaEstado
     }
 
     override public void input(Sistema sistema, InputEvent @event){
+		switch(@event.AsText()){
+			case "Right Mouse Button":
+                this.sistema.setEstado(new SistemaEstadoJuegoEnPausa(
+                            this.sistema,
+                            this));
+            return;
+		}
+
         this.sistema.inputDiaCargado(@event);
     }
 }

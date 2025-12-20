@@ -1,19 +1,23 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class Sistema : Node2D
 {
 	public static Font fuente;
 
 	private SistemaEstado estado;
+	private Camera2D camara;
 	private Evento eventoCargado;
 	private Dia diaCargado;
 	private BarraSuperiorUI barraSuperior;
-	private int numeroDia = 1;
+	private List<Button> botonesPausa = new List<Button>();
+	public CanvasLayer efectLayer = new CanvasLayer();
 
 	private Personaje jugador;
 	private AudioStreamPlayer audioStream;
-	private TextureRect fondo;
+	private Sprite2D fondo;
+	private Sprite2D fondoTemporal;
 	 
 	public const int TAMANO_FUENTE = 32;
 	public static readonly HorizontalAlignment FUENTE_ORIENTACION = 0;
@@ -31,6 +35,14 @@ public partial class Sistema : Node2D
 		this.diaCargado.comportamiento(delta);
 	}
 
+	public Vector2 getCameraPosition(){
+		return this.camara.GlobalPosition;
+	}
+
+	public void moverCamara(Vector2 vector, double delta){
+		this.camara.Position = this.camara.Position.MoveToward(vector + new Vector2((1280/6), 0), 2000 * (float)delta);
+	}
+
 	public AudioStreamPlayer getAudioStreamer(){
 		return this.audioStream;
 	}
@@ -42,7 +54,6 @@ public partial class Sistema : Node2D
 	public void cargarEscena(Dia dia){
 		if(this.diaCargado != null) this.diaCargado.QueueFree();
 		this.diaCargado = dia;
-		this.diaCargado.NumeroDia = this.numeroDia;
 		this.AddChild(this.diaCargado);
 		if (this.barraSuperior != null)
 		{
@@ -54,15 +65,44 @@ public partial class Sistema : Node2D
 		fondo.Texture = GD.Load<Texture2D>(rutaFondo);
 	}
 
+	public void iniciarCambioDeFondo(Texture2D textura){
+		this.fondoTemporal.Texture = textura;
+		this.fondoTemporal.Modulate = new Color(1, 1, 1, 0);
+	}
+
+	public void terminarCambioDeFondo(){
+		this.fondo.Texture = (Texture2D)this.fondoTemporal.Texture.Duplicate();
+		this.fondo.Modulate = new Color(1, 1, 1, 1);
+		this.fondoTemporal.Texture = null;
+	}
+
+	public void cambiarFondoLentamente(){
+		if(this.fondoTemporal.Texture == null) return;
+		this.fondoTemporal.Modulate = new Color(1, 1, 1, this.fondoTemporal.Modulate.A + 0.01f);
+		this.fondo.Modulate = new Color(1, 1, 1, this.fondo.Modulate.A - 0.01f);
+		if(this.fondo.Modulate.A <= 0) this.terminarCambioDeFondo();
+	}
+
+	public void cambiarFondo(Texture2D textura){
+		fondo.Texture = textura;
+	}
+
+	public void escalarFondo(Vector2 tamanoObjetivo)
+	{
+		Vector2 escala = new Vector2();
+		escala.X = ((100f * tamanoObjetivo.X) / fondo.Texture.GetSize().X)/100;
+		escala.Y = ((100f * tamanoObjetivo.Y) / fondo.Texture.GetSize().Y)/100;
+		this.fondo.Scale = escala;
+	}
+
 	public void cambiarFondoEscalado(string rutaFondo, TextureRect.StretchModeEnum stretchMode)
 	{
 		fondo.Texture = GD.Load<Texture2D>(rutaFondo);
-		fondo.StretchMode = stretchMode;
 	}
 
 	public void restaurarModoFondo()
 	{
-		fondo.StretchMode = TextureRect.StretchModeEnum.Scale;
+		//fondo.StretchMode = TextureRect.StretchModeEnum.Scale;
 	}
 
 	public void inicializarAudioStreamer(){
@@ -87,20 +127,92 @@ public partial class Sistema : Node2D
 		return this.diaCargado;
 	}
 
+	private void crearBotonesDeMenuDePausa(){
+		Button botonGuardadoRapido = new Button();
+		Button botonCargadoRapido = new Button();
+		Button botonGuardado = new Button();
+		Button botonCargar = new Button();
+		Button botonOpciones = new Button();
+		Button botonMenuPrincipal = new Button();
+		Button botonSalida = new Button();
+
+		botonGuardadoRapido.Text = "Guardado rapido";
+		botonCargadoRapido.Text = "Cargado rapido";
+		botonGuardado.Text = "Guardar partida";
+		botonCargar.Text = "Cargar partida";
+		botonOpciones.Text = "Opciones";
+		botonMenuPrincipal.Text = "Menu principal";
+		botonSalida.Text = "Cerrar juego";
+
+		botonMenuPrincipal.Pressed += () => this.GetTree().ReloadCurrentScene();
+		botonSalida.Pressed += () => this.cerrarLaWea();
+
+		this.botonesPausa.Add(botonGuardadoRapido);
+		this.botonesPausa.Add(botonCargadoRapido);
+		this.botonesPausa.Add(botonGuardado);
+		this.botonesPausa.Add(botonCargar);
+		this.botonesPausa.Add(botonOpciones);
+		this.botonesPausa.Add(botonMenuPrincipal);
+		this.botonesPausa.Add(botonSalida);
+
+		this.ordenarBotonesDeMenuDePausa();
+	}
+
+	private void cerrarLaWea()
+	{
+		this.GetTree().Quit();
+	}
+
+	private void ordenarBotonesDeMenuDePausa(){
+		int index = 0;
+		foreach(Button buton in this.botonesPausa){
+			this.AddChild(buton);
+			buton.Visible = false;
+			buton.Position = new Vector2(16, 48*(index + 1));
+			index++;
+		}
+	}
+
+	public void setVisibilidadBotonesDePausa(bool siONo){
+		foreach(Button buton in this.botonesPausa){
+			buton.Visible = siONo;
+		}
+	}
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		this.estado = new SistemaEstadoMenuPrincipal(this);
+		this.inicializarCamara();
+		this.inicializarEstado();
+		this.inicializarFondo();
+		this.crearBotonesDeMenuDePausa();
+		this.inicializarFuente();
+		this.inicializarAudioStreamer();
+		this.crearPantallaDeInicio();
+	}
 
-		this.fondo = new TextureRect();
-		this.fondo.SetAnchorsPreset(Control.LayoutPreset.FullRect);
-		this.fondo.StretchMode = TextureRect.StretchModeEnum.Scale;
+	private void crearPantallaDeInicio(){
+		this.AddChild(new PantallaDeInicio(fuente, this));
+	}
+
+	private void inicializarEstado(){
+		this.estado = new SistemaEstadoMenuPrincipal(this);
+	}
+
+	private void inicializarFondo(){
+		this.fondo = new Sprite2D();
+		this.fondo.Centered = false;
 		this.fondo.ZIndex = -1;
 		this.AddChild(this.fondo);
 
-		this.inicializarFuente();
-		this.inicializarAudioStreamer();
-		this.AddChild(new PantallaDeInicio(fuente, this));
+		this.fondoTemporal = new Sprite2D();
+		this.fondoTemporal.Centered = false;
+		this.fondoTemporal.ZIndex = -1;
+		this.AddChild(this.fondoTemporal);
+	}
+
+	private void inicializarCamara(){
+		this.camara = this.GetNode<Camera2D>("Camara") as Camera2D;
 	}
 
 	public void irAPantallaDeInicio(Node2D nodo){
@@ -147,8 +259,8 @@ public partial class Sistema : Node2D
 			this.barraSuperior = new BarraSuperiorUI(this);
 			this.AddChild(this.barraSuperior);
 		}
-		this.numeroDia = 1;
 		Personaje personaje = new Personaje();
+		personaje.inicializarFlags();
 		personaje.origen = origen;
 		personaje.arquetipo = arquetipo;
 
@@ -157,12 +269,17 @@ public partial class Sistema : Node2D
 		{
 			case "Niño isleño":
 				personaje.Supervivencia += 5;
+				personaje.addPerk(new PerkAfortunado());
 				break;
 			case "Niño blanco":
 				personaje.CienciasOcultas += 5;
 				break;
 			case "Niño bajos fondos":
 				personaje.Sigilo += 5;
+				break;
+			case "Chud":
+				personaje.addPerk(new PerkVozCrispante());
+				personaje.updateFlag(Flags.CHUD);
 				break;
 		}
 
@@ -193,6 +310,9 @@ public partial class Sistema : Node2D
 			case "Niño bajos fondos":
 				this.cargarEscena(new Dia0BajosFondosTemprano(this));
 				break;
+			case "Chud":
+				this.cargarEscena(new DiaChud(this));
+				break;
 		}
 	}
 
@@ -203,7 +323,6 @@ public partial class Sistema : Node2D
 			this.barraSuperior = new BarraSuperiorUI(this);
 			this.AddChild(this.barraSuperior);
 		}
-		this.numeroDia = 1;
 		Personaje personaje = new Personaje();
 		personaje.Dinero = 10;
 		this.inicializarJugador(personaje);
@@ -217,7 +336,6 @@ public partial class Sistema : Node2D
 			this.barraSuperior = new BarraSuperiorUI(this);
 			this.AddChild(this.barraSuperior);
 		}
-		this.numeroDia = 1;
 		Personaje personaje = new Personaje();
 		personaje.Dinero = 50;
 		this.inicializarJugador(personaje);
@@ -231,7 +349,6 @@ public partial class Sistema : Node2D
 			this.barraSuperior = new BarraSuperiorUI(this);
 			this.AddChild(this.barraSuperior);
 		}
-		this.numeroDia = 1;
 		Personaje personaje = new Personaje();
 		personaje.Dinero = 100;
 		this.inicializarJugador(personaje);
@@ -245,7 +362,6 @@ public partial class Sistema : Node2D
 			this.barraSuperior = new BarraSuperiorUI(this);
 			this.AddChild(this.barraSuperior);
 		}
-		this.numeroDia = 1;
 		Personaje personaje = new Personaje();
 		this.inicializarJugador(personaje);
 		this.cargarEscena(new Dia0Blanco(this));
@@ -258,7 +374,6 @@ public partial class Sistema : Node2D
 			this.barraSuperior = new BarraSuperiorUI(this);
 			this.AddChild(this.barraSuperior);
 		}
-		this.numeroDia = 1;
 		Personaje personaje = new Personaje();
 		this.inicializarJugador(personaje);
 		this.cargarEscena(new Dia0BajosFondosTemprano(this));
@@ -271,7 +386,6 @@ public partial class Sistema : Node2D
 			this.barraSuperior = new BarraSuperiorUI(this);
 			this.AddChild(this.barraSuperior);
 		}
-		this.numeroDia = 1;
 		this.inicializarJugador(new Personaje());
 		this.cargarEscena(new DiaMegan(this));
 	}
@@ -282,9 +396,13 @@ public partial class Sistema : Node2D
 			this.barraSuperior = new BarraSuperiorUI(this);
 			this.AddChild(this.barraSuperior);
 		}
-		this.numeroDia = 1;
 		this.inicializarJugador(new Personaje());
 		this.cargarEscena(new DiaKC(this));
+	}
+
+	public void avanzarDia(){
+		this.diaCargado.avanzarDia();
+		this.barraSuperior.ActualizarUI();
 	}
 
 	public void iniciarCreditos(Node2D nodo){
@@ -304,11 +422,12 @@ public partial class Sistema : Node2D
 
 	public void avanzarAlSiguienteDia(Node2D nodoActual){
 		nodoActual.QueueFree();
-		this.numeroDia++;
 		this.cargarEscena(new DiaIsla(this));
 	}
 
 	public void mostrarHojaDePersonaje(){
+		if(!this.estado.hojaDePersonajeAbrible) return;
+		this.setEstado(new SistemaEstadoEnHojaDePersonaje(this));
 		var hoja = new HojaDePersonaje(this);
 		hoja.TreeExiting += () => {
 			if (this.barraSuperior != null)
