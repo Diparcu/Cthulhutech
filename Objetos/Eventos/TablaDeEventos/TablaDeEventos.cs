@@ -64,17 +64,59 @@ public partial class TablaDeEventos
     private List<EntradaTablaDeEventos> poolEventosAleatoriosSueno = new List<EntradaTablaDeEventos>{
     };
 
-    public Evento getProximoEvento(Flags flags){
-        return null;
+    public Type GetEventoTemprano(Flags flags, int numeroDia)
+    {
+        return GetEvento(poolEventosObligatoriosClase, poolEventosAleatoriosClase, flags, numeroDia);
     }
 
-    private Evento getEventoTemprano(Flags flags)
+    public Type GetEventoAlmuerzo(Flags flags, int numeroDia)
     {
-        List<EntradaTablaDeEventos> eventos = new List<EntradaTablaDeEventos>(this.poolEventosAleatoriosClase);
+        return GetEvento(poolEventosObligatoriosAlmuerzo, poolEventosAleatoriosAlmuerzo, flags, numeroDia);
+    }
 
-        eventos = this.getEventosDisponibles(eventos, flags);
+    public Type GetEventoEntrenamiento(Flags flags, int numeroDia)
+    {
+        return GetEvento(poolEventosObligatoriosEntrenamiento, poolEventosAleatoriosEntrenamiento, flags, numeroDia);
+    }
 
-        return null;
+    public Type GetEventoTarde(Flags flags, int numeroDia)
+    {
+        return GetEvento(poolEventosObligatoriosAventuraTarde, poolEventosAleatoriosAventuraTarde, flags, numeroDia);
+    }
+
+    public Type GetEventoNoche(Flags flags, int numeroDia)
+    {
+        return GetEvento(poolEventosObligatoriosAventuraNoche, poolEventosAleatoriosNoche, flags, numeroDia);
+    }
+
+    private Type GetEvento(Dictionary<int, Type> obligatorios, List<EntradaTablaDeEventos> aleatorios, Flags flags, int numeroDia)
+    {
+        // 1. Check Mandatory
+        if (obligatorios.ContainsKey(numeroDia))
+        {
+            return obligatorios[numeroDia];
+        }
+
+        // 2. Filter Random Pool
+        List<EntradaTablaDeEventos> disponibles = getEventosDisponibles(aleatorios, flags);
+
+        if (disponibles.Count == 0) return null;
+
+        // 3. Select Randomly (Weighted)
+        int totalPeso = disponibles.Sum(e => e.Peso);
+        int randomValue = new Random().Next(0, totalPeso);
+        int currentSum = 0;
+
+        foreach (var entrada in disponibles)
+        {
+            currentSum += entrada.Peso;
+            if (randomValue < currentSum)
+            {
+                return entrada.Evento;
+            }
+        }
+
+        return disponibles.Last().Evento; // Fallback
     }
 
     private List<EntradaTablaDeEventos> getEventosDisponibles(
@@ -83,11 +125,6 @@ public partial class TablaDeEventos
     {
         List<EntradaTablaDeEventos> eventosDisponibles = this.getEventosConFlagsRequeridas(eventos, flags);
         eventosDisponibles = this.getEventosSinFlagsProhibitivas(eventosDisponibles, flags);
-
-        foreach(EntradaTablaDeEventos wa in eventosDisponibles){
-            GD.Print(wa);
-        }
-
         return eventosDisponibles;
     }
 

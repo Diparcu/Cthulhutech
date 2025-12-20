@@ -16,6 +16,7 @@ public abstract partial class Evento : Node2D
 
 	protected List<Sprite2D> sprites = new List<Sprite2D>() ;
 	protected List<Dialogo> dialogos = new List<Dialogo>(); 
+	public List<Dialogo> GetDialogos() { return this.dialogos; }
 	protected List<Dialogo> historialDialogos = new List<Dialogo>(); 
 	protected RichTextLabel cajaDeTexto = new RichTextLabel();
 	private List<OpcionDialogo> opciones = new List<OpcionDialogo>();
