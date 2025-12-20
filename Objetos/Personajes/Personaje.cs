@@ -13,6 +13,36 @@ public partial class Personaje
 	private int reflejos = 0;// media entre agilidad intelecto y percepcion
 	private int vitalidad = 0;// 5 + media entre fuerza y tenacidad
 
+	private int locura = 0;
+	public event Action OnLocuraMaxima;
+
+	public int Locura
+	{
+		get { return locura; }
+		set
+		{
+			locura = Math.Clamp(value, 0, 20);
+
+			if(locura >= 5)
+				EnsurePerk(new PerkLocuraLeve());
+			if(locura >= 10)
+				EnsurePerk(new PerkLocuraModerada());
+			if(locura >= 15)
+				EnsurePerk(new PerkLocuraSevera());
+
+			if(locura >= 20)
+				OnLocuraMaxima?.Invoke();
+		}
+	}
+
+	private void EnsurePerk(Perk perk)
+	{
+		if(!this.perks.Any(p => p.Nombre == perk.Nombre))
+		{
+			this.addPerk(perk);
+		}
+	}
+
 	private Flags flags;
 	private List<Perk> perks = new List<Perk>();
 
