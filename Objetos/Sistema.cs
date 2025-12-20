@@ -405,6 +405,11 @@ public partial class Sistema : Node2D
 		this.barraSuperior.ActualizarUI();
 	}
 
+	public void ActualizarUI() {
+		if (this.barraSuperior != null)
+			this.barraSuperior.ActualizarUI();
+	}
+
 	public void iniciarCreditos(Node2D nodo){
 		nodo.QueueFree();
 		this.cargarEscena(new DiaCreditos(this));

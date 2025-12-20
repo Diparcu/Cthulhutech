@@ -102,22 +102,32 @@ public abstract partial class Dia : Node2D
 		this.eventoCargado = proximoEvento;
 
 		if(this.eventoCargado != null){
+
+			int prevPhase = this.faseDelDiaActual - 1;
+			int prevDay = this.NumeroDia;
+			if (prevPhase < 0)
+			{
+				prevPhase = FASES_DEL_DIA.Count - 1;
+				prevDay--;
+			}
+
 			this.sistema.setEstado(new EstadoSistemaTransicionDia(
 						this.sistema,
-						this.generarMensajeDia(this.faseDelDiaActual),
-						this.generarMensajeDia(this.faseDelDiaActual)
+						this.generarMensajeDia(prevPhase, prevDay),
+						this.generarMensajeDia(this.faseDelDiaActual, this.NumeroDia)
 						));
 			this.AddChild(this.eventoCargado);
 		}
 	}
 
+	private string generarMensajeDia(int fase, int numeroDia){
+		if (fase >= 0 && fase < FASES_DEL_DIA.Count)
+			return "Día " + numeroDia + ", " + FASES_DEL_DIA[fase] + ".";
+		return "";
+	}
+
 	private string generarMensajeDia(int faseDelDiaActual){
-		if(faseDelDiaActual >= FASES_DEL_DIA.Count){
-			faseDelDiaActual = 0;
-			return "Día " + (this.NumeroDia + 1)+ ", " + FASES_DEL_DIA[faseDelDiaActual] + ".";
-		}else{
-			return "Día " + this.NumeroDia + ", " + FASES_DEL_DIA[faseDelDiaActual] + ".";
-		}
+		return generarMensajeDia(faseDelDiaActual, this.NumeroDia);
 	}
 
 	public Personaje getJugador(){

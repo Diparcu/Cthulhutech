@@ -31,7 +31,7 @@ public partial class TransicionDia : Control
                 break;
             case 3:
                 this.estado++;
-                sistema.avanzarDia();
+                sistema.ActualizarUI();
                 break;
             case 4:
                 this.contadorMaximo = 100;
