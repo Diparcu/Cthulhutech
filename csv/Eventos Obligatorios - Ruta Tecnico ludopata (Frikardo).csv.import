@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://j7yfvp3ofdvv"
+
+[deps]
+
+files=["res://csv/Eventos Obligatorios - Ruta Tecnico ludopata (Frikardo).Temprano.translation", "res://csv/Eventos Obligatorios - Ruta Tecnico ludopata (Frikardo).Tarde.translation", "res://csv/Eventos Obligatorios - Ruta Tecnico ludopata (Frikardo).Noche.translation"]
+
+source_file="res://csv/Eventos Obligatorios - Ruta Tecnico ludopata (Frikardo).csv"
+dest_files=["res://csv/Eventos Obligatorios - Ruta Tecnico ludopata (Frikardo).Temprano.translation", "res://csv/Eventos Obligatorios - Ruta Tecnico ludopata (Frikardo).Tarde.translation", "res://csv/Eventos Obligatorios - Ruta Tecnico ludopata (Frikardo).Noche.translation"]
+
+[params]
+
+compress=true
+delimiter=0

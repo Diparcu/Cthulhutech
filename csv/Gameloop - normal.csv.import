@@ -1,0 +1,13 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://cghsrdubrb0fa"
+
+[deps]
+
+source_file="res://csv/Gameloop - normal.csv"
+[params]
+
+compress=true
+delimiter=0

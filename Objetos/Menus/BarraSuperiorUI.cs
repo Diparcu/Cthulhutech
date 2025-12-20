@@ -8,6 +8,7 @@ public partial class BarraSuperiorUI : CanvasLayer
 	private Label momentoLabel;
 	private Label saludLabel;
 	private Label ruachLabel;
+	private Label locuraLabel;
 	private Label xpLabel;
 	private Button hojaBtn;
 
@@ -45,6 +46,8 @@ public partial class BarraSuperiorUI : CanvasLayer
 		momentoLabel = new Label();
 		saludLabel = new Label();
 		ruachLabel = new Label();
+		locuraLabel = new Label();
+		locuraLabel.AddThemeColorOverride("font_color", Colors.BlueViolet);
 		xpLabel = new Label();
 
 		hBox.AddChild(new Label { Text = "Día: " });
@@ -57,6 +60,8 @@ public partial class BarraSuperiorUI : CanvasLayer
 		hBox.AddChild(new VSeparator());
 		hBox.AddChild(new Label { Text = "Ruach: " });
 		hBox.AddChild(ruachLabel);
+		hBox.AddChild(new VSeparator());
+		hBox.AddChild(locuraLabel);
 		hBox.AddChild(new VSeparator());
 		hBox.AddChild(new Label { Text = "XP: " });
 		hBox.AddChild(xpLabel);
@@ -82,6 +87,7 @@ public partial class BarraSuperiorUI : CanvasLayer
 			momentoLabel.Text = dia.getPeriodoDelDia();
 			saludLabel.Text = personaje.Vitalidad.ToString();
 			ruachLabel.Text = personaje.Orgon.ToString();
+			locuraLabel.Text = $"Locura: {personaje.Locura}/20";
 			xpLabel.Text = personaje.XP.ToString();
 		}
 	}
