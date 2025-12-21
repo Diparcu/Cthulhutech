@@ -10,7 +10,8 @@ public class EstadoSistemaTransicionDia : SistemaEstado
     public EstadoSistemaTransicionDia(Sistema sistema, String mensaje1, String mensaje2): base(sistema){
         this.canvas = new CanvasLayer();
         this.canvas.Layer = 1000;
-        this.pantallaNegra = new TransicionDia(mensaje1, mensaje2);
+        // Concatenamos mensajes para compatibilidad con nuevo constructor
+        this.pantallaNegra = new TransicionDia($"{mensaje1} - {mensaje2}");
         sistema.AddChild(this.canvas);
         this.canvas.AddChild(this.pantallaNegra);
     }

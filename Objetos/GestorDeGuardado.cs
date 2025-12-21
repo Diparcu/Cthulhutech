@@ -180,18 +180,18 @@ public static class GestorDeGuardado
 
 		string jsonString = JsonSerializer.Serialize(saveData, new JsonSerializerOptions { WriteIndented = true });
 
-		using var file = FileAccess.Open(RUTA_GUARDADO, FileAccess.ModeFlags.Write);
+		using var file = Godot.FileAccess.Open(RUTA_GUARDADO, Godot.FileAccess.ModeFlags.Write);
 		file.StoreString(jsonString);
 	}
 
 	public static SaveData CargarPartida()
 	{
-		if (!FileAccess.FileExists(RUTA_GUARDADO))
+		if (!Godot.FileAccess.FileExists(RUTA_GUARDADO))
 		{
 			return null;
 		}
 
-		using var file = FileAccess.Open(RUTA_GUARDADO, FileAccess.ModeFlags.Read);
+		using var file = Godot.FileAccess.Open(RUTA_GUARDADO, Godot.FileAccess.ModeFlags.Read);
 		string jsonString = file.GetAsText();
 
 		try
