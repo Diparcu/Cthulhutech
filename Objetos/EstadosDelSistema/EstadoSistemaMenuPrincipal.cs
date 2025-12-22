@@ -13,7 +13,12 @@ public class SistemaEstadoMenuPrincipal : SistemaEstado
     override public void dibujar(Sistema sistema){
     }
 
-    override public void input(Sistema sistema, InputEvent @event){}
+    override public void input(Sistema sistema, InputEvent @event){
+        if (@event is InputEventKey keyEvent && keyEvent.Pressed && keyEvent.Keycode == Key.P)
+        {
+            sistema.iniciarPrototipoClases(sistema.getDiaCargado() ?? (Node2D)sistema.GetNode("PantallaDeInicio") ?? (Node2D)sistema);
+        }
+    }
 }
 
 

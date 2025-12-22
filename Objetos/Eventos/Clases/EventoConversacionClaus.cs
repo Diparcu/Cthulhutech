@@ -15,6 +15,6 @@ public partial class EventoConversacionClaus : Evento
 
 		this.dialogos.Add(new Dialogo("Claus se aleja refunfuñando hacia el aula.").addAction(() => {
 			this.getJugador().updateFlag("Conoce a Claus", true);
-		}));
+		}).setFinal(typeof(EventoRouterClase)));
 	}
 }

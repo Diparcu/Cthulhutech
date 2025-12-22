@@ -403,6 +403,25 @@ public partial class Sistema : Node2D
 		this.cargarEscena(new DiaKC(this));
 	}
 
+	public void iniciarPrototipoClases(Node2D nodoAnterior)
+	{
+		nodoAnterior.QueueFree();
+		if (this.barraSuperior == null)
+		{
+			this.barraSuperior = new BarraSuperiorUI(this);
+			this.AddChild(this.barraSuperior);
+		}
+
+		Personaje p = new Personaje();
+		// Stats básicos para pasar pruebas
+		p.Inteligencia = 6;
+		p.Lectoescritura = 2;
+		p.CienciasFisicas = 2;
+
+		this.inicializarJugador(p);
+		this.cargarEscena(new DiaClaseMVP(this));
+	}
+
 	public void avanzarDia(){
 		// Old logic kept for compatibility if needed, but ideally replaced by avanzarFase
 		this.diaCargado.avanzarDia();

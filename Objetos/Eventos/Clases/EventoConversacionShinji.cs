@@ -19,7 +19,7 @@ public partial class EventoConversacionShinji : Evento
 		ramaAceptar.Add(new Dialogo("Shinji", "¡Genial! Verás que es divertido. No apostamos mucho... usualmente."));
 		ramaAceptar.Add(new Dialogo("Suena la campana. Shinji se sobresalta y corre hacia el salón.").addAction(() => {
 			this.getJugador().updateFlag(Flags.CONOCE_A_SHINJI, true);
-		}));
+		}).setFinal(typeof(EventoRouterClase)));
 
 		// 2. Crear la rama de Rechazar (o "No saber jugar")
 		List<Dialogo> ramaRechazar = new List<Dialogo>();
@@ -27,7 +27,7 @@ public partial class EventoConversacionShinji : Evento
 		ramaRechazar.Add(new Dialogo("Shinji", "¡Oh, no te preocupes! Es fácil. Yo te puedo enseñar las reglas básicas antes de que pierd— digo, antes de que juguemos."));
 		ramaRechazar.Add(new Dialogo("Suena la campana. Shinji se sobresalta y corre hacia el salón.").addAction(() => {
 			this.getJugador().updateFlag(Flags.CONOCE_A_SHINJI, true);
-		}));
+		}).setFinal(typeof(EventoRouterClase)));
 
 		// 3. Crear las Opciones
 		OpcionDialogo op1 = new OpcionDialogo("Suena interesante, iré.");
