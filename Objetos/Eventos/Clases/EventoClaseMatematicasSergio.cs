@@ -7,7 +7,7 @@ public partial class EventoClaseMatematicasSergio : Evento
 	public EventoClaseMatematicasSergio(Dia dia) : base(dia)
 	{
 		// Fondo de clase
-		this.cambiarFondo("res://Sprites/Fondos/Clase.png"); // Placeholder path
+		this.cambiarFondo("res://Sprites/Fondos/FONDO_UBB.jpg"); // Placeholder
 
 		this.dialogos.Add(new Dialogo("Sergio", "¡Atención! Dejen de babear sobre los pupitres. Esto no es un recreo, es balística aplicada."));
 		this.dialogos.Add(new Dialogo("Sergio", "Si un proyectil sale con un ángulo de 30 grados y una velocidad de 800 m/s... ¿dónde impactará si el viento sopla en contra a 5 m/s?"));

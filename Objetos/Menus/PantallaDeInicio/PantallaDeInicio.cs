@@ -176,8 +176,11 @@ public partial class PantallaDeInicio : Node2D
         Button nuevaPartida = this.crearBoton("Nueva partida");
         nuevaPartida.Pressed += this._on_NuevaPartida_pressed;
 
-        Button eventos = this.crearBoton("Eventos");
-        eventos.Pressed += this._on_Eventos_pressed;
+        Button eventos = this.crearBoton("Prototipo Clases");
+        eventos.Pressed += () => this.sistema.iniciarPrototipoClases(this);
+
+        Button menuEventos = this.crearBoton("Eventos");
+        menuEventos.Pressed += this._on_Eventos_pressed;
 
         Button cargar = this.crearBoton("Cargar partida");
         Button opciones = this.crearBoton("Opciones");
@@ -191,6 +194,7 @@ public partial class PantallaDeInicio : Node2D
 
         menuPrincipalContainer.AddChild(nuevaPartida);
         menuPrincipalContainer.AddChild(eventos);
+        menuPrincipalContainer.AddChild(menuEventos);
         menuPrincipalContainer.AddChild(cargar);
         menuPrincipalContainer.AddChild(opciones);
         menuPrincipalContainer.AddChild(creditos);

@@ -6,7 +6,7 @@ public partial class EventoConversacionClaus : Evento
 {
 	public EventoConversacionClaus(Dia dia) : base(dia)
 	{
-		this.cambiarFondo("res://Sprites/Fondos/Pasillo.png"); // Placeholder
+		this.cambiarFondo("res://Sprites/Fondos/FONDO_MEDIA.jpg"); // Placeholder
 
 		this.dialogos.Add(new Dialogo("Claus", "Tsk. ¿Cuánto falta para que abra el campo de tiro?"));
 		this.dialogos.Add(new Dialogo("El chico de cabello rapado golpea impacientemente la pared con el puño. Tiene esa mirada de alguien que busca pelea o una distracción fuerte."));

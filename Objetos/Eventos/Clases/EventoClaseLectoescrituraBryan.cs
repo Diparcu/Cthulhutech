@@ -6,7 +6,7 @@ public partial class EventoClaseLectoescrituraBryan : Evento
 {
 	public EventoClaseLectoescrituraBryan(Dia dia) : base(dia)
 	{
-		this.cambiarFondo("res://Sprites/Fondos/Clase.png");
+		this.cambiarFondo("res://Sprites/Fondos/FONDO_UBB.jpg");
 
 		this.dialogos.Add(new Dialogo("Bryan", "Buenos días. Hoy no analizaremos a Shakespeare. Hoy analizaremos esto."));
 		this.dialogos.Add(new Dialogo("El profesor proyecta un texto lleno de símbolos extraños, partes borrosas y sintaxis rota. Parece un archivo recuperado de un disco duro dañado... o algo peor."));

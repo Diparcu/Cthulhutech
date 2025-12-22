@@ -6,7 +6,7 @@ public partial class EventoConversacionShinji : Evento
 {
 	public EventoConversacionShinji(Dia dia) : base(dia)
 	{
-		this.cambiarFondo("res://Sprites/Fondos/Pasillo.png"); // Placeholder
+		this.cambiarFondo("res://Sprites/Fondos/FONDO_MEDIA.jpg"); // Placeholder
 
 		this.dialogos.Add(new Dialogo("Shinji", "E-eh... hola. Perdona."));
 		this.dialogos.Add(new Dialogo("El chico delgado se ajusta las gafas, mirando a todos lados como si esperara que alguien lo regañe por existir."));

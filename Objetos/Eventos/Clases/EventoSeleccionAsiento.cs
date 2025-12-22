@@ -6,7 +6,7 @@ public partial class EventoSeleccionAsiento : Evento
 {
 	public EventoSeleccionAsiento(Dia dia) : base(dia)
 	{
-		this.cambiarFondo("res://Sprites/Fondos/Clase.png"); // Placeholder
+		this.cambiarFondo("res://Sprites/Fondos/FONDO_UBB.jpg"); // Placeholder
 
 		Dialogo dialogoInicial = new Dialogo("Narrador", "Entras al salón. El aire está viciado y huele a tiza y sudor frío. ¿Dónde te sientas?");
 
