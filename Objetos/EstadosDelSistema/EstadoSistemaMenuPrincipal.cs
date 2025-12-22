@@ -16,7 +16,24 @@ public class SistemaEstadoMenuPrincipal : SistemaEstado
     override public void input(Sistema sistema, InputEvent @event){
         if (@event is InputEventKey keyEvent && keyEvent.Pressed && keyEvent.Keycode == Key.P)
         {
-            sistema.iniciarPrototipoClases(sistema.getDiaCargado() ?? (Node2D)sistema.GetNode("PantallaDeInicio") ?? (Node2D)sistema);
+            Node2D nodoAEliminar = null;
+            // Buscamos cuál es la pantalla activa iterando los hijos
+            foreach(Node child in sistema.GetChildren()){
+                // Lista de posibles vistas del menú que queremos limpiar
+                if(child is PantallaDeInicio || child is CreadorDePersonaje ||
+                   child is SeleccionOrigen || child is SeleccionArquetipo ||
+                   child is Intro) // Agrega otros si es necesario
+                {
+                    nodoAEliminar = (Node2D)child;
+                    break;
+                }
+            }
+            if(nodoAEliminar != null){
+                GD.Print("Iniciando Prototipo Clases... Eliminando: " + nodoAEliminar.Name);
+                sistema.iniciarPrototipoClases(nodoAEliminar);
+            } else {
+                GD.PrintErr("Error Debug: No se encontró una vista válida para eliminar.");
+            }
         }
     }
 }
