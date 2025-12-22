@@ -11,7 +11,7 @@ public partial class EventoClaseLectoescrituraBryan : Evento
 		this.dialogos.Add(new Dialogo("Bryan", "Buenos días. Hoy no analizaremos a Shakespeare. Hoy analizaremos esto."));
 		this.dialogos.Add(new Dialogo("El profesor proyecta un texto lleno de símbolos extraños, partes borrosas y sintaxis rota. Parece un archivo recuperado de un disco duro dañado... o algo peor."));
 		this.dialogos.Add(new Dialogo("Bryan", "El lenguaje evoluciona, se corrompe. A veces, lo que está oculto entre el ruido es más importante que el mensaje claro. Descifrenlo."));
-		this.dialogos.Add(new Dialogo("Te concentras en el patrón de los glifos corruptos...").setAction(RealizarTirada));
+		this.dialogos.Add(new Dialogo("Te concentras en el patrón de los glifos corruptos...").addAction(RealizarTirada));
 	}
 
 	private void RealizarTirada()
@@ -26,7 +26,7 @@ public partial class EventoClaseLectoescrituraBryan : Evento
 		{
 			this.dialogos.Add(new Dialogo("Tus ojos filtran el ruido estático. Las letras se reordenan en tu mente. Es un informe de suministros... pero las fechas son del futuro."));
 			this.dialogos.Add(new Dialogo("Bryan", "Veo en tu cara que lo has visto. El subtexto. Muy bien. Mantén esa agudeza."));
-			this.dialogos.Add(new Dialogo("Ganaste 10 XP").setAction(() => {
+			this.dialogos.Add(new Dialogo("Ganaste 10 XP").addAction(() => {
 				this.getJugador().XP += 10;
 			}));
 		}

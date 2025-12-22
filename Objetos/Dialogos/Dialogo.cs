@@ -57,6 +57,12 @@ public class Dialogo
 		return this;
 	}
 
+	public Dialogo addOpcion(OpcionDialogo opcion){
+		this.tipo = DESICION;
+		this.opciones.Add(opcion);
+		return this;
+	}
+
 	public Dialogo setFinal(Type proximoEvento){
 		this.final = true;
 		this.proximoEvento = proximoEvento;

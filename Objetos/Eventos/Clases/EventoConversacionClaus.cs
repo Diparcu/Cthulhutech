@@ -13,7 +13,7 @@ public partial class EventoConversacionClaus : Evento
 		this.dialogos.Add(new Dialogo("Claus", "Estar aquí sentado escuchando teorías sobre historia o matemáticas me enferma. Deberíamos estar aprendiendo a romper cosas. O gente."));
 		this.dialogos.Add(new Dialogo("Claus", "¿Tú qué me miras? Espero que en el entrenamiento de combate no seas un estorbo."));
 
-		this.dialogos.Add(new Dialogo("Claus se aleja refunfuñando hacia el aula.").setAction(() => {
+		this.dialogos.Add(new Dialogo("Claus se aleja refunfuñando hacia el aula.").addAction(() => {
 			this.getJugador().updateFlag("Conoce a Claus", true);
 		}));
 	}
