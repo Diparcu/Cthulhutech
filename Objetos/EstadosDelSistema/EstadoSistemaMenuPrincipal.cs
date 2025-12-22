@@ -22,7 +22,7 @@ public class SistemaEstadoMenuPrincipal : SistemaEstado
                 // Lista de posibles vistas del menú que queremos limpiar
                 if(child is PantallaDeInicio || child is CreadorDePersonaje ||
                    child is SeleccionOrigen || child is SeleccionArquetipo ||
-                   child is Intro) // Agrega otros si es necesario
+                   child is Inicio) // Agrega otros si es necesario
                 {
                     nodoAEliminar = (Node2D)child;
                     break;
