@@ -8,13 +8,13 @@ public abstract partial class Dia : Node2D
 		"Clase",
 		"Almuerzo",
 		"Entrenamiento",
-		"Despues de clase",
+		//"Despues de clase",
 		"Tarde",
 		"Noche"
-    };
+	};
 
 	public int NumeroDia { get; set; } = 0;
-	private int faseDelDiaActual = 0;
+	protected int faseDelDiaActual = 0;
 	private EstadoDia estado;
 	private Sistema sistema;
 
@@ -62,6 +62,7 @@ public abstract partial class Dia : Node2D
 
 	public void avanzarDia(){
 		this.eventos.getProximoEvento(this.getFlags());
+		this.instanciarEventoProximo();
 		this.faseDelDiaActual++;
 		if(this.faseDelDiaActual >= FASES_DEL_DIA.Count){
 			this.faseDelDiaActual = 0;
@@ -69,17 +70,24 @@ public abstract partial class Dia : Node2D
 		}
 	}
 
-	public void iniciarAvanzeFaseDelDia(){
+	public void cambiarEvento(Evento evento){
+		this.eventoCargado = evento;
+	}
+
+	public void instanciarEventoProximo(){
 		this.eventoCargado.QueueFree();
 		this.eventoCargado = (Evento)Activator.CreateInstance(
 				this.eventoCargado.getProximoEvento(),
 				this);
+		this.AddChild(this.eventoCargado);
+	}
+
+	public void iniciarAvanzeFaseDelDia(){
 		this.sistema.setEstado(new EstadoSistemaTransicionDia(
 					this.sistema,
 					this.generarMensajeDia(this.faseDelDiaActual),
 					this.generarMensajeDia(this.faseDelDiaActual + 1)
 					));
-		this.AddChild(this.eventoCargado);
 	}
 
 	private string generarMensajeDia(int faseDelDiaActual){

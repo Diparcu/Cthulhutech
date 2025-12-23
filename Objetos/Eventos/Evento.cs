@@ -35,6 +35,19 @@ public abstract partial class Evento : Node2D
 		this.inicializarCajaDeTexto();
 	}
 
+	public Evento(Evento evento){
+		GD.Print("1");
+		this.dia = evento.dia;
+		GD.Print("2");
+		this.dialogos = evento.dialogos;
+		GD.Print("3");
+		this.caracteres = evento.caracteres;
+		GD.Print("4");
+		this.index = evento.index;
+		GD.Print("5");
+		this.inicializarCajaDeTexto();
+	}
+
 	public void comportamiento(double delta){
 		this.avanzarCaracteres();
 		this.moverSprites();
@@ -249,10 +262,28 @@ public abstract partial class Evento : Node2D
 
 	private void comprobarFinalDeDialogo(){
 		if(this.dialogos[index].getFinal()){
+			if(this.dialogos[index].CambioDeEvento){
+				Evento evento = (Evento)Activator.CreateInstance(
+							this.dialogos[index].getProximoEvento(),
+							this.dia);
+				this.dia.AddChild(evento);
+				this.pasarDatos(evento);
+				this.QueueFree();
+				this.dia.cambiarEvento(evento);
+				return;
+			}
 			this.dia.iniciarAvanzeFaseDelDia();
 			return;
 		}
 		this.continuarDialogo();
+	}
+
+	private void pasarDatos(Evento evento){
+		evento.caracteres = this.caracteres;
+		evento.cajaDeTexto.Text = this.cajaDeTexto.Text;
+		//evento.cajaDeTexto = (RichTextLabel)this.cajaDeTexto.Duplicate();
+		//evento.AddChild(evento.cajaDeTexto);
+		evento.cargarTexto();
 	}
 
 	private void continuarDialogo(){

@@ -14,6 +14,9 @@ public class Dialogo
 	private String dialogo = "Default";
 	private Type proximoEvento;
 	private bool final = false;
+	private bool cambioDeEvento = false;
+
+	public bool CambioDeEvento { get { return this.cambioDeEvento;} } 
 
 	private Action onShow;
 
@@ -51,6 +54,11 @@ public class Dialogo
 		this.dificultad = dificultad;
 	}
 
+	public Dialogo addDesicion(List<OpcionDialogo> opciones){
+		this.setDesicion(opciones);
+		return this;
+	}
+
 	public Dialogo setDesicion(List<OpcionDialogo> opciones){
 		this.tipo = DESICION;
 		this.opciones = opciones;
@@ -59,6 +67,13 @@ public class Dialogo
 
 	public Dialogo setFinal(Type proximoEvento){
 		this.final = true;
+		this.proximoEvento = proximoEvento;
+		return this;
+	}
+
+	public Dialogo addCambioDeEvento(Type proximoEvento){
+		this.final = true;
+		this.cambioDeEvento = true;
 		this.proximoEvento = proximoEvento;
 		return this;
 	}
