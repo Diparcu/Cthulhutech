@@ -31,7 +31,7 @@ public abstract partial class Dia : Node2D
 	
 	public Dia(Sistema sistema){
 		this.sistema = sistema;
-		this.estado = new EstadoDiaManana(this);
+		this.estado = new EstadoDiaEnEvento(this);
 	}
 
 	public string getFaseDiaActual(){

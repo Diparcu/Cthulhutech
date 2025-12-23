@@ -7,6 +7,7 @@ public partial class DiaClaseMVP : Dia
 	public DiaClaseMVP(Sistema sistema) : base(sistema)
 	{
 		this.cargarEvento(new EventoSeleccionAsiento(this));
+		this.setEstado(new EstadoDiaEnEvento(this));
 	}
 
 	private void cargarEvento(Evento evento)

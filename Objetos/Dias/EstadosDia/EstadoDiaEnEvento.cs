@@ -2,9 +2,9 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public partial class EstadoDiaManana : EstadoDia
+public partial class EstadoDiaEnEvento : EstadoDia
 {
-	public EstadoDiaManana(Dia dia): base(dia)
+	public EstadoDiaEnEvento(Dia dia): base(dia)
 	{
 		this.periodoDelDia = EstadoDia.PERIODO_MANANA;
 	}
