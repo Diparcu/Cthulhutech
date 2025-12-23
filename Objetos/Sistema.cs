@@ -418,6 +418,7 @@ public partial class Sistema : Node2D
 		p.Lectoescritura = 2;
 		p.CienciasFisicas = 2;
 
+		this.setEstado(new SistemaEstadoJugando(this)); // Asegurar que el sistema actualice el loop del día
 		this.inicializarJugador(p);
 		this.cargarEscena(new DiaClaseMVP(this));
 	}
