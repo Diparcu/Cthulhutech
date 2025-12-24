@@ -61,7 +61,7 @@ public abstract partial class Dia : Node2D
 	}
 
 	public void avanzarDia(){
-		this.eventos.getProximoEvento(this.getFlags());
+		this.eventos.getProximoEvento(this.getFlags(), this);
 		this.faseDelDiaActual++;
 		if(this.faseDelDiaActual >= FASES_DEL_DIA.Count){
 			this.faseDelDiaActual = 0;

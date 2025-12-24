@@ -11,6 +11,8 @@ public partial class EntradaTablaDeEventos
 
     public List<string> FlagsRequeridas {get { return this.flagsRequeridas; } }
     public List<string> FlagsProhibitivas {get { return this.flagsProhibitivas; }}
+    public int Peso { get { return this.peso; } }
+    public Type TipoEvento { get { return this.evento; } }
 
     public EntradaTablaDeEventos(Type evento,
             List<string> flagsRequeridas,

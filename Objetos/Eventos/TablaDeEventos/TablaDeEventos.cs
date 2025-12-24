@@ -64,17 +64,42 @@ public partial class TablaDeEventos
     private List<EntradaTablaDeEventos> poolEventosAleatoriosSueno = new List<EntradaTablaDeEventos>{
     };
 
-    public Evento getProximoEvento(Flags flags){
-        return null;
+    public Evento getProximoEvento(Flags flags, Dia dia){
+        return this.getEventoTemprano(flags, dia);
     }
 
-    private Evento getEventoTemprano(Flags flags)
+    private Evento getEventoTemprano(Flags flags, Dia dia)
     {
         List<EntradaTablaDeEventos> eventos = new List<EntradaTablaDeEventos>(this.poolEventosAleatoriosClase);
 
         eventos = this.getEventosDisponibles(eventos, flags);
 
-        return null;
+        if (eventos.Count == 0)
+        {
+            return new EventoNormal(dia); // Fallback
+        }
+
+        return this.seleccionarEventoPonderado(eventos, dia);
+    }
+
+    private Evento seleccionarEventoPonderado(List<EntradaTablaDeEventos> eventosCandidatos, Dia dia)
+    {
+        int pesoTotal = eventosCandidatos.Sum(e => e.Peso);
+        int aleatorio = new Random().Next(0, pesoTotal);
+        int pesoAcumulado = 0;
+
+        foreach(EntradaTablaDeEventos entrada in eventosCandidatos)
+        {
+            pesoAcumulado += entrada.Peso;
+            if(aleatorio < pesoAcumulado)
+            {
+                // Instanciar el evento
+                return (Evento)Activator.CreateInstance(entrada.TipoEvento, dia);
+            }
+        }
+
+        // Fallback por si acaso (no debería ocurrir)
+        return (Evento)Activator.CreateInstance(eventosCandidatos.Last().TipoEvento, dia);
     }
 
     private List<EntradaTablaDeEventos> getEventosDisponibles(
