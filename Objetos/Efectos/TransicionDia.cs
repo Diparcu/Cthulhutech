@@ -53,8 +53,11 @@ public partial class TransicionDia : Control
 				break;
 
 			case 1: // Wait / Hold (Pantalla Negra)
-				// El control lo tiene SistemaEstadoTransicion
-				// Esperamos a que se llame a IniciarFadeOut()
+				temporizador += delta;
+				if (temporizador >= tiempoEspera)
+				{
+					this.IniciarFadeOut();
+				}
 				break;
 
 			case 2: // Fade Out
