@@ -8,7 +8,7 @@ public partial class TransicionDia : Control
     private String palabra2;
     private int estado = 0;
     private int contador = 0;
-    private int contadorMaximo = 100;
+    private int contadorMaximo = 10;//Cambiar a 100 para el efecto correcto.
     private float ratioDeCambio = 0.01f;
     private Vector2 posicionInicialString = new Vector2(1280/2, 640/2);
     private Vector2 separacionStrings = new Vector2(0, 640);
@@ -26,7 +26,7 @@ public partial class TransicionDia : Control
                 this.setTransparencia(this.ratioDeCambio);
                 break;
             case 2:
-                this.contadorMaximo = 200;
+                this.contadorMaximo = this.contadorMaximo * 2;
                 this.posicionInicialString.Y = this.posicionInicialString.Y + 6.4f;
                 break;
             case 3:
@@ -34,17 +34,18 @@ public partial class TransicionDia : Control
                 sistema.avanzarDia();
                 break;
             case 4:
-                this.contadorMaximo = 100;
+                this.contadorMaximo = this.contadorMaximo / 2;
                 break;
             case 5:
                 this.setTransparencia(-this.ratioDeCambio);
                 break;
             case 6:
                 sistema.setEstado(new SistemaEstadoJugando(sistema));
+                this.QueueFree();
                 break;
         }
 
-        if(this.contador >= 100){
+        if(this.contador >= this.contadorMaximo){
             this.estado++;
             this.contador = 0;
         }

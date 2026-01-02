@@ -6,7 +6,7 @@ public partial class EventoGenericoAlmuerzo : Evento
 {
     public EventoGenericoAlmuerzo(Dia dia) : base(dia)
     {
-        this.cambiarFondo("res://Sprites/Fondos/FONDO_UBB.jpg");
+        this.cambiarFondo(Fondos.CLASES);
         Dialogo dialogo = new Dialogo("Jugador", "Hmmm, ¿donde deberia sentarme?");
         dialogo.addDesicion(new List<OpcionDialogo>(){
             new OpcionDialogo("Mesa autistas qlos.").setSiguienteDialogo(new List<Dialogo>(){

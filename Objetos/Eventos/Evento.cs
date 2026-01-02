@@ -36,15 +36,10 @@ public abstract partial class Evento : Node2D
 	}
 
 	public Evento(Evento evento){
-		GD.Print("1");
 		this.dia = evento.dia;
-		GD.Print("2");
 		this.dialogos = evento.dialogos;
-		GD.Print("3");
 		this.caracteres = evento.caracteres;
-		GD.Print("4");
 		this.index = evento.index;
-		GD.Print("5");
 		this.inicializarCajaDeTexto();
 	}
 
@@ -239,8 +234,7 @@ public abstract partial class Evento : Node2D
 	}
 
 	private void avanzarDialogo(){
-		bool isTextRevealing = this.cajaDeTexto.VisibleCharacters < this.cajaDeTexto.GetParsedText().Length;
-
+		bool isTextRevealing = this.caracteres < this.cajaDeTexto.GetParsedText().Length;
 		if (isTextRevealing)
 		{
 			this.cajaDeTexto.VisibleCharacters = this.cajaDeTexto.GetParsedText().Length;
@@ -261,21 +255,25 @@ public abstract partial class Evento : Node2D
 	}
 
 	private void comprobarFinalDeDialogo(){
-		if(this.dialogos[index].getFinal()){
-			if(this.dialogos[index].CambioDeEvento){
-				Evento evento = (Evento)Activator.CreateInstance(
-							this.dialogos[index].getProximoEvento(),
-							this.dia);
-				this.dia.AddChild(evento);
-				this.pasarDatos(evento);
-				this.QueueFree();
-				this.dia.cambiarEvento(evento);
-				return;
-			}
-			this.dia.iniciarAvanzeFaseDelDia();
-			return;
-		}
+		this.avanzarFaseDelDia();
+		this.comprobarCambioDeEvento();
 		this.continuarDialogo();
+	}
+
+	private void avanzarFaseDelDia(){
+		if(!this.dialogos[index].getFinal()) return;
+		this.dia.iniciarAvanzeFaseDelDia();
+	}
+
+	private void comprobarCambioDeEvento(){
+		if(!this.dialogos[index].CambioDeEvento) return;
+		Evento evento = (Evento)Activator.CreateInstance(
+				this.dialogos[index].getProximoEvento(),
+				this.dia);
+		this.dia.AddChild(evento);
+		this.pasarDatos(evento);
+		this.QueueFree();
+		this.dia.cambiarEvento(evento);
 	}
 
 	private void pasarDatos(Evento evento){
@@ -287,6 +285,7 @@ public abstract partial class Evento : Node2D
 	}
 
 	private void continuarDialogo(){
+		if(this.dialogos[index].getFinal()) return;
 		this.dialogos[this.index].executeAction();
 		if(this.dialogos.Count - 1 == this.index){
 			this.mostrarOpciones();

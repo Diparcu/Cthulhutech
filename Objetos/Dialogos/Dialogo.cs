@@ -72,7 +72,6 @@ public class Dialogo
 	}
 
 	public Dialogo addCambioDeEvento(Type proximoEvento){
-		this.final = true;
 		this.cambioDeEvento = true;
 		this.proximoEvento = proximoEvento;
 		return this;

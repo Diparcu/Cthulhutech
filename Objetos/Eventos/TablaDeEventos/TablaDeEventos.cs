@@ -6,6 +6,23 @@ using System.Linq;
 public partial class TablaDeEventos
 {
 
+	public const string CLASE = "Clase";
+	public const string PREVIO_CLASE = "Previo a clase";
+	public const string POSTERIOR_CLASE = "Posterior a clase";
+	public const string ALMUERZO = "Almuerzo";
+	public const string PREVIO_ALMUERZO = "Previo almuerzo";
+	public const string POSTERIOR_ALMUERZO = "Posterior almuerzo";
+	public const string ENTRENAMIENTO = "Entrenamiento";
+	public const string PREVIO_ENTRENAMIENTO = "Previo entrenamiento";
+	public const string POSTERIOR_ENTRENAMIENTO = "Posterior entrenamiento";
+	public const string TARDE = "Tarde";
+	public const string PREVIO_TARDE = "Previo tarde";
+	public const string POSTERIOR_TARDE = "Posterior tarde";
+	public const string NOCHE = "Noche";
+	public const string PREVIO_NOCHE = "Previo noche";
+	public const string POSTERIOR_NOCHE = "Posterior noche";
+
+
 	private Dictionary<int, Type> poolEventosObligatoriosClase = new Dictionary<int, Type>{
 	};
 
@@ -26,6 +43,7 @@ public partial class TablaDeEventos
 
 	private Dictionary<int, Type> poolEventosObligatoriosSueno = new Dictionary<int, Type>{
 	};
+
 
 	private List<EntradaTablaDeEventos> poolEventosAleatoriosClase = new List<EntradaTablaDeEventos>{
 		new EntradaTablaDeEventos(typeof(EventoDia0Isla),
@@ -64,11 +82,69 @@ public partial class TablaDeEventos
 	private List<EntradaTablaDeEventos> poolEventosAleatoriosSueno = new List<EntradaTablaDeEventos>{
 	};
 
-	public Evento getProximoEvento(Flags flags){
-		return null;
+    public Type getProximoEvento(Flags flags, string fase, int dia){
+
+        Type eventoObligatorio = this.getProximoEventoObligatorio(fase, dia);
+        if(eventoObligatorio != null) return eventoObligatorio;
+
+        return getProximoEventoAleatoreo(flags, fase, dia);
 	}
 
-	private Evento getEventoTemprano(Flags flags)
+	private Type getProximoEventoObligatorio(string fase, int dia)
+    {
+        Dictionary<string, Dictionary<int, Type>> tablaEventosObligatorios = new Dictionary<string, Dictionary<int, Type>>{
+            { CLASE, this.poolEventosObligatoriosClase },
+            { PREVIO_CLASE, this.poolEventosObligatoriosClase },
+            { POSTERIOR_CLASE, this.poolEventosObligatoriosClase },
+            { ALMUERZO, this.poolEventosObligatoriosAlmuerzo },
+            { PREVIO_ALMUERZO, this.poolEventosObligatoriosAlmuerzo },
+            { POSTERIOR_ALMUERZO, this.poolEventosObligatoriosAlmuerzo },
+            { ENTRENAMIENTO, this.poolEventosObligatoriosEntrenamiento },
+            { PREVIO_ENTRENAMIENTO, this.poolEventosObligatoriosEntrenamiento },
+            { POSTERIOR_ENTRENAMIENTO, this.poolEventosObligatoriosEntrenamiento },
+            { TARDE, this.poolEventosObligatoriosClase },
+            { PREVIO_TARDE, this.poolEventosObligatoriosClase },
+            { POSTERIOR_TARDE, this.poolEventosObligatoriosClase },
+            { NOCHE, this.poolEventosObligatoriosClase },
+            { PREVIO_NOCHE, this.poolEventosObligatoriosClase },
+            { POSTERIOR_NOCHE, this.poolEventosObligatoriosClase },
+        };
+
+        Dictionary<int, Type> tablaEventosObligatiorsDeFase = tablaEventosObligatorios[fase];
+
+        Type eventoObligatorio = tablaEventosObligatiorsDeFase[dia];
+
+        return eventoObligatorio;
+    }
+
+	private Type getProximoEventoAleatoreo(Flags flags, string fase, int dia)
+    {
+        Dictionary<string, Dictionary<int, Type>> tablaEventosAleatoreos = new Dictionary<string, Dictionary<int, Type>>{
+            { CLASE, this.poolEventosObligatoriosClase },
+            { PREVIO_CLASE, this.poolEventosObligatoriosClase },
+            { POSTERIOR_CLASE, this.poolEventosObligatoriosClase },
+            { ALMUERZO, this.poolEventosObligatoriosAlmuerzo },
+            { PREVIO_ALMUERZO, this.poolEventosObligatoriosAlmuerzo },
+            { POSTERIOR_ALMUERZO, this.poolEventosObligatoriosAlmuerzo },
+            { ENTRENAMIENTO, this.poolEventosObligatoriosEntrenamiento },
+            { PREVIO_ENTRENAMIENTO, this.poolEventosObligatoriosEntrenamiento },
+            { POSTERIOR_ENTRENAMIENTO, this.poolEventosObligatoriosEntrenamiento },
+            { TARDE, this.poolEventosObligatoriosClase },
+            { PREVIO_TARDE, this.poolEventosObligatoriosClase },
+            { POSTERIOR_TARDE, this.poolEventosObligatoriosClase },
+            { NOCHE, this.poolEventosObligatoriosClase },
+            { PREVIO_NOCHE, this.poolEventosObligatoriosClase },
+            { POSTERIOR_NOCHE, this.poolEventosObligatoriosClase },
+        };
+
+        Dictionary<int, Type> tablaEventosAleatoreosDeFase = tablaEventosAleatoreos[fase];
+
+        Type eventoObligatorio = tablaEventosAleatoreosDeFase[dia];
+
+        return eventoObligatorio;
+    }
+
+	private Evento getEventoClase(Flags flags)
 	{
 		List<EntradaTablaDeEventos> eventos = new List<EntradaTablaDeEventos>(this.poolEventosAleatoriosClase);
 
@@ -83,10 +159,6 @@ public partial class TablaDeEventos
 	{
 		List<EntradaTablaDeEventos> eventosDisponibles = this.getEventosConFlagsRequeridas(eventos, flags);
 		eventosDisponibles = this.getEventosSinFlagsProhibitivas(eventosDisponibles, flags);
-
-		foreach(EntradaTablaDeEventos wa in eventosDisponibles){
-			GD.Print(wa);
-		}
 
 		return eventosDisponibles;
 	}

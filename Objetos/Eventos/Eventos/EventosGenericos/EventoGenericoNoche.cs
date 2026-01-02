@@ -6,7 +6,7 @@ public partial class EventoGenericoNoche : Evento
 {
     public EventoGenericoNoche(Dia dia) : base(dia)
     {
-        this.cambiarFondo("res://Sprites/Fondos/FONDO_UBB.jpg");
+        this.cambiarFondo(Fondos.ORDENADOR);
 
         this.dialogos.Add(new Dialogo("Jugador","'Vaya, que bueno es estar debuela en casa.'"));
         this.dialogos.Add(new Dialogo("'¿Que vas a hacer con el resto de la noche?'")

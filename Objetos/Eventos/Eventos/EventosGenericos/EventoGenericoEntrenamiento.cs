@@ -6,7 +6,7 @@ public partial class EventoGenericoEntrenamiento : Evento
 {
     public EventoGenericoEntrenamiento(Dia dia) : base(dia)
     {
-        this.cambiarFondo("res://Sprites/Fondos/FONDO_UBB.jpg");
+        this.cambiarFondo(Fondos.CLASES);
         Dialogo dialogo = new Dialogo("Jugador", "Hmmm, ¿que deberia entrenar?");
         dialogo.addDesicion(new List<OpcionDialogo>(){
             new OpcionDialogo("Entrenar armas.").setSiguienteDialogo(new List<Dialogo>(){
