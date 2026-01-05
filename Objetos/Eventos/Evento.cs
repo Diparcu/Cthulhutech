@@ -51,12 +51,14 @@ public abstract partial class Evento : Node2D
 	}
 
 	public void control(InputEvent @event){
+		if(@event is InputEventMouseButton mouseButtonEvent && mouseButtonEvent.ButtonIndex == MouseButton.Left && mouseButtonEvent.Pressed){
+			if(GetGlobalMousePosition().Y < 32) return;
+			this.avanzarDialogo();
+		}
 		switch(@event.AsText()){
 			case "Enter": 
 			case "Space": 
 			case "Left Mouse Button":
-				if(GetGlobalMousePosition().Y < 32) return;
-				this.avanzarDialogo();
 			break;
 		}
 
