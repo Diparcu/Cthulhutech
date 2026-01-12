@@ -28,7 +28,7 @@ public partial class EventoDia0Chud : Evento
 				.addCambioDeSprite(shinji, SpriteSetShinji.FELIZ)
 				);
 		this.dialogos.Add(new Dialogo("Bla bla bla, te quedai weiando en el pc o algo así.")
-				.setFinal(typeof(EventoDia1Chud)));
+				.setFinal());
 	}
 }
 

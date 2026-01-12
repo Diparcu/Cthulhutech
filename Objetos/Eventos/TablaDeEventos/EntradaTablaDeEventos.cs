@@ -5,7 +5,15 @@ using System.Collections.Generic;
 public partial class EntradaTablaDeEventos
 {
     private Type evento;
+	public Type Evento
+	{
+		get { return evento; }
+	}
     private int peso = 10;
+	public int Peso
+	{
+		get { return peso; }
+	}
     private List<string> flagsRequeridas;
     private List<string> flagsProhibitivas;
 

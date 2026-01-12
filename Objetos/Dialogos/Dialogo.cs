@@ -14,6 +14,7 @@ public class Dialogo
 	private String dialogo = "Default";
 	private Type proximoEvento;
 	private bool final = false;
+	private bool avanzarDia = true;
 	private bool cambioDeEvento = false;
 
 	public bool CambioDeEvento { get { return this.cambioDeEvento;} } 
@@ -78,13 +79,28 @@ public class Dialogo
 		return this;
 	}
 
+	public Dialogo addCambioDeEvento(){
+		this.cambioDeEvento = true;
+		return this;
+	}
+
 	public Type getProximoEvento(){
 		return this.proximoEvento;
+	}
+
+	public Dialogo setFinalNoAvanzarDia(){
+		this.final = true;
+		this.avanzarDia = false;
+		return this;
 	}
 
 	public Dialogo setFinal(){
 		this.final = true;
 		return this;
+	}
+
+	public bool getAvanzarDia(){
+		return this.avanzarDia;
 	}
 
 	public bool getFinal(){

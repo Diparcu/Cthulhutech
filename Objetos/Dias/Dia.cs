@@ -61,27 +61,35 @@ public abstract partial class Dia : Node2D
 	}
 
 	public void avanzarDia(){
-		this.getProximoEvento();
-		this.instanciarEventoProximo();
 		this.faseDelDiaActual++;
 		if(this.faseDelDiaActual >= FASES_DEL_DIA.Count){
 			this.faseDelDiaActual = 0;
 			this.NumeroDia++;
 		}
+		this.avanzarEvento();
 	}
 
-	private void getProximoEvento(){
-		this.eventos.getProximoEvento(this.getFlags(), this.getPeriodoDelDia(), this.NumeroDia);
+	private void avanzarEvento(){
+		Type proximoEvento = this.eventoCargado.getProximoEvento();
+		if(proximoEvento == null) proximoEvento = this.getProximoEvento();
+		this.instanciarEventoProximo(proximoEvento);
+	}
+
+	private Type getProximoEvento(){
+		return this.eventos.getProximoEvento(this.getFlags(),
+				this.getPeriodoDelDia(),
+				this.NumeroDia);
 	}
 
 	public void cambiarEvento(Evento evento){
 		this.eventoCargado = evento;
 	}
 
-	public void instanciarEventoProximo(){
+	public void instanciarEventoProximo(Type proximoEvento){
+		//GD.Print(proximoEvento);
 		this.eventoCargado.QueueFree();
 		this.eventoCargado = (Evento)Activator.CreateInstance(
-				this.eventoCargado.getProximoEvento(),
+				proximoEvento,
 				this);
 		this.AddChild(this.eventoCargado);
 	}
