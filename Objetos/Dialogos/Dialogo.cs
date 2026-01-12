@@ -23,6 +23,7 @@ public class Dialogo
 	List<MovimientoSprite> movimientos = new List<MovimientoSprite>() ;
 	List<OpcionDialogo> opciones = new List<OpcionDialogo>() ;
 	List<DialogoOpcional> dialogosOpcionales = new List<DialogoOpcional>();
+	List<CambioDeSprite> cambiosDeSprite = new List<CambioDeSprite>();
 	CambioDeMusica cambiosDeMusica;
 	CambioDeFondo cambioDeFondo;
 
@@ -90,6 +91,11 @@ public class Dialogo
 		return this.final;
 	}
 
+	public Dialogo addCambioDeSprite(SpriteSet sprite, String spriteNuevo){
+		this.cambiosDeSprite.Add(new CambioDeSprite(sprite, spriteNuevo));
+		return this;
+	}
+
 	public Dialogo addMovimiento(MovimientoSprite movimiento){
 		this.movimientos.Add(movimiento);
 		return this;
@@ -149,6 +155,12 @@ public class Dialogo
 		 return this.opciones; 
 	}
 
+	public void cambiarSprites()
+	{
+		foreach(CambioDeSprite sprite in this.cambiosDeSprite){
+			sprite.cambiarSprite();
+		}
+	}
 	public void mover()
 	{
 		foreach(MovimientoSprite movimiento in this.movimientos){

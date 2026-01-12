@@ -2,71 +2,44 @@ using Godot;
 using System.Collections.Generic;
 using System;
 
-public abstract class SpriteSetShinji : SpriteSet
+public partial class SpriteSetShinji : SpriteSet
 {
-       
-	public const string NEUTRAL = "Neutral";
+	   
 	public const string FELIZ = "Feliz";
 
-    private Sprite2D neutral = new Sprite2D();
-    private Sprite2D feliz = new Sprite2D();
+	public SpriteSetShinji(Evento evento){
+		this.inicializarSprites(evento);
+	}
 
-    private string estado = NEUTRAL;
+	private void inicializarSprites(Evento evento){
+		evento.AddChild(this);
+		this.Position += HORIZONTAL_CENTRO;
+		this.Position += VERTICAL_ARRIBA;
 
-    public SpriteSetShinji(){
-        this.inicializarPosicion();
-        this.inicializarSprites();
-        //this.testearWeas();
-    }
+		Sprite2D neutral = new Sprite2D();
+		Sprite2D sonriza = new Sprite2D();
 
-    override public void cambiarSprite(string sprite){
+		neutral.Texture = (Texture2D)GD.Load("res://Sprites/Personajes/Shinji/Shinji.png");
+		sonriza.Texture = (Texture2D)GD.Load("res://Sprites/Personajes/Shinji/Shinji_sonriza.png");
 
-        this.estado = sprite;
-        this.invisibilizarTodosLosSprites();
+		neutral.ZIndex = 2;
+		sonriza.ZIndex = 3;
 
-        switch(sprite){
-            case NEUTRAL:
-                this.neutral.Visible = true;
-                break;
-            case FELIZ:
-                this.neutral.Visible = true;
-                this.feliz.Visible = true;
-                break;
-        }
-    } 
+		neutral.Modulate = new Color(1, 1, 1, 0);
+		sonriza.Modulate = new Color(1, 1, 1, 0);
 
-    public void voltearHorizontalmente(){
-    }
+		neutral.Position += new Vector2(0, 350);
+		sonriza.Position += new Vector2(23, -305);
+		sonriza.Position += new Vector2(0, 350);
 
-    private void invisibilizarTodosLosSprites(){
-        this.neutral.Visible = false;
-        this.feliz.Visible = false;
-    }
+		Sprite2D neutral2 = (Sprite2D)neutral.Duplicate();
 
-    private void visibilizarSprite(){
-    }
+		sprites.Add( NEUTRAL, new List<Sprite2D>{ neutral });
+		sprites.Add( FELIZ, new List<Sprite2D>{ neutral2, sonriza });
 
-    private void inicializarPosicion(){
-        this.Position = new Vector2(500, 500);
-    }
-
-    private void inicializarSprites(){
-		this.neutral.Texture = (Texture2D)GD.Load("res://Sprites/Shinji.png");
-		this.feliz.Texture = (Texture2D)GD.Load("res://Sprites/Shinji_feliz.png");
-
-        this.neutral.ZIndex = 2;
-        this.feliz.ZIndex = 3;
-
-        this.feliz.Position += new Vector2(23, -305);
-        this.feliz.Visible = false;
-
-        this.AddChild(neutral);
-        this.neutral.AddChild(feliz);
-    }
-
-    private void testearWeas(){
-        this.neutral.Visible = true;
-        this.feliz.Visible = true;
-    }
+		this.AddChild(neutral);
+		this.AddChild(neutral2);
+		this.AddChild(sonriza);
+	}
 
 }

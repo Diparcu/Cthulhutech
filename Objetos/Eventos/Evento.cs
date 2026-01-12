@@ -45,6 +45,7 @@ public abstract partial class Evento : Node2D
 
 	public void comportamiento(double delta){
 		this.avanzarCaracteres();
+		this.cambiarSprites();
 		this.moverSprites();
 		this.cambiarFondoLentamente();
 		this.moverCamaraAHubicacionHovereada(delta);
@@ -376,6 +377,10 @@ public abstract partial class Evento : Node2D
 				color);
 	}
 	 
+	private void cambiarSprites(){
+		this.dialogos[index].cambiarSprites();
+	}
+
 	private void moverSprites(){
 		this.dialogos[index].mover();
 	}
