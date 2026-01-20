@@ -21,14 +21,10 @@ public partial class EventoDia0Chud : Evento
 		this.cambiarFondo(Fondos.ORDENADOR);
 
 		this.dialogos.Add(new Dialogo("Te despiertas, como ya es de costumbre, alrededor de las 4 de la tarde."));
-		this.dialogos.Add(new Dialogo("Tus padres te llevan weiando las ultimas tres semanas para que regreses al colegio y dejí de ser una plasta qla.")
-				.addCambioDeSprite(shinji, SpriteSetShinji.NEUTRAL)
-				);
-		this.dialogos.Add(new Dialogo("Jugador", "Tal vez tengan razon, por otro lado...")
-				.addCambioDeSprite(shinji, SpriteSetShinji.FELIZ)
-				);
+		this.dialogos.Add(new Dialogo("Tus padres te llevan weiando las ultimas tres semanas para que regreses al colegio y dejí de ser una plasta qla."));
+		this.dialogos.Add(new Dialogo("Jugador", "Tal vez tengan razon, por otro lado..."));
 		this.dialogos.Add(new Dialogo("Bla bla bla, te quedai weiando en el pc o algo así.")
-				.setFinal());
+				.setFinal(typeof(EventoDia1Chud)));
 	}
 }
 

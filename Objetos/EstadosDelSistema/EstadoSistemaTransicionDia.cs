@@ -7,10 +7,13 @@ public class EstadoSistemaTransicionDia : SistemaEstado
     private CanvasLayer canvas; 
     private TransicionDia pantallaNegra; 
 
-    public EstadoSistemaTransicionDia(Sistema sistema, String mensaje1, String mensaje2): base(sistema){
+    public EstadoSistemaTransicionDia(Sistema sistema,
+            String subEstado,
+            String mensaje1,
+            String mensaje2): base(sistema){
         this.canvas = new CanvasLayer();
         this.canvas.Layer = 1000;
-        this.pantallaNegra = new TransicionDia(mensaje1, mensaje2);
+        this.pantallaNegra = new TransicionDia(subEstado, mensaje1, mensaje2);
         sistema.AddChild(this.canvas);
         this.canvas.AddChild(this.pantallaNegra);
     }

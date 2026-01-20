@@ -11,7 +11,7 @@ public partial class EventoGenericoAlmuerzo : Evento
         dialogo.addDesicion(new List<OpcionDialogo>(){
             new OpcionDialogo("Mesa autistas qlos.").setSiguienteDialogo(new List<Dialogo>(){
                     new Dialogo("Con los autistas será.")
-                    .addCambioDeEvento(typeof(EventoShinjiAlmuerzo1)),
+                    .addCambioDeEvento(),
                     }),
             new OpcionDialogo("Mesa con gente popular.").setSiguienteDialogo(new List<Dialogo>(){
                     new Dialogo("Mira qlo, te dije como 7 veces que solo funciona la primera opcion, elige sentarte con los autistas."),

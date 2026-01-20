@@ -13,19 +13,24 @@ public class Dialogo
 	private String personaje = "Default";
 	private String dialogo = "Default";
 	private Type proximoEvento;
+	private string subFase;
 	private bool final = false;
 	private bool avanzarDia = true;
 	private bool cambioDeEvento = false;
 
 	public bool CambioDeEvento { get { return this.cambioDeEvento;} } 
+	public string SubFase { get { return this.subFase;} } 
 
 	private Action onShow;
 
+	private List<UpdateFlag> updateFlag = new List<UpdateFlag>();
 	List<MovimientoSprite> movimientos = new List<MovimientoSprite>() ;
 	List<OpcionDialogo> opciones = new List<OpcionDialogo>() ;
 	List<DialogoOpcional> dialogosOpcionales = new List<DialogoOpcional>();
 	List<CambioDeSprite> cambiosDeSprite = new List<CambioDeSprite>();
+	List<AgregarEntradaEvento> entradasEvento = new List<AgregarEntradaEvento>();
 	CambioDeMusica cambiosDeMusica;
+	MovimientoCamara movimientoDeCamara;
 	CambioDeFondo cambioDeFondo;
 
 	int dificultad = 0;
@@ -73,6 +78,11 @@ public class Dialogo
 		return this;
 	}
 
+	public Dialogo addMovimientoDeCamara(MovimientoCamara movimiento){
+		this.movimientoDeCamara = movimiento;
+		return this;
+	}
+
 	public Dialogo addCambioDeEvento(Type proximoEvento){
 		this.cambioDeEvento = true;
 		this.proximoEvento = proximoEvento;
@@ -94,8 +104,20 @@ public class Dialogo
 		return this;
 	}
 
+	public Dialogo addCambioDeEvento(string subFase){
+		this.cambioDeEvento = true;
+		this.subFase = subFase;
+		return this;
+	}
+
 	public Dialogo setFinal(){
 		this.final = true;
+		return this;
+	}
+
+	public Dialogo setFinal(string subFase){
+		this.final = true;
+		this.subFase = subFase;
 		return this;
 	}
 
@@ -177,11 +199,31 @@ public class Dialogo
 			sprite.cambiarSprite();
 		}
 	}
+
+	public void moverCamara(Sistema sistema)
+	{
+		if(this.movimientoDeCamara == null) return;
+		this.movimientoDeCamara.mover(sistema);
+	}
+
+	public void updateFlags(Personaje jugador){
+		foreach(UpdateFlag flag in this.updateFlag){
+			jugador.updateFlag(flag.Flag);
+		}
+	}
+
+
 	public void mover()
 	{
 		foreach(MovimientoSprite movimiento in this.movimientos){
 			movimiento.mover();
 		}
+	}
+
+	public void terminarMovimientoCamara(Sistema sistema)
+	{
+		if(this.movimientoDeCamara == null) return;
+		this.movimientoDeCamara.terminarMovimiento(sistema);
 	}
 
 	public void terminarMovimiento()
@@ -221,5 +263,26 @@ public class Dialogo
 	public void iniciarCambioDeFondo(Evento evento){
 		if(this.cambioDeFondo == null) return;
 		this.cambioDeFondo.iniciarCambioDeFondo(evento);
+	}
+
+	public Dialogo addFlagUpdate(String flag){
+		this.updateFlag.Add(new UpdateFlag(flag));
+		return this;
+	}
+
+	public Dialogo addFlagUpdate(String flag,
+			bool value){
+		this.updateFlag.Add(new UpdateFlag(flag, value));
+		return this;
+	}
+
+	public List<AgregarEntradaEvento> getAgregarEntradaEventos(){
+		return this.entradasEvento;
+	}
+
+	public Dialogo agregarEntradaEvento(string pool,
+			EntradaTablaDeEventos entrada){
+		this.entradasEvento.Add(new AgregarEntradaEvento(pool, entrada));
+		return this;
 	}
 }

@@ -47,8 +47,33 @@ public abstract partial class Evento : Node2D
 		this.avanzarCaracteres();
 		this.cambiarSprites();
 		this.moverSprites();
+		this.moverCamara();
 		this.cambiarFondoLentamente();
 		this.moverCamaraAHubicacionHovereada(delta);
+	}
+
+	private void avanzarDialogo(){
+		bool isTextRevealing = this.caracteres < this.cajaDeTexto.GetParsedText().Length;
+		if (isTextRevealing)
+		{
+			this.cajaDeTexto.VisibleCharacters = this.cajaDeTexto.GetParsedText().Length;
+			this.caracteres = this.cajaDeTexto.GetParsedText().Length;
+		}
+		else
+		{
+			this.agregarEventosAPool();
+			this.terminarDeMoverSprites();
+			this.terminarDeMoverCamara();
+			this.comprobarFinalDeDialogo();
+			this.cambiarMusica();
+			this.checkearCambioDeFondo();
+		}
+	}
+
+	private void comprobarFinalDeDialogo(){
+		this.avanzarFaseDelDia();
+		this.comprobarCambioDeEvento();
+		this.continuarDialogo();
 	}
 
 	public void control(InputEvent @event){
@@ -66,8 +91,6 @@ public abstract partial class Evento : Node2D
 	}
 
 	public void dibujar(Node2D sistema){
-		//this.dibujarNombreDePersonaje(sistema);
-		//this.dibujarCajaDeTexto(sistema);
 	}
 
 	public void moverCamaraAHubicacionHovereada(double delta){
@@ -178,6 +201,7 @@ public abstract partial class Evento : Node2D
 	}
 
 	protected void cargarTexto(){
+		this.updateFlags();
 		string personaje = this.dialogos[this.index].getPersonaje();
 		string dialogo = this.dialogos[this.index].getDialogo();
 		string colorName = getColorNameForPersonaje(personaje);
@@ -193,6 +217,10 @@ public abstract partial class Evento : Node2D
 
 	public Personaje getJugador(){
 		return this.dia.getJugador();
+	}
+
+	private Flags getFlags(){
+		return this.dia.getJugador().Flags;
 	}
 
 	public Sistema getSistema(){
@@ -213,6 +241,7 @@ public abstract partial class Evento : Node2D
 		int botonIndex = 0;
 		string opcionesString = "";
 		foreach(OpcionDialogo opcion in this.dialogos[this.index].getOpciones()){
+			if(!opcion.getValidez(this.getFlags())) continue;
 			if(opcion.getVisto() && !opcion.getRepetible()) continue;
 			opcion.setEvento(this);
 			this.opciones.Add(opcion);
@@ -220,7 +249,6 @@ public abstract partial class Evento : Node2D
 			opcion.setReemplazable("[url="+opcion.getDescripcion().Replace("[","").Replace("]","")+"]");
 			botonIndex++;
 		}
-		//opcionesString = opcionesString.Substring(0, opcionesString.Length - 1);
 		this.dialogos.Add(new Dialogo(opcionesString));
 		this.index++;
 		this.calcularCantidadDeCaracteresDeOpciones();
@@ -236,54 +264,44 @@ public abstract partial class Evento : Node2D
 		opcion.addOpcion(this.cajaDeTexto, index);
 	}
 
-	private void avanzarDialogo(){
-		bool isTextRevealing = this.caracteres < this.cajaDeTexto.GetParsedText().Length;
-		if (isTextRevealing)
-		{
-			this.cajaDeTexto.VisibleCharacters = this.cajaDeTexto.GetParsedText().Length;
-			this.caracteres = this.cajaDeTexto.GetParsedText().Length;
-		}
-		else
-		{
-			//if(this.dialogos[this.index].getTipo() == Dialogo.DESICION) return;
-			this.terminarDeMoverSprites();
-			this.comprobarFinalDeDialogo();
-			this.cambiarMusica();
-			this.checkearCambioDeFondo();
-		}
+	private void terminarDeMoverCamara(){
+		this.dialogos[this.index].terminarMovimientoCamara(this.getSistema());
 	}
 
 	private void checkearCambioDeFondo(){
 		this.dialogos[this.index].iniciarCambioDeFondo(this);
 	}
 
-	private void comprobarFinalDeDialogo(){
-		this.avanzarFaseDelDia();
-		this.comprobarCambioDeEvento();
-		this.continuarDialogo();
-	}
-
 	private void avanzarFaseDelDia(){
 		if(!this.dialogos[index].getFinal()) return;
-		this.dia.iniciarAvanzeFaseDelDia();
+		this.dia.iniciarAvanzeFaseDelDia(this.dialogos[index].SubFase);
 	}
 
 	private void comprobarCambioDeEvento(){
 		if(!this.dialogos[index].CambioDeEvento) return;
-		Evento evento = (Evento)Activator.CreateInstance(
-				this.dialogos[index].getProximoEvento(),
+		Type evento = this.dialogos[index].getProximoEvento();
+		if(evento != null) this.cambiarEventoPredeterminado(evento);
+		else
+			this.cambioDeEventoPorTabla();
+	}
+
+	private void cambioDeEventoPorTabla(){
+		this.dia.cambioDeEvento(this.dialogos[index].SubFase);
+	}
+
+	public void cambiarEventoPredeterminado(Type evento){
+		Evento eventoInstanciado = (Evento)Activator.CreateInstance(
+				evento,
 				this.dia);
-		this.dia.AddChild(evento);
-		this.pasarDatos(evento);
+		this.dia.AddChild(eventoInstanciado);
+		this.pasarDatos(eventoInstanciado);
 		this.QueueFree();
-		this.dia.cambiarEvento(evento);
+		this.dia.cambiarEvento(eventoInstanciado);
 	}
 
 	private void pasarDatos(Evento evento){
 		evento.caracteres = this.caracteres;
 		evento.cajaDeTexto.Text = this.cajaDeTexto.Text;
-		//evento.cajaDeTexto = (RichTextLabel)this.cajaDeTexto.Duplicate();
-		//evento.AddChild(evento.cajaDeTexto);
 		evento.cargarTexto();
 	}
 
@@ -297,6 +315,10 @@ public abstract partial class Evento : Node2D
 		this.checkDialogoOpcional(index);
 		this.index++;
 		this.cargarTexto();
+	}
+
+	private void updateFlags(){
+		this.dialogos[index].updateFlags(this.getJugador());
 	}
 
 	private void checkDialogoOpcional(int index){
@@ -381,6 +403,11 @@ public abstract partial class Evento : Node2D
 		this.dialogos[index].cambiarSprites();
 	}
 
+	private void moverCamara(){
+		this.dialogos[index].moverCamara(this.getSistema());
+		this.QueueRedraw();
+	}
+
 	private void moverSprites(){
 		this.dialogos[index].mover();
 	}
@@ -403,6 +430,14 @@ public abstract partial class Evento : Node2D
 
 	private void cambiarMusica(){
 		this.dialogos[index].cambiarMusica(this.getAudioStreamer());
+	}
+
+	private void agregarEventosAPool(){
+		List<AgregarEntradaEvento> entradas = this.dialogos[index].getAgregarEntradaEventos();
+		if(entradas.Count == 0) return;
+		foreach(AgregarEntradaEvento entrada in entradas){
+			this.dia.agregarEventoAPool(entrada);
+		}
 	}
 
 	public ResultadoTirada realizarTiradaCombinacion(string habilidad, string atributo, int dificultad)

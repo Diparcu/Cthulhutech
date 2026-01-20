@@ -4,6 +4,7 @@ using System;
 public partial class TransicionDia : Control
 {
 	private Color color = new Color(0, 0, 0, 0f);
+	private String subEstado;
 	private String palabra1;
 	private String palabra2;
 	private int estado = 0;
@@ -13,7 +14,10 @@ public partial class TransicionDia : Control
 	private Vector2 posicionInicialString = new Vector2(1280/2, 640/2);
 	private Vector2 separacionStrings = new Vector2(0, 640);
 
-	public TransicionDia(String palabra1, String palabra2){
+	public TransicionDia(String subEstado,
+			String palabra1,
+			String palabra2){
+		this.subEstado = subEstado;
 		this.palabra1 = palabra1;
 		this.palabra2 = palabra2;
 		this.posicionInicialString.X =
@@ -31,7 +35,8 @@ public partial class TransicionDia : Control
 				break;
 			case 3:
 				this.estado++;
-				sistema.avanzarDia();
+				sistema.avanzarDia(this.subEstado);
+				sistema.resetearPosicionCamara();
 				break;
 			case 4:
 				this.contadorMaximo = this.contadorMaximo / 2;

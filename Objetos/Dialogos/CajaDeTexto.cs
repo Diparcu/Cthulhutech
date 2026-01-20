@@ -21,7 +21,6 @@ public partial class CajaDeTexto : RichTextLabel
 	// Called when the node enters the scene tree for the first time.
 	public override void _Draw()
 	{
-        GD.Print("");
 		this.DrawRect(
 				new Rect2(POSICION_ORIGEN_RECUADRO_X,
 					POSICION_ORIGEN_RECUADRO_Y,

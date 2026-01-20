@@ -1,6 +1,7 @@
 using Godot;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 
 public class Flags 
 {
@@ -14,7 +15,21 @@ public class Flags
 	public static readonly string CHUD = "chud";
 	public static readonly string CONOCE_A_SHINJI = "Conoce a shinji";
 
-	private Dictionary<string, bool> variables = new Dictionary<string, bool>
+	//Flags temporales
+	public static readonly string CLASE_ASIENTO_FRONTAL = "Clase asiento frontal";
+	public static readonly string CLASE_ASIENTO_CENTRAL = "Clase asiento central";
+	public static readonly string CLASE_ASIENTO_TRASERO = "Clase asiento trasero";
+	public static readonly string ALMUERZO_RAROS = "Almorzar con gente rara";
+	public static readonly string ALMUERZO_POPULARES = "Almorzar con gente popular";
+	public static readonly string ALMUERZO_SOSPECHOSOS = "Almorzar con gente sospechoza";
+
+	private List<string> flagsDiarias = new List<string>{
+		CLASE_ASIENTO_TRASERO,
+		CLASE_ASIENTO_FRONTAL,
+		CLASE_ASIENTO_CENTRAL
+	};
+
+	private Dictionary<string, bool> flags = new Dictionary<string, bool>
 	{
 		{ CAPITULO_1, false },
 		{ CAPITULO_2, false },
@@ -25,23 +40,35 @@ public class Flags
 		{ BAJOS_FONDOS, false },
 		{ CHUD, false },
 		{ CONOCE_A_SHINJI, false },
+
+		//Flags temporales
+		{ CLASE_ASIENTO_FRONTAL, false },
+		{ CLASE_ASIENTO_CENTRAL, false },
+		{ CLASE_ASIENTO_TRASERO, false },
 	};
 
-	public Dictionary<string, bool> Variables {get{ return this.variables;}}
+
+	public Dictionary<string, bool> Flag {get{ return this.flags;}}
+
+	public void resetFlagsDiarias(){
+		this.flagsDiarias.Where(this.flags.ContainsKey)
+			.ToList()
+			.ForEach(k => this.flags[k] = false);
+	}
 
 	public void updateFlag(String nombre){
-		if (variables.ContainsKey(nombre)) 
-			variables[nombre] = true;
+		if (this.flags.ContainsKey(nombre)) 
+			this.flags[nombre] = true;
 	}
 
 	public void updateFlag(String nombre, bool siono){
-		if (variables.ContainsKey(nombre)) 
-			variables[nombre] = siono;
+		if (this.flags.ContainsKey(nombre)) 
+			this.flags[nombre] = siono;
 	}
 
 	public bool getFlag(String nombre){
-		if (variables.ContainsKey(nombre)) 
-			return variables[nombre];
+		if (this.flags.ContainsKey(nombre)) 
+			return this.flags[nombre];
 		return false;
 	}
 }

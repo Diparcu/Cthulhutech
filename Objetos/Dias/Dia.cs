@@ -4,13 +4,21 @@ using System.Collections.Generic;
 
 public abstract partial class Dia : Node2D
 {
+
 	public static List<string> FASES_DEL_DIA = new List<string> { 
 		"Clase",
 		"Almuerzo",
 		"Entrenamiento",
-		//"Despues de clase",
 		"Tarde",
 		"Noche"
+	};
+
+	private Dictionary<string, string> CONVERSION_FASES = new Dictionary<string, string> {
+		{ TablaDeEventos.CLASE, TablaDeEventos.PREVIO_CLASE},
+		{ TablaDeEventos.ALMUERZO, TablaDeEventos.PREVIO_ALMUERZO},
+		{ TablaDeEventos.ENTRENAMIENTO, TablaDeEventos.PREVIO_ENTRENAMIENTO},
+		{ TablaDeEventos.TARDE, TablaDeEventos.PREVIO_TARDE},
+		{ TablaDeEventos.NOCHE, TablaDeEventos.PREVIO_NOCHE}
 	};
 
 	public int NumeroDia { get; set; } = 0;
@@ -21,13 +29,6 @@ public abstract partial class Dia : Node2D
 	protected TablaDeEventos eventos = new TablaDeEventos();
 
 	protected Evento eventoCargado;
-	protected Evento eventoManana;//El evento de la mañana, me da miedo poner ñ's en el codigo.
-
-	//Pull de eventos de la tarde:
-	protected List<Evento> pullEventosTiendaCartas = new List<Evento>();
-	protected List<Evento> pullEventosBarGabriel = new List<Evento>();
-
-	//Pull de eventos de la noche:
 	
 	public Dia(Sistema sistema){
 		this.sistema = sistema;
@@ -36,6 +37,10 @@ public abstract partial class Dia : Node2D
 
 	public string getFaseDiaActual(){
 		return FASES_DEL_DIA[this.faseDelDiaActual];
+	}
+
+	private string getFaseDiaConvertida(){
+		return this.CONVERSION_FASES[FASES_DEL_DIA[this.faseDelDiaActual]];
 	}
 
 	public void cargarMapa(){
@@ -55,29 +60,44 @@ public abstract partial class Dia : Node2D
 		this.estado = estado;
 	}
 
-	public String getPeriodoDelDia()
-	{
-		return FASES_DEL_DIA[this.faseDelDiaActual];
+	public void agregarEventoAPool(AgregarEntradaEvento entradaEvento){
+		this.eventos.agregarEvento(entradaEvento.Entrada, entradaEvento.Pool);
 	}
 
-	public void avanzarDia(){
+	private void resetFlagDiarias(){
+		this.getFlags().resetFlagsDiarias();
+	}
+
+	public void avanzarDia(string subFase){
+		if(subFase != null){
+			this.cambioDeEvento(subFase);
+			return;
+		}
 		this.faseDelDiaActual++;
 		if(this.faseDelDiaActual >= FASES_DEL_DIA.Count){
+			this.resetFlagDiarias();
 			this.faseDelDiaActual = 0;
 			this.NumeroDia++;
 		}
 		this.avanzarEvento();
 	}
 
-	private void avanzarEvento(){
+	public void avanzarEvento(){
 		Type proximoEvento = this.eventoCargado.getProximoEvento();
-		if(proximoEvento == null) proximoEvento = this.getProximoEvento();
+		if(proximoEvento == null) proximoEvento = this.getProximoEvento(this.getFaseDiaConvertida());
 		this.instanciarEventoProximo(proximoEvento);
 	}
 
-	private Type getProximoEvento(){
+	public void cambioDeEvento(string subFase){
+		if(subFase == null) subFase = this.getFaseDiaActual();
+		Type proximoEvento = this.eventoCargado.getProximoEvento();
+		if(proximoEvento == null) proximoEvento = this.getProximoEvento(subFase);
+		this.eventoCargado.cambiarEventoPredeterminado(proximoEvento);
+	}
+
+	private Type getProximoEvento(string subFase){
 		return this.eventos.getProximoEvento(this.getFlags(),
-				this.getPeriodoDelDia(),
+				subFase,
 				this.NumeroDia);
 	}
 
@@ -94,9 +114,10 @@ public abstract partial class Dia : Node2D
 		this.AddChild(this.eventoCargado);
 	}
 
-	public void iniciarAvanzeFaseDelDia(){
+	public void iniciarAvanzeFaseDelDia(String subFase){
 		this.sistema.setEstado(new EstadoSistemaTransicionDia(
 					this.sistema,
+					subFase,
 					this.generarMensajeDia(this.faseDelDiaActual),
 					this.generarMensajeDia(this.faseDelDiaActual + 1)
 					));

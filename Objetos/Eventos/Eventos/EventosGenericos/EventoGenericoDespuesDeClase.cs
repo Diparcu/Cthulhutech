@@ -11,7 +11,7 @@ public partial class EventoGenericoDespuesDeClase : Evento
         dialogo.addDesicion(new List<OpcionDialogo>(){
             new OpcionDialogo("Irme pa la csa noma, que tanta wea.").setSiguienteDialogo(new List<Dialogo>(){
                     new Dialogo("Sep, irme pa la casa noma, que tanta wea.")
-                    .setFinal(typeof(EventoGenericoNoche)),
+                    .setFinal(),
                     }),
             });
 

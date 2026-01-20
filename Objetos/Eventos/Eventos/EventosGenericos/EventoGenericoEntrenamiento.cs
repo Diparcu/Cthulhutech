@@ -11,7 +11,7 @@ public partial class EventoGenericoEntrenamiento : Evento
         dialogo.addDesicion(new List<OpcionDialogo>(){
             new OpcionDialogo("Entrenar armas.").setSiguienteDialogo(new List<Dialogo>(){
                     new Dialogo("A entrenar armas será.")
-                    .addCambioDeEvento(typeof(EventoShinjiEntrenamientoArmas1)),
+                    .addCambioDeEvento(),
                     }),
             new OpcionDialogo("Entrenamiento fisico.").setSiguienteDialogo(new List<Dialogo>(){
                     new Dialogo("Mira qlo, te dije como 7 veces que solo funciona la primera opcion, elige entrenar armas."),

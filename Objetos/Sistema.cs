@@ -43,6 +43,14 @@ public partial class Sistema : Node2D
 		this.camara.Position = this.camara.Position.MoveToward(vector + new Vector2((1280/6), 0), 2000 * (float)delta);
 	}
 
+	public void resetearPosicionCamara(){
+		this.camara.Position = new Vector2(1280/2, 640/2);
+	}
+
+	public void setPosicionCamara(Vector2 vector){
+		this.camara.Position = vector + new Vector2((1280/6), 0);
+	}
+
 	public AudioStreamPlayer getAudioStreamer(){
 		return this.audioStream;
 	}
@@ -400,8 +408,8 @@ public partial class Sistema : Node2D
 		this.cargarEscena(new DiaKC(this));
 	}
 
-	public void avanzarDia(){
-		this.diaCargado.avanzarDia();
+	public void avanzarDia(String subFase){
+		this.diaCargado.avanzarDia(subFase);
 		this.barraSuperior.ActualizarUI();
 	}
 

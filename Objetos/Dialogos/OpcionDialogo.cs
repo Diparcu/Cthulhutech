@@ -24,6 +24,7 @@ public partial class OpcionDialogo: Node2D
 	private String reemplazable;
 	private List<Dialogo> siguienteDialogo;
 	private List<Dialogo> siguienteDialogoFallo;
+	private List<CondicionDialogo> condiciones = new List<CondicionDialogo>();
 
 	public OpcionDialogo(String descripcion){
 		this.descripcion = descripcion;
@@ -144,4 +145,17 @@ public partial class OpcionDialogo: Node2D
 		this.repetible = repetible;
 		return this;
 	}
+
+	public OpcionDialogo addCondicion(string flag){
+        this.condiciones.Add(new CondicionDialogo(flag));
+		return this;
+	}
+
+    public bool getValidez(Flags flags){
+        bool validez = !this.condiciones.Any(o =>
+                flags.Flag.ContainsKey(o.Flag) &&
+                flags.Flag[o.Flag] == false);
+        return validez;
+    }
+
 }

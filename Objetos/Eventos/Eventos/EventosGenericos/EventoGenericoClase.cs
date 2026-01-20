@@ -9,15 +9,19 @@ public partial class EventoGenericoClase : Evento
         this.cambiarFondo(Fondos.CLASES);
         Dialogo dialogo = new Dialogo("Jugador", "Hmmm, ¿donde deberia sentarme?");
         dialogo.addDesicion(new List<OpcionDialogo>(){
-            new OpcionDialogo("Atras").setSiguienteDialogo(new List<Dialogo>(){
+            new OpcionDialogo("Atras")
+            .setSiguienteDialogo(new List<Dialogo>(){
                     new Dialogo("Atras será.")
-                    .addCambioDeEvento(typeof(EventoShinjiClase1)),
+                    .addFlagUpdate(Flags.CLASE_ASIENTO_TRASERO)
+                    .addCambioDeEvento(),
                     }),
-            new OpcionDialogo("Al medio").setSiguienteDialogo(new List<Dialogo>(){
+            new OpcionDialogo("Al medio")
+            .setSiguienteDialogo(new List<Dialogo>(){
                     new Dialogo("Mira qlo, te dije como 7 veces que solo funciona la primera opcion, elige sentarte atras."),
                     dialogo
                     }),
-            new OpcionDialogo("Al frente").setSiguienteDialogo(new List<Dialogo>(){
+            new OpcionDialogo("Al frente")
+            .setSiguienteDialogo(new List<Dialogo>(){
                     new Dialogo("Mira qlo, te dije como 7 veces que solo funciona la primera opcion, elige sentarte atras."),
                     dialogo
                     })
